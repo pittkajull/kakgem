@@ -47,6 +47,7 @@ function App() {
   const [members, setMembers] = useState(() => { try { return JSON.parse(localStorage.getItem('kagama-members')) || starterMembers } catch { return starterMembers } })
   const [form, setForm] = useState({ name: '', study: '', faculty: '', year: '', phone: '', domicile: '', email: '', division: divisions[0] })
   const appRef = useRef(null)
+  const registerWasOpen = useRef(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -109,6 +110,17 @@ function App() {
     const timer = setTimeout(() => document.querySelector('.inline-register')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
     gsap.fromTo('.inline-register', { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .65, ease: 'power3.out' })
     return () => clearTimeout(timer)
+  }, [showRegister])
+
+  useEffect(() => {
+    if (showRegister) {
+      registerWasOpen.current = true
+      return
+    }
+    if (registerWasOpen.current) {
+      registerWasOpen.current = false
+      setTimeout(() => document.getElementById('membership')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40)
+    }
   }, [showRegister])
 
   useEffect(() => {
