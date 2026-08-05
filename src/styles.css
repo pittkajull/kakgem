@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
-:root { --ink:#0f1720; --paper:#ffffff; --lime:#6ee7b7; --blue:#a7f3e0; --orange:#16a34a; --teal:#0d7a6e; --line:rgba(15,23,32,.18); }
+:root { --ink:#171511; --paper:#fbfaf5; --lime:#e8c66a; --blue:#e8dfc9; --orange:#b67924; --teal:#16443d; --line:rgba(23,21,17,.18); }
 * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--paper); color:var(--ink); font-family:'Manrope',sans-serif; } button,a { font:inherit; } button { cursor:pointer; border:0; } .section-pad { padding-left:clamp(24px,7vw,112px); padding-right:clamp(24px,7vw,112px); }
 .nav-shell { height:82px; display:flex; align-items:center; justify-content:space-between; padding:0 clamp(24px,7vw,112px); position:absolute; width:100%; z-index:5; } .brand { background:none; display:flex; align-items:center; gap:11px; font-weight:800; font-size:20px; letter-spacing:-1px; color:var(--ink); } .brand-logo { width:34px; height:34px; object-fit:contain; } .brand-mark { display:grid; place-items:center; width:30px; height:30px; background:var(--ink); color:var(--lime); border-radius:50%; font-family:Georgia,serif; font-size:19px; font-style:italic; } .brand-dot,.lime-dot { color:#a7d91f; } .nav-links { display:flex; gap:34px; margin-left:14%; } .nav-links button { background:transparent; color:#69696d; font-size:13px; transition:.2s; } .nav-links button.active,.nav-links button:hover { color:var(--ink); font-weight:700; } .contact-pill { background:var(--ink); color:var(--paper); border-radius:999px; padding:13px 18px 13px 22px; font-size:12px; } .arrow { margin-left:10px; font-size:18px; line-height:0; display:inline-block; transition:transform .25s; } button:hover .arrow,a:hover .arrow { transform:translate(3px,-3px); } .menu-btn { display:none; background:none; font-size:25px; }
 .hero { min-height:760px; display:grid; grid-template-columns:1fr 1fr; align-items:center; position:relative; overflow:hidden; padding-top:100px; } .hero-copy { position:relative; z-index:2; } .eyebrow,.section-kicker { font:11px 'DM Mono',monospace; text-transform:uppercase; letter-spacing:.04em; } .eyebrow { display:flex; align-items:center; gap:12px; color:#67676b; margin-bottom:31px; } .eyebrow-line { width:32px; height:1px; background:var(--ink); } h1,h2,h3,p { margin-top:0; } h1 { font-size:clamp(52px,6.5vw,97px); letter-spacing:-.075em; line-height:.92; margin-bottom:30px; font-weight:800; } h1 em,h2 span { color:#9dbd25; font-family:'Playfair Display',serif; font-weight:700; letter-spacing:-.08em; } .hero-desc { width:min(370px,90%); line-height:1.7; color:#606065; font-size:14px; } .circle-cta { width:108px; height:108px; border-radius:50%; background:var(--lime); margin-top:35px; display:flex; justify-content:center; align-items:center; flex-direction:column; font-size:11px; font-weight:700; text-align:left; transform:rotate(-8deg); transition:.3s; } .circle-cta .arrow { font-size:24px; margin:3px 0 0 35px; } .circle-cta:hover { transform:rotate(0deg) scale(1.08); }
@@ -20,21 +20,21 @@ h3, .nav-links button, .contact-pill, .circle-cta, .text-link { font-family:'Mon
 .brand-dot, .lime-dot { color:var(--teal); }
 .nav-links button.active, .nav-links button:hover { color:var(--teal); }
 .contact-pill { background:var(--teal); }
-.hero-art { background:#effcf8; }
+.hero-art { background:#f3ead7; }
 .orb-lime { background:var(--mint, var(--lime)); }
 .orb-blue { background:var(--blue); }
 .orb-orange { background:var(--orange); }
 .services { background:var(--ink); }
 .services h2 span { color:var(--lime); }
 .service-card.blue .service-arrow { color:var(--blue); }
-.works { background:#f8fbfa; }
+.works { background:#f4f0e6; }
 .works-heading h2 span { color:var(--teal); }
 .work-one .work-art { background:var(--orange); }
 .work-two .work-art { background:var(--teal); }
 .sun { color:var(--lime); }
 .contact { background:var(--blue); }
 .contact h2 span { color:var(--teal); }
-.team { padding-top:120px; padding-bottom:125px; background:#eefaf7; }
+.team { padding-top:120px; padding-bottom:125px; background:#f8f5ed; }
 .team-heading { display:grid; grid-template-columns:1fr .85fr; gap:10%; align-items:end; padding:53px 0 62px; }
 .team-heading p { max-width:350px; color:#60686a; font-size:14px; line-height:1.8; margin:0 0 5px; }
 .team-list { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
