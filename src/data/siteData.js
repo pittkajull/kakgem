@@ -1,9 +1,8 @@
 export const navItems = [
   { label: 'Home', target: 'Home' },
-  { label: 'Tentang', target: 'About' },
-  { label: 'Program', target: 'Works' },
-  { label: 'Pengurus', target: 'Team' },
-  { label: 'Kontak', target: 'Contact' },
+  { label: 'Profile', target: 'About' },
+  { label: 'Aktivasi', target: 'Works' },
+  { label: 'Gabung Anggota', target: 'Membership' },
 ]
 
 export const services = [
@@ -12,16 +11,17 @@ export const services = [
   { no: '03', title: 'Inovasi Berdampak', text: 'Mendorong karya dan solusi digital yang berkualitas, beretika, dan bermanfaat.', accent: 'orange' },
 ]
 
-export const team = [
-  ['FN', 'Ketua', 'Franko Nero, S.P.'],
-  ['AP', 'Sekretaris', 'Ari Akbar Devananta, S.Pi.'],
-  ['DB', 'Wakil Sekretaris I', 'Desta Ratu Berliana, S.S.'],
-  ['FS', 'Wakil Sekretaris II', 'Faisa Abhinaya Sarastri, S.Si.'],
-  ['YS', 'Bendahara Umum', 'Yulita Windi Nuraini, S.P., M.Sc.'],
-  ['UL', 'Wakil Bendahara', 'Ulfida Aisya Laishela, S.P.'],
+export const leadership = {
+  chair: ['FN', 'Ketua', 'Franko Nero, S.P.'],
+  viceChair: ['WK', 'Wakil Ketua', 'Koordinasi Pengurus'],
+  secretary: ['AP', 'Sekretaris', 'Ari Akbar Devananta, S.Pi.'],
+  treasurer: ['YS', 'Bendahara', 'Yulita Windi Nuraini, S.P., M.Sc.'],
+}
+
+export const divisionsTeam = [
   ['HH', 'Organisasi & Keanggotaan', 'Hendra Agus Herlambang, S.P.'],
   ['AU', 'Fasilitasi Alumni', 'Ajeng Respati Wiji Utami, S.S.'],
-  ['YD', 'Advokasi & Pengkajian Kebijakan', 'Yudha Purbawa, S.P., M.Sc., M.Ec.Dev.'],
+  ['YD', 'Pengkajian & Advokasi Kebijakan', 'Yudha Purbawa, S.P., M.Sc., M.Ec.Dev.'],
   ['BP', 'Kerjasama & Kemitraan', 'Bagus Shidqi Hakim, S.Tr.Par.'],
   ['RP', 'Pengabdian Masyarakat', 'Rino Damar Jati, S.Par.'],
   ['OA', 'Penggalangan Dana', 'Oktavina Dzinuha Ananda, S.AB.'],
@@ -44,16 +44,25 @@ export const divisions = [
 
 export const starterMembers = []
 
+export const programs = [
+  { title: 'JAVA INFLUENCER SUMMIT', tone: 'amber', description: 'Pertemuan kreator, profesional, dan jejaring digital untuk bertukar wawasan serta membangun pengaruh yang positif.' },
+  { title: 'LEMBAGA SERTIFIKASI PROFESI (LSP) KAGAMA DIGI', tone: 'charcoal', description: 'Ruang penguatan kompetensi dan pengakuan profesional bagi insan digital melalui jalur sertifikasi yang relevan.' },
+  { title: 'INDONESIA MENGAJAR DIGITAL', tone: 'sand', description: 'Gerakan berbagi pengetahuan digital untuk membuka akses belajar dan memperluas dampak ke berbagai komunitas.' },
+  { title: 'DIGI-MINGLE OPPORTUNITY NETWORKING', tone: 'gold', description: 'Forum jejaring santai untuk mempertemukan alumni, industri, komunitas, pemerintah, dan individu.' },
+]
+
 export const gallery = [
-  ['/img/2026_04_11_18_00_IMG_1833.JPG', 'Workshop digital', 'Belajar bersama · 2026'],
+  ['/img/2026_04_11_18_00_IMG_1833.JPG', 'Aktivasi digital', 'Belajar bersama'],
   ['/img/COP01930.JPG', 'Kolaborasi lintas profesi', 'Kagama Digi · Community'],
-  ['/img/IMG_0637.JPG', 'Ruang bertukar ide', 'Digital literacy · 2026'],
+  ['/img/IMG_0637.JPG', 'Ruang bertukar ide', 'Digital literacy'],
   ['/img/IMG_2985.JPG', 'Aktivasi berdampak', 'Innovation · Community'],
-  ['/img/IMG_3338.JPG', 'Dari ruang kelas', 'Knowledge sharing · 2026'],
+  ['/img/IMG_3338.JPG', 'Dari ruang kelas', 'Knowledge sharing'],
   ['/img/2026_04_11_18_00_IMG_1835.JPG', 'Tumbuh bersama', 'Kagama Digi · People'],
-  ['/img/WhatsApp%20Image%202026-04-25%20at%2023.07.07.jpg', 'Jejaring yang hidup', 'Collaboration · 2026'],
+  ['/img/WhatsApp%20Image%202026-04-25%20at%2023.07.07.jpg', 'Jejaring yang hidup', 'Collaboration'],
   ['/img/IMG_4900.JPG', 'Komunitas yang beragam', 'Kagama Digi · Together'],
 ]
+
+export const displayGallery = gallery
 
 export const emptyForm = () => ({
   name: '',

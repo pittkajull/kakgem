@@ -6,7 +6,6 @@ import './styles.css'
 import { emptyForm, starterMembers } from './data/siteData'
 import { AdminDashboard, AboutSection, ContactSection, Hero, ImpactStrip, MembershipSection, Navbar, ServicesSection, TeamSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
-import { KagamaChat } from './components/KagamaChat'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -74,7 +73,7 @@ function App() {
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (!reduceMotion) {
-        gsap.utils.toArray('.service-card, .work-card, .gallery-item, .team-card').forEach((card) => {
+      gsap.utils.toArray('.service-card, .program-card, .gallery-item, .team-card, .team-node').forEach((card) => {
           const rotateX = gsap.quickTo(card, 'rotationX', { duration: .35, ease: 'power2.out' })
           const rotateY = gsap.quickTo(card, 'rotationY', { duration: .35, ease: 'power2.out' })
           const move = (event) => {
@@ -171,7 +170,6 @@ function App() {
   return <main ref={appRef}>
     <div className="scroll-progress" aria-hidden="true" />
     <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} />
-    <KagamaChat />
     <Hero onNavigate={go} />
     <GallerySection />
     <ImpactStrip />
