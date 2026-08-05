@@ -83,6 +83,12 @@ function App() {
   }
 
   const updateForm = (event) => setForm(current => ({ ...current, [event.target.name]: event.target.value }))
+  const toggleRegister = () => setShowRegister(current => !current)
+  useEffect(() => {
+    if (!showRegister) return
+    const timer = setTimeout(() => document.querySelector('.inline-register')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+    return () => clearTimeout(timer)
+  }, [showRegister])
   const submitMember = (event) => {
     event.preventDefault()
     const next = [{ ...form, id: Date.now() }, ...members]
