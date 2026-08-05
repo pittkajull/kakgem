@@ -253,6 +253,7 @@ body { background:var(--paper); }
 .team-division-grid .team-node { min-height:78px; padding:12px; }
 .team-division-grid .team-avatar { width:32px; height:32px; font-size:9px; }
 .team-division-grid .team-role { font-size:8px; }
+.team-division-grid .team-node:last-child { grid-column:1 / -1; justify-self:center; width:calc(50% - 5px); }
 
 @media (max-width: 760px) {
   .hero { padding-top:120px; padding-bottom:74px; }
@@ -269,6 +270,7 @@ body { background:var(--paper); }
   .team-side::after { display:none; }
   .team-divisions { margin:18px 0; }
   .team-division-grid { grid-template-columns:1fr; }
+  .team-division-grid .team-node:last-child { width:100%; }
 }
 
 /* Pengurus roster: mirrors the client reference while keeping the Kagama palette. */
