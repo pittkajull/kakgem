@@ -32,9 +32,16 @@ const team = [
   ['DM', 'Riset & Pengembangan', 'Dian Pramitasari, A.Md.'],
 ]
 
+const divisions = ['Tidak bersedia / belum memilih', 'Bidang Organisasi & Keanggotaan', 'Bidang Fasilitasi Alumni', 'Bidang Pengkajian dan Advokasi Kebijakan', 'Bidang Kerjasama dan Kemitraan', 'Bidang Pengabdian Masyarakat', 'Bidang Komunitas', 'Bidang Aktivasi Sosial Media', 'Bidang Riset & Pengembangan']
+const starterMembers = []
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('Home')
+  const [showRegister, setShowRegister] = useState(false)
+  const [showAdmin, setShowAdmin] = useState(false)
+  const [members, setMembers] = useState(() => { try { return JSON.parse(localStorage.getItem('kagama-members')) || starterMembers } catch { return starterMembers } })
+  const [form, setForm] = useState({ name: '', study: '', faculty: '', year: '', phone: '', domicile: '', email: '', division: divisions[0] })
   const appRef = useRef(null)
 
   useEffect(() => {
@@ -71,13 +78,24 @@ function App() {
     document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const updateForm = (event) => setForm(current => ({ ...current, [event.target.name]: event.target.value }))
+  const submitMember = (event) => {
+    event.preventDefault()
+    const next = [{ ...form, id: Date.now() }, ...members]
+    setMembers(next)
+    localStorage.setItem('kagama-members', JSON.stringify(next))
+    setForm({ name: '', study: '', faculty: '', year: '', phone: '', domicile: '', email: '', division: divisions[0] })
+    setShowRegister(false)
+    setShowAdmin(true)
+  }
+
   return <main ref={appRef}>
     <nav className="nav-shell">
       <button className="brand" onClick={() => go('Home')} aria-label="Kagama Digi home"><img className="brand-logo" src="/img/logo.png" alt="Logo Kagama Digi" /><span>kagama digi<span className="brand-dot">.</span></span></button>
       <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
         {nav.map(item => <button key={item.label} className={active === item.target ? 'active' : ''} onClick={() => go(item.target)}>{item.label}</button>)}
       </div>
-      <button className="contact-pill" onClick={() => window.open('https://bit.ly/grupwhatsappkagamadigi', '_blank')}>Gabung WA <Arrow /></button>
+      <div className="nav-actions"><button className="member-nav" onClick={() => setShowRegister(true)}>Daftar Member</button><button className="contact-pill" onClick={() => window.open('https://bit.ly/grupwhatsappkagamadigi', '_blank')}>Gabung WA <Arrow /></button><button className="admin-nav" onClick={() => setShowAdmin(true)}>Admin</button></div>
       <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? '×' : '☰'}</button>
     </nav>
 
@@ -111,7 +129,11 @@ function App() {
 
     <section id="team" className="team section-pad"><div className="section-kicker">/04 — Tim kami</div><div className="team-heading"><h2>Struktur<br /><span>pengurus.</span></h2><p>Kagama Digi digerakkan oleh dewan penasehat, pengurus harian, dan bidang-bidang yang mendukung organisasi, kemitraan, komunitas, aktivasi digital, dan riset.</p></div><div className="team-list">{team.map(([initials, role, name]) => <article className="team-card" key={name}><span className="team-avatar">{initials}</span><div><span className="team-role">{role}</span><h3>{name}</h3></div></article>)}</div></section>
 
-    <section id="contact" className="contact section-pad"><div className="contact-grid"><div><div className="section-kicker">/05 — Bergabung</div><h2>Bangun<br /><span>dampak.</span></h2></div><div className="contact-side"><p>Untuk kolaborasi, informasi program, dan jejaring komunitas, hubungi Kagama Digi melalui kanal resmi berikut.</p><a href="https://bit.ly/grupwhatsappkagamadigi" target="_blank" rel="noreferrer" className="email-link">Gabung Grup WhatsApp <Arrow /></a><div className="contact-details"><span>Yogyakarta, Indonesia</span><span>kagamadigi@ugm.ac.id</span><span>Instagram&nbsp; ↗</span></div></div></div><div className="footer"><span>© 2026 Kagama Digi</span><span>Keluarga Alumni Universitas Gadjah Mada<span className="lime-dot">.</span></span><img className="footer-logo" src="/img/logo.png" alt="Logo Kagama Digi" /></div></section>
+    <section id="contact" className="contact section-pad"><div className="contact-grid"><div><div className="section-kicker">/05 — Bergabung</div><h2>Bangun<br /><span>dampak.</span></h2></div><div className="contact-side"><p>Untuk kolaborasi, informasi program, dan jejaring komunitas, hubungi Kagama Digi melalui kanal resmi berikut.</p><button className="email-link register-link" onClick={() => setShowRegister(true)}>Daftar sebagai member <Arrow /></button><div className="contact-details"><span>Yogyakarta, Indonesia</span><span>kagamadigi@ugm.ac.id</span><span>Instagram&nbsp; ↗</span></div></div></div><div className="footer"><span>© 2026 Kagama Digi</span><span>Keluarga Alumni Universitas Gadjah Mada<span className="lime-dot">.</span></span><img className="footer-logo" src="/img/logo.png" alt="Logo Kagama Digi" /></div></section>
+
+    {showRegister && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setShowRegister(false)}><form className="member-modal" onSubmit={submitMember}><button type="button" className="modal-close" onClick={() => setShowRegister(false)}>×</button><div className="section-kicker">/ Join Kagama Digi</div><h2>Daftar sebagai<br /><span>member.</span></h2><p className="modal-intro">Lengkapi data berikut sesuai identitas dan informasi yang aktif.</p><div className="form-grid"><label>Nama Lengkap (sesuai eKTP)<input name="name" value={form.name} onChange={updateForm} required placeholder="Nama lengkap" /></label><label>Jurusan / Program Studi<input name="study" value={form.study} onChange={updateForm} required placeholder="Contoh: S1 Ilmu Tanah" /></label><label>Fakultas<input name="faculty" value={form.faculty} onChange={updateForm} required placeholder="Contoh: Pertanian" /></label><label>Angkatan (masuk UGM)<input name="year" value={form.year} onChange={updateForm} required inputMode="numeric" placeholder="Contoh: 2018" /></label><label>Nomor HP / WhatsApp<input name="phone" value={form.phone} onChange={updateForm} required inputMode="tel" placeholder="085600604388" /></label><label>Gmail Aktif<input name="email" value={form.email} onChange={updateForm} required type="email" placeholder="nama@gmail.com" /></label><label className="full-field">Kota/Kabupaten - Provinsi domisili saat ini<input name="domicile" value={form.domicile} onChange={updateForm} required placeholder="Sleman - DI Yogyakarta" /></label><label className="full-field">Bersedia menjadi pengurus bila ditunjuk?<select name="division" value={form.division} onChange={updateForm}>{divisions.map(division => <option key={division}>{division}</option>)}</select></label></div><button className="submit-member" type="submit">Simpan pendaftaran <Arrow /></button></form></div>}
+
+    {showAdmin && <div className="admin-overlay"><div className="admin-shell"><div className="admin-top"><div><span className="admin-eyebrow">Kagama Digi / Internal</span><h2>Data <span>anggota.</span></h2></div><button className="modal-close" onClick={() => setShowAdmin(false)}>×</button></div><div className="admin-stats"><div><strong>{members.length}</strong><span>Total anggota terdaftar</span></div></div><div className="member-table-wrap"><div className="table-heading"><div><span className="admin-eyebrow">Form responses</span><h3>Daftar anggota Kagama Digi</h3></div><button className="export-btn" onClick={() => alert('Export CSV siap dihubungkan ke Google Sheet atau backend.')}>Export CSV ↗</button></div><div className="member-table">{members.length ? members.map(member => <div className="member-row" key={member.id || member.email}><div className="member-identity"><span className="member-initial">{member.name.split(' ').map(word => word[0]).slice(0, 2).join('')}</span><div><strong>{member.name}</strong><small>{member.email}</small></div></div><span>{member.study}<br /><small>{member.faculty} · Angkatan {member.year}</small></span><span>{member.phone}<br /><small>{member.domicile}</small></span><span className={member.division === divisions[0] ? 'muted-status' : 'gold-status'}>{member.division.replace('Bidang ', '')}</span></div>) : <div className="empty-members"><span className="empty-icon">＋</span><strong>Belum ada pendaftar</strong><p>Data anggota yang mengisi form akan tampil di sini.</p><button onClick={() => { setShowAdmin(false); setShowRegister(true) }}>Tambah pendaftar pertama <Arrow /></button></div>}</div></div></div></div>}
   </main>
 }
 
