@@ -291,6 +291,12 @@ body { background:var(--paper); }
 .hero, .gallery-section, .team { background:#eee8dc; }
 .program-details, .team-node { background:#f5eee3; }
 .team::before { background:linear-gradient(rgba(238,232,220,.91),rgba(238,232,220,.91)),url('/img/kamadigi.JPEG') center/cover; }
+@media (min-width: 761px) {
+  .nav-shell { justify-content:flex-start; }
+  .brand { margin-right:auto; }
+  .nav-links { margin-left:0; gap:24px; }
+  .nav-actions { margin-left:24px; }
+}
 .impact-track { width:max-content; justify-content:flex-start; gap:0; animation:ticker-right 24s linear infinite; }
 .impact-group { display:flex; align-items:center; gap:36px; flex:none; padding-right:36px; }
 .impact-group span { display:flex; align-items:center; gap:36px; }

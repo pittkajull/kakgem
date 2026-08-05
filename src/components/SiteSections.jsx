@@ -33,7 +33,6 @@ export function Hero({ onNavigate }) {
       <div className="art-grid" /><div className="orb orb-lime" /><div className="orb orb-blue" /><div className="orb orb-orange" />
       <div className="art-label">KAGAMA DIGI<br /><span>DIGITAL / INOVASI</span></div><div className="art-number">KAGAMADIGI</div><div className="photo-caption"><span className="caption-dot" /> Membuat ruang untuk tumbuh bersama</div>
     </div>
-    <div className="scroll-hint"><span>Scroll to discover</span><i /></div>
   </section>
 }
 
