@@ -63,3 +63,12 @@ h1 em, h2 span { color:var(--orange); }
 .team-card { border-color:rgba(43,39,32,.18); }
 .team-card:hover { border-color:var(--orange); box-shadow:0 10px 22px rgba(185,111,32,.12); }
 .vision-copy strong, .team-role { color:var(--orange); }
+.hero-meta { display:flex; gap:30px; align-items:flex-start; margin-top:44px; padding-top:15px; border-top:1px solid var(--line); width:min(430px,100%); font:600 9px 'Montserrat'; color:#77716a; text-transform:uppercase; letter-spacing:.06em; line-height:1.45; }
+.hero-meta span:first-child { color:var(--orange); font-size:11px; }
+.photo-caption { position:absolute; z-index:3; left:22px; bottom:20px; color:#fff; font:600 9px 'Montserrat'; letter-spacing:.05em; text-transform:uppercase; text-shadow:0 1px 8px rgba(0,0,0,.35); }
+.caption-dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:7px; background:var(--lime); box-shadow:0 0 0 4px rgba(216,173,75,.22); }
+.impact-strip { overflow:hidden; background:var(--ink); color:var(--paper); border-top:1px solid rgba(255,255,255,.12); border-bottom:1px solid rgba(255,255,255,.12); transform:rotate(-1.2deg) scale(1.02); margin:0 -10px; }
+.impact-track { display:flex; align-items:center; justify-content:space-around; gap:36px; white-space:nowrap; padding:15px 0; font:600 10px 'Montserrat'; letter-spacing:.16em; }
+.impact-track b { color:var(--lime); font-size:14px; font-weight:400; }
+.about { padding-top:145px; }
+@media (max-width: 760px) { .hero-meta { gap:15px; margin-top:35px; } .photo-caption { font-size:8px; left:16px; bottom:15px; } .impact-track { justify-content:flex-start; gap:24px; padding:13px 24px; font-size:8px; } .about { padding-top:105px; } }
