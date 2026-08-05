@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Arrow = ({ className = '' }) => <span className={`arrow ${className}`}>↗</span>
 
@@ -31,6 +35,34 @@ const team = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [active, setActive] = useState('Home')
+  const appRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      intro.from('.nav-shell', { y: -24, opacity: 0, duration: .75 })
+        .from('.hero-copy > *', { y: 28, opacity: 0, duration: .75, stagger: .1 }, '-=.35')
+        .from('.hero-art', { x: 42, opacity: 0, duration: 1 }, '-=.8')
+        .from('.photo-caption', { y: 12, opacity: 0, duration: .45 }, '-=.25')
+
+      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .team-heading, .team-card, .contact-grid').forEach((element) => {
+        gsap.from(element, {
+          y: 34,
+          opacity: 0,
+          duration: .8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: element, start: 'top 84%', once: true }
+        })
+      })
+
+      gsap.to('.impact-track', {
+        xPercent: -18,
+        ease: 'none',
+        scrollTrigger: { trigger: '.impact-strip', start: 'top bottom', end: 'bottom top', scrub: 1 }
+      })
+    }, appRef)
+    return () => ctx.revert()
+  }, [])
   const nav = [{ label: 'Home', target: 'Home' }, { label: 'Tentang', target: 'About' }, { label: 'Program', target: 'Works' }, { label: 'Pengurus', target: 'Team' }, { label: 'Kontak', target: 'Contact' }]
 
   const go = (item) => {
@@ -39,7 +71,7 @@ function App() {
     document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  return <main>
+  return <main ref={appRef}>
     <nav className="nav-shell">
       <button className="brand" onClick={() => go('Home')} aria-label="Kagama Digi home"><img className="brand-logo" src="/img/logo.png" alt="Logo Kagama Digi" /><span>kagama digi<span className="brand-dot">.</span></span></button>
       <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
