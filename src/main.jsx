@@ -34,9 +34,22 @@ const team = [
 
 const divisions = ['Tidak bersedia / belum memilih', 'Bidang Organisasi & Keanggotaan', 'Bidang Fasilitasi Alumni', 'Bidang Pengkajian dan Advokasi Kebijakan', 'Bidang Kerjasama dan Kemitraan', 'Bidang Pengabdian Masyarakat', 'Bidang Komunitas', 'Bidang Aktivasi Sosial Media', 'Bidang Riset & Pengembangan']
 const starterMembers = []
+const gallery = [
+  ['/img/2026_04_11_18_00_IMG_1833.JPG', 'Workshop digital', 'Belajar bersama · 2026'],
+  ['/img/COP01930.JPG', 'Kolaborasi lintas profesi', 'Kagama Digi · Community'],
+  ['/img/IMG_0637.JPG', 'Ruang bertukar ide', 'Digital literacy · 2026'],
+  ['/img/IMG_2985.JPG', 'Aktivasi berdampak', 'Innovation · Community'],
+  ['/img/IMG_3338.JPG', 'Dari ruang kelas', 'Knowledge sharing · 2026'],
+  ['/img/2026_04_11_18_00_IMG_1835.JPG', 'Tumbuh bersama', 'Kagama Digi · People'],
+  ['/img/WhatsApp%20Image%202026-04-25%20at%2023.07.07.jpg', 'Jejaring yang hidup', 'Collaboration · 2026'],
+]
 
 function MemberForm({ form, updateForm, submitMember, onClose }) {
   return <div className="inline-register"><div className="inline-register-head"><div><span className="admin-eyebrow">Join Kagama Digi</span><h3>Data diri <span>member.</span></h3></div><button type="button" className="inline-close" onClick={onClose}>Tutup ×</button></div><p className="member-notice">Pendaftaran ini khusus untuk alumni Universitas Gadjah Mada (UGM).</p><p className="modal-intro">Lengkapi data berikut sesuai identitas dan informasi yang aktif.</p><form onSubmit={submitMember}><div className="form-grid"><label>Nama Lengkap (sesuai eKTP)<input name="name" value={form.name} onChange={updateForm} required placeholder="Nama lengkap" /></label><label>Jurusan / Program Studi<input name="study" value={form.study} onChange={updateForm} required placeholder="Contoh: S1 Ilmu Tanah" /></label><label>Fakultas<input name="faculty" value={form.faculty} onChange={updateForm} required placeholder="Contoh: Pertanian" /></label><label>Angkatan (masuk UGM)<input name="year" value={form.year} onChange={updateForm} required inputMode="numeric" placeholder="Contoh: 2018" /></label><label>Nomor HP / WhatsApp<input name="phone" value={form.phone} onChange={updateForm} required inputMode="tel" placeholder="085600604388" /></label><label>Gmail Aktif<input name="email" value={form.email} onChange={updateForm} required type="email" placeholder="nama@gmail.com" /></label><label className="full-field">Kota/Kabupaten - Provinsi domisili saat ini<input name="domicile" value={form.domicile} onChange={updateForm} required placeholder="Sleman - DI Yogyakarta" /></label><label className="full-field">Bersedia menjadi pengurus bila ditunjuk?<select name="division" value={form.division} onChange={updateForm}>{divisions.map(division => <option key={division}>{division}</option>)}</select></label></div><button className="submit-member" type="submit">Simpan pendaftaran <Arrow /></button></form></div>
+}
+
+function GallerySection() {
+  return <section className="gallery-section section-pad"><div className="section-kicker">/04 — Aktivasi &amp; workshop</div><div className="gallery-heading"><h2>Yang terjadi<br /><span>ketika bertemu.</span></h2><p>Ruang belajar, berbagi, dan berkolaborasi yang mempertemukan insan Kagama dari berbagai latar.</p></div><div className="gallery-grid">{gallery.map(([src, title, meta], index) => <figure className={`gallery-item gallery-${index + 1}`} key={src}><img src={src} alt={title} loading="lazy" /><figcaption><strong>{title}</strong><small>{meta}</small></figcaption></figure>)}</div></section>
 }
 
 function App() {
@@ -57,7 +70,7 @@ function App() {
         .from('.hero-art', { x: 42, opacity: 0, duration: 1 }, '-=.8')
         .from('.photo-caption', { y: 12, opacity: 0, duration: .45 }, '-=.25')
 
-      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .team-heading, .team-card, .contact-grid').forEach((element) => {
+      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .gallery-heading, .gallery-item, .team-heading, .team-card, .contact-grid').forEach((element) => {
         gsap.from(element, {
           y: 34,
           opacity: 0,
@@ -164,6 +177,8 @@ function App() {
       </div>
       <div className="scroll-hint"><span>Scroll to discover</span><i /></div>
     </section>
+
+    <GallerySection />
 
     <div className="impact-strip" aria-label="Kagama Digi principles"><div className="impact-track"><span>COLLABORATION</span><b>✳</b><span>CREATIVITY</span><b>✳</b><span>DIGITAL LITERACY</span><b>✳</b><span>POSITIVE IMPACT</span><b>✳</b><span>COLLABORATION</span><b>✳</b><span>CREATIVITY</span><b>✳</b></div></div>
 
