@@ -286,8 +286,14 @@ body { background:var(--paper); }
 .roster-row span { display:block; margin-bottom:5px; color:var(--orange); font:800 11px/1.3 'Montserrat'; text-transform:uppercase; letter-spacing:.025em; }
 .roster-row strong { display:block; color:var(--ink); font:800 13px/1.35 'Montserrat'; text-transform:uppercase; }
 .team-roster-right { padding-top:37px; }
+.impact-track { width:max-content; justify-content:flex-start; gap:0; animation:ticker-right 24s linear infinite; }
+.impact-group { display:flex; align-items:center; gap:36px; flex:none; padding-right:36px; }
+.impact-group span { display:flex; align-items:center; gap:36px; }
+.impact-group b { color:var(--lime); font-size:14px; font-weight:400; }
+@keyframes ticker-right { from { transform:translateX(-50%); } to { transform:translateX(0); } }
 @media (max-width: 760px) {
   .team-roster { grid-template-columns:1fr; gap:0; margin-top:34px; }
   .team-roster-column:first-child { border-right:0; padding-right:0; }
   .team-roster-right { padding-top:0; }
+  .impact-track { animation-duration:18s; }
 }

@@ -4,9 +4,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
 import { emptyForm, starterMembers } from './data/siteData'
-import { AdminDashboard, AboutSection, ContactSection, Hero, ImpactStrip, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
+import { AdminDashboard, AboutSection, ContactSection, Hero, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
 import { TeamRosterSection } from './components/TeamRosterSection'
+import { ImpactStrip } from './components/ImpactStrip'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,12 +44,6 @@ function App() {
           ease: 'power2.out',
           scrollTrigger: { trigger: element, start: 'top 84%', once: true },
         })
-      })
-
-      gsap.to('.impact-track', {
-        xPercent: -18,
-        ease: 'none',
-        scrollTrigger: { trigger: '.impact-strip', start: 'top bottom', end: 'bottom top', scrub: 1 },
       })
 
       gsap.to('.hero-photo', {
