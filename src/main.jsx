@@ -71,6 +71,26 @@ function App() {
         ease: 'none',
         scrollTrigger: { trigger: '.impact-strip', start: 'top bottom', end: 'bottom top', scrub: 1 }
       })
+
+      gsap.to('.hero-photo', {
+        yPercent: 8,
+        scale: 1.06,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero-art', start: 'top top', end: 'bottom top', scrub: 1 }
+      })
+
+      gsap.utils.toArray('.section-kicker').forEach((element) => {
+        gsap.from(element, {
+          x: -18,
+          opacity: 0,
+          duration: .65,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: element, start: 'top 88%', once: true }
+        })
+      })
+
+      gsap.from('.circle-cta', { scale: 0, rotation: -35, duration: 1, delay: .7, ease: 'back.out(1.7)' })
+      gsap.to('.circle-cta', { y: -5, duration: 2.4, repeat: -1, yoyo: true, ease: 'sine.inOut' })
     }, appRef)
     return () => ctx.revert()
   }, [])
@@ -87,8 +107,14 @@ function App() {
   useEffect(() => {
     if (!showRegister) return
     const timer = setTimeout(() => document.querySelector('.inline-register')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+    gsap.fromTo('.inline-register', { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .65, ease: 'power3.out' })
     return () => clearTimeout(timer)
   }, [showRegister])
+
+  useEffect(() => {
+    if (!showAdmin) return
+    gsap.fromTo('.admin-shell', { opacity: 0, scale: .97, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .55, ease: 'power3.out' })
+  }, [showAdmin])
   const submitMember = (event) => {
     event.preventDefault()
     const next = [{ ...form, id: Date.now() }, ...members]
