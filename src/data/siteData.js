@@ -1,7 +1,4 @@
 export const navItems = [
-  { label: 'Home', target: 'Home' },
-  { label: 'Profile', target: 'About' },
-  { label: 'Aktivasi', target: 'Works' },
   { label: 'Gabung Anggota', target: 'Membership' },
 ]
 
