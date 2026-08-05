@@ -290,6 +290,8 @@ body { background:var(--paper); }
 .team-roster-right { padding-top:37px; }
 .contact-social { color:inherit; text-decoration:none; }
 .contact-social:hover { color:var(--orange); }
+.about-side .text-link { display:inline-flex; align-items:center; background:var(--teal); color:var(--paper); border:1px solid var(--teal); padding:14px 18px; margin-top:22px; font:700 10px 'Montserrat'; text-transform:uppercase; letter-spacing:.02em; }
+.about-side .text-link:hover { background:var(--orange); border-color:var(--orange); color:#fff; }
 .hero, .gallery-section, .team { background:#eee8dc; }
 .program-details, .team-node { background:#f5eee3; }
 .team::before { background:linear-gradient(rgba(238,232,220,.91),rgba(238,232,220,.91)),url('/img/kamadigi.JPEG') center/cover; }
