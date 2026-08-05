@@ -52,14 +52,16 @@ export const programs = [
 ]
 
 export const gallery = [
-  ['/img/2026_04_11_18_00_IMG_1833.JPG', 'Aktivasi digital', 'Belajar bersama'],
-  ['/img/COP01930.JPG', 'Kolaborasi lintas profesi', 'Kagama Digi · Community'],
-  ['/img/IMG_0637.JPG', 'Ruang bertukar ide', 'Digital literacy'],
-  ['/img/IMG_2985.JPG', 'Aktivasi berdampak', 'Innovation · Community'],
-  ['/img/IMG_3338.JPG', 'Dari ruang kelas', 'Knowledge sharing'],
-  ['/img/2026_04_11_18_00_IMG_1835.JPG', 'Tumbuh bersama', 'Kagama Digi · People'],
-  ['/img/WhatsApp%20Image%202026-04-25%20at%2023.07.07.jpg', 'Jejaring yang hidup', 'Collaboration'],
-  ['/img/IMG_4900.JPG', 'Komunitas yang beragam', 'Kagama Digi · Together'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.32.53.jpeg', 'Ngaji Digital', 'Ruang belajar dan berbagi'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.36.47.jpeg', 'Praktik terbaik digital', 'Berbagi wawasan bersama'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.37.37.jpeg', 'Belajar lintas ruang', 'Aktivasi komunitas'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.38.45.jpeg', 'Eksplorasi teknologi', 'Belajar bersama'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.39.28.jpeg', 'Jejaring virtual', 'Kagama Digi online'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.39.51.jpeg', 'Ruang kolaborasi', 'Berbagi pengalaman'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.41.42.jpeg', 'Tumbuh bersama', 'Komunitas dan koneksi'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.43.22.jpeg', 'Workshop kreatif', 'Aktivasi digital'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.44.04.jpeg', 'Kelas produktif', 'Belajar dan berkarya'],
+  ['/img/WhatsApp%20Image%202026-08-05%20at%2015.45.10.jpeg', 'Komunitas yang hidup', 'Berjumpa dan berdampak'],
 ]
 
 export const displayGallery = gallery
