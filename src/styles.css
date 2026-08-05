@@ -106,6 +106,15 @@ h1 em, h2 span { color:var(--orange); }
 .empty-members strong { display:block; color:var(--ink); font:600 16px 'Montserrat'; }
 .empty-members p { margin:8px 0 20px; font-size:12px; }
 .empty-members button { background:none; border-bottom:1px solid var(--orange); color:var(--orange); padding-bottom:7px; font:700 10px 'Montserrat'; }
+.membership { background:var(--ink); color:var(--paper); padding-top:112px; padding-bottom:30px; }
+.membership-inner { display:grid; grid-template-columns:1fr .85fr; gap:10%; align-items:end; }
+.membership .section-kicker { border-color:rgba(251,250,245,.25); color:#b8afa1; }
+.membership h2 span { color:var(--lime); }
+.membership-copy { padding-bottom:8px; }
+.membership-copy p { max-width:390px; color:#b8afa1; font-size:14px; line-height:1.8; }
+.membership-cta { margin-top:22px; background:var(--lime); color:var(--teal); padding:15px 19px; font:700 11px 'Montserrat'; text-transform:uppercase; }
+.membership-footer { display:flex; justify-content:space-between; border-top:1px solid rgba(251,250,245,.22); margin-top:90px; padding-top:17px; color:#92897c; font:600 9px 'Montserrat'; text-transform:uppercase; letter-spacing:.06em; }
+@media (max-width: 760px) { .membership { padding-top:80px; } .membership-inner { display:block; } .membership-copy { margin-top:38px; } .membership-footer { margin-top:65px; gap:20px; flex-wrap:wrap; } }
 @media (max-width: 900px) { .nav-actions { gap:2px; } .member-nav, .admin-nav { display:none; } }
 @media (max-width: 760px) { .form-grid { grid-template-columns:1fr; } .full-field { grid-column:auto; } .admin-stats { gap:7px; } .admin-stats div { padding:14px; } .admin-stats strong { font-size:33px; } .table-heading { align-items:flex-start; gap:15px; flex-direction:column; } }
 .reveal { animation:none; }
