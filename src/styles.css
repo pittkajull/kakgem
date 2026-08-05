@@ -166,6 +166,23 @@ main { display:flex; flex-direction:column; }
 @media (max-width: 900px) { .nav-actions { gap:2px; } .member-nav, .admin-nav { display:none; } }
 @media (max-width: 760px) { .form-grid { grid-template-columns:1fr; } .full-field { grid-column:auto; } .admin-stats { gap:7px; } .admin-stats div { padding:14px; } .admin-stats strong { font-size:33px; } .table-heading { align-items:flex-start; gap:15px; flex-direction:column; } }
 .reveal { animation:none; }
+.scroll-progress { position:fixed; inset:0 0 auto; z-index:50; height:3px; background:var(--orange); transform:scaleX(0); transform-origin:left center; pointer-events:none; box-shadow:0 0 14px rgba(185,111,32,.45); }
+.service-card, .work-card, .gallery-item, .team-card { transform-style:preserve-3d; will-change:transform; }
+.service-card, .work-card, .gallery-item, .team-card, .circle-cta, .membership-cta, .contact-pill, .text-link, .email-link { will-change:transform; }
+.service-card::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:0; background:linear-gradient(110deg, transparent 25%, rgba(255,255,255,.09) 48%, transparent 72%); transform:translateX(-110%); transition:opacity .25s; }
+.service-card:hover::before { opacity:1; animation:card-sheen .8s ease forwards; }
+@keyframes card-sheen { to { transform:translateX(110%); } }
+.gallery-item figcaption { transition:transform .35s ease, opacity .35s ease; }
+.gallery-item:hover figcaption { transform:translateY(-5px); }
+.work-art::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.13), transparent 70%); transform:translateX(-120%); transition:transform .8s ease; }
+.work-card:hover .work-art::after { transform:translateX(120%); }
+.contact-pill, .membership-cta, .circle-cta, .text-link, .email-link { transition:filter .25s ease; }
+.contact-pill:hover, .membership-cta:hover, .circle-cta:hover, .text-link:hover, .email-link:hover { filter:brightness(1.08); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  .scroll-progress { display:none; }
+}
 .hero-meta { display:flex; gap:30px; align-items:flex-start; margin-top:44px; padding-top:15px; border-top:1px solid var(--line); width:min(430px,100%); font:600 9px 'Montserrat'; color:#77716a; text-transform:uppercase; letter-spacing:.06em; line-height:1.45; }
 .hero-meta span:first-child { color:var(--orange); font-size:11px; }
 .photo-caption { position:absolute; z-index:3; left:22px; bottom:20px; color:#fff; font:600 9px 'Montserrat'; letter-spacing:.05em; text-transform:uppercase; text-shadow:0 1px 8px rgba(0,0,0,.35); }
