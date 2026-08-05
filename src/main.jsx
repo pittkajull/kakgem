@@ -126,6 +126,8 @@ function App() {
   useEffect(() => {
     if (!showAdmin) return
     gsap.fromTo('.admin-shell', { opacity: 0, scale: .97, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .55, ease: 'power3.out' })
+    const timer = setTimeout(() => document.querySelector('.admin-overlay')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+    return () => clearTimeout(timer)
   }, [showAdmin])
   const submitMember = (event) => {
     event.preventDefault()
