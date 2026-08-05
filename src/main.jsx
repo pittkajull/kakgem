@@ -42,6 +42,7 @@ const gallery = [
   ['/img/IMG_3338.JPG', 'Dari ruang kelas', 'Knowledge sharing · 2026'],
   ['/img/2026_04_11_18_00_IMG_1835.JPG', 'Tumbuh bersama', 'Kagama Digi · People'],
   ['/img/WhatsApp%20Image%202026-04-25%20at%2023.07.07.jpg', 'Jejaring yang hidup', 'Collaboration · 2026'],
+  ['/img/IMG_4900.JPG', 'Komunitas yang beragam', 'Kagama Digi · Together'],
 ]
 
 function GallerySection() {
