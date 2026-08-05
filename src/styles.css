@@ -242,6 +242,8 @@ body { background:var(--paper); }
 .team-map-lower::before { content:''; position:absolute; left:16%; right:16%; top:0; height:1px; background:var(--orange); }
 .team-map-lower::after { content:''; position:absolute; left:50%; top:0; width:1px; height:24px; background:var(--orange); }
 .team-side { position:relative; margin-top:72px; }
+.team-side-stack { display:grid; gap:10px; }
+.team-side-stack .team-node { margin:0; }
 .team-secretary::after, .team-treasurer::after { content:''; position:absolute; top:50%; width:24px; height:1px; background:var(--orange); }
 .team-secretary::after { right:-24px; }
 .team-treasurer::after { left:-24px; }
