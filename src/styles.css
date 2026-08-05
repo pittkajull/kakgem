@@ -288,6 +288,8 @@ body { background:var(--paper); }
 .roster-row span { display:block; margin-bottom:5px; color:var(--orange); font:800 11px/1.3 'Montserrat'; text-transform:uppercase; letter-spacing:.025em; }
 .roster-row strong { display:block; color:var(--ink); font:800 13px/1.35 'Montserrat'; text-transform:uppercase; }
 .team-roster-right { padding-top:37px; }
+.contact-social { color:inherit; text-decoration:none; }
+.contact-social:hover { color:var(--orange); }
 .hero, .gallery-section, .team { background:#eee8dc; }
 .program-details, .team-node { background:#f5eee3; }
 .team::before { background:linear-gradient(rgba(238,232,220,.91),rgba(238,232,220,.91)),url('/img/kamadigi.JPEG') center/cover; }

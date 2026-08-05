@@ -4,10 +4,11 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
 import { emptyForm, starterMembers } from './data/siteData'
-import { AdminDashboard, AboutSection, ContactSection, Hero, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
+import { AdminDashboard, AboutSection, Hero, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
 import { TeamRosterSection } from './components/TeamRosterSection'
 import { ImpactStrip } from './components/ImpactStrip'
+import { ContactSection } from './components/ContactSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -123,6 +124,7 @@ function App() {
   const go = (item) => {
     setActive(item)
     setMenuOpen(false)
+    if (item === 'Membership') setShowRegister(true)
     document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })
   }
 
