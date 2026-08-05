@@ -11,23 +11,26 @@ export const services = [
   { no: '03', title: 'Inovasi Berdampak', text: 'Mendorong karya dan solusi digital yang berkualitas, beretika, dan bermanfaat.', accent: 'orange' },
 ]
 
-export const leadership = {
-  chair: ['FN', 'Ketua', 'Franko Nero, S.P.'],
-  viceChair: ['WK', 'Wakil Ketua', 'Koordinasi Pengurus'],
-  secretary: ['AP', 'Sekretaris', 'Ari Akbar Devananta, S.Pi.'],
-  treasurer: ['YS', 'Bendahara', 'Yulita Windi Nuraini, S.P., M.Sc.'],
-}
+export const leadership = [
+  ['KETUA', 'FRANKO NERO, S.P.'],
+  ['WAKIL', 'YUDHA PURBAWA, S.P., M.SC., M.EC.DEV.'],
+  ['SEKRETARIS', 'ARI AKBAR DEVANANTA, S.Pi.'],
+  ['WAKIL SEKRETARIS I', 'DESTA RATU BERLIANA, S.S.'],
+  ['WAKIL SEKRETARIS II', 'FAISA ABHINAYA SARASTRI, S.Si.'],
+  ['BENDAHARA UMUM', 'YULITA WINDI NURAINI, S.P., M.Sc.'],
+  ['WAKIL BENDAHARA', 'ULFIDA AISYA LAISHELA, S.P.'],
+]
 
 export const divisionsTeam = [
-  ['HH', 'Organisasi & Keanggotaan', 'Hendra Agus Herlambang, S.P.'],
-  ['AU', 'Fasilitasi Alumni', 'Ajeng Respati Wiji Utami, S.S.'],
-  ['YD', 'Pengkajian & Advokasi Kebijakan', 'Yudha Purbawa, S.P., M.Sc., M.Ec.Dev.'],
-  ['BP', 'Kerjasama & Kemitraan', 'Bagus Shidqi Hakim, S.Tr.Par.'],
-  ['RP', 'Pengabdian Masyarakat', 'Rino Damar Jati, S.Par.'],
-  ['OA', 'Penggalangan Dana', 'Oktavina Dzinuha Ananda, S.AB.'],
-  ['YP', 'Komunitas', 'Yudha Kristiawan, S.Fil., M.Phil.'],
-  ['FE', 'Aktivasi Sosial Media', 'Faris Adlin, S.T., M.Eng.'],
-  ['DM', 'Riset & Pengembangan', 'Dian Pramitasari, A.Md.'],
+  ['BIDANG ORGANISASI DAN KEANGGOTAAN', 'MUSTAQIM, S.SOS., M.A.'],
+  ['BIDANG FASILITASI ALUMNI', 'HENDRA AGUS HERLAMBANG, S.P.'],
+  ['BIDANG ADVOKASI DAN PENGKAJIAN KEBIJAKAN', 'BAGUS SHIDQI HAKIM, S.TR. PAR.'],
+  ['BIDANG KERJASAMA DAN KEMITRAAN', 'AJENG RESPATI WIJI UTAMI, S.S.'],
+  ['BIDANG PENGABDIAN MASYARAKAT', 'RINO DAMAR JATI, S.PAR.'],
+  ['BIDANG PENGGALANGAN DANA', 'OKTAVINA DZINUHA ANANDA, S.AB.'],
+  ['BIDANG KOMUNITAS', 'YUDHA KRISTIAWAN, S.FIL., M.PHIL.'],
+  ['BIDANG AKTIVASI SOSIAL MEDIA', 'FARIS ADLIN, S.T., M.ENG.'],
+  ['BIDANG RnD', 'DIAN PRAMITASARI, A.MD.'],
 ]
 
 export const divisions = [

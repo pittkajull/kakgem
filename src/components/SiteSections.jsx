@@ -3,12 +3,9 @@ import { divisions, divisionsTeam, leadership, navItems, programs, services } fr
 
 const adminEmail = 'mailto:kagamadigi@gmail.com'
 
-function PersonNode({ person, className = '' }) {
-  const [initials, role, name] = person
-  return <article className={`team-node ${className}`}>
-    <span className="team-avatar">{initials}</span>
-    <div><span className="team-role">{role}</span><h3>{name}</h3></div>
-  </article>
+function RosterRow({ person }) {
+  const [role, name] = person
+  return <article className="roster-row"><span>{role}</span><strong>{name}</strong></article>
 }
 
 export function Navbar({ menuOpen, active, onMenuToggle, onNavigate }) {

@@ -4,8 +4,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
 import { emptyForm, starterMembers } from './data/siteData'
-import { AdminDashboard, AboutSection, ContactSection, Hero, ImpactStrip, MembershipSection, Navbar, ServicesSection, TeamSection, WorksSection } from './components/SiteSections'
+import { AdminDashboard, AboutSection, ContactSection, Hero, ImpactStrip, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
+import { TeamRosterSection } from './components/TeamRosterSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -176,7 +177,7 @@ function App() {
     <AboutSection onNavigate={go} />
     <ServicesSection />
     <WorksSection onNavigate={go} />
-    <TeamSection />
+    <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
     <ContactSection onAdminOpen={() => setShowAdmin(true)} />
     {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} />}
