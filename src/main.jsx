@@ -64,6 +64,7 @@ function App() {
   const registerWasOpen = useRef(false)
 
   useEffect(() => {
+    const interactionCleanups = []
     const ctx = gsap.context(() => {
       const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
       intro.from('.nav-shell', { y: -24, opacity: 0, duration: .75 })
@@ -134,7 +135,7 @@ function App() {
           card.addEventListener('pointermove', move)
           card.addEventListener('pointerenter', enter)
           card.addEventListener('pointerleave', leave)
-          ctx.add(() => {
+          interactionCleanups.push(() => {
             card.removeEventListener('pointermove', move)
             card.removeEventListener('pointerenter', enter)
             card.removeEventListener('pointerleave', leave)
@@ -152,14 +153,17 @@ function App() {
           const reset = () => { moveX(0); moveY(0) }
           button.addEventListener('pointermove', move)
           button.addEventListener('pointerleave', reset)
-          ctx.add(() => {
+          interactionCleanups.push(() => {
             button.removeEventListener('pointermove', move)
             button.removeEventListener('pointerleave', reset)
           })
         })
       }
     }, appRef)
-    return () => ctx.revert()
+    return () => {
+      interactionCleanups.forEach(cleanup => cleanup())
+      ctx.revert()
+    }
   }, [])
   const nav = [{ label: 'Home', target: 'Home' }, { label: 'Tentang', target: 'About' }, { label: 'Program', target: 'Works' }, { label: 'Pengurus', target: 'Team' }, { label: 'Kontak', target: 'Contact' }]
 
