@@ -134,11 +134,12 @@ main { display:flex; flex-direction:column; }
 #about { order:3; }
 #services { order:4; }
 #works { order:5; }
-.gallery-section { order:6; }
-#team { order:7; }
-#membership { order:8; }
-#contact { order:9; }
-.admin-overlay { order:10; }
+#journey { order:6; }
+.gallery-section { order:7; }
+#team { order:8; }
+#membership { order:9; }
+#contact { order:10; }
+.admin-overlay { order:11; }
 @media (max-width: 760px) { .gallery-section { padding-top:72px; padding-bottom:78px; } .gallery-heading { display:block; padding:32px 0 36px; } .gallery-heading p { margin-top:25px; } .gallery-grid { grid-template-columns:1fr 1fr; grid-template-rows:190px 150px 150px 150px; gap:8px; } .gallery-1 { grid-row:span 2; } .gallery-2, .gallery-5 { grid-column:span 1; } .gallery-7, .gallery-8 { grid-column:span 2; } }
 .admin-overlay { position:relative; inset:auto; z-index:1; min-height:0; background:#e9e1d1; backdrop-filter:none; display:block; padding:0; border-top:1px solid rgba(23,21,17,.18); }
 .admin-shell { width:100%; height:auto; max-height:none; overflow:visible; box-shadow:none; }
@@ -311,4 +312,67 @@ body { background:var(--paper); }
   .team-roster-column:first-child { border-right:0; padding-right:0; }
   .team-roster-right { padding-top:0; }
   .impact-track { animation-duration:18s; }
+}
+
+/* Company profile narrative: PDF content distilled for the web. */
+.journey { position:relative; overflow:hidden; background:var(--ink); color:var(--paper); }
+.journey::before { content:''; position:absolute; width:460px; height:460px; top:-250px; right:-120px; border:1px solid rgba(216,173,75,.2); border-radius:50%; box-shadow:0 0 0 70px rgba(216,173,75,.025),0 0 0 140px rgba(216,173,75,.02); pointer-events:none; }
+.journey > * { position:relative; z-index:1; }
+.journey .section-kicker { color:#b8afa1; border-color:rgba(243,239,230,.2); }
+.story-intro { display:grid; grid-template-columns:.78fr 1.22fr; gap:clamp(40px,8vw,120px); align-items:start; padding:54px 0 72px; border-bottom:1px solid rgba(243,239,230,.2); }
+.story-label { display:block; margin-bottom:18px; color:var(--lime); font:700 9px 'Montserrat'; letter-spacing:.14em; text-transform:uppercase; }
+.story-title h2 { margin:0; color:var(--paper); }
+.story-title h2 span { color:var(--lime); }
+.chair-message { margin:0; padding:4px 0 4px clamp(24px,4vw,54px); border-left:1px solid rgba(216,173,75,.55); }
+.chair-message p { max-width:650px; margin:0 0 18px; color:#c8c0b5; font-size:14px; line-height:1.85; }
+.chair-message footer { display:flex; flex-direction:column; gap:5px; margin-top:30px; }
+.chair-message footer strong { color:var(--paper); font:700 12px 'Montserrat'; text-transform:uppercase; }
+.chair-message footer span { color:var(--lime); font:700 9px 'Montserrat'; letter-spacing:.08em; text-transform:uppercase; }
+.journey-heading { display:grid; grid-template-columns:1fr .82fr; gap:10%; align-items:end; padding:78px 0 40px; }
+.journey-heading h3, .portfolio-copy h3 { margin:0; font:400 clamp(44px,6vw,78px)/.93 'Bebas Neue'; letter-spacing:.01em; text-transform:uppercase; }
+.journey-heading p, .portfolio-copy p { max-width:470px; margin:0; color:#aaa196; font-size:13px; line-height:1.8; }
+.journey-rail { position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; margin:0; padding:34px 0 0; list-style:none; border-top:1px solid rgba(243,239,230,.2); }
+.journey-step { position:relative; min-height:210px; padding:24px clamp(18px,2.5vw,36px) 28px 0; }
+.journey-step:not(:last-child) { border-right:1px solid rgba(243,239,230,.14); }
+.journey-step:not(:first-child) { padding-left:clamp(18px,2.5vw,36px); }
+.journey-step::before { content:''; position:absolute; top:-39px; left:0; width:9px; height:9px; background:var(--lime); border-radius:50%; box-shadow:0 0 0 6px rgba(216,173,75,.13); }
+.journey-step:not(:first-child)::before { left:clamp(18px,2.5vw,36px); }
+.journey-step > span { color:var(--lime); font:400 19px 'Bebas Neue'; }
+.journey-step h4 { margin:34px 0 12px; color:var(--paper); font:700 12px/1.35 'Montserrat'; text-transform:uppercase; }
+.journey-step p { max-width:230px; margin:0; color:#9f978c; font-size:11px; line-height:1.7; }
+.portfolio-block { display:grid; grid-template-columns:.72fr 1.28fr; gap:clamp(40px,8vw,110px); margin-top:58px; padding:72px 0; border-top:1px solid rgba(243,239,230,.2); border-bottom:1px solid rgba(243,239,230,.2); }
+.portfolio-copy h3 { color:var(--paper); }
+.portfolio-copy p { margin-top:24px; }
+.workshop-index { display:grid; grid-template-columns:1fr 1fr; column-gap:34px; align-content:start; }
+.workshop-item { display:grid; grid-template-columns:34px 1fr; gap:12px; align-items:start; min-height:68px; padding:15px 0; border-top:1px solid rgba(243,239,230,.15); }
+.workshop-item span { color:var(--lime); font:400 15px 'Bebas Neue'; }
+.workshop-item strong { color:#d7d0c5; font:600 10px/1.5 'Montserrat'; text-transform:uppercase; }
+.activation-notes { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; margin-top:72px; background:rgba(243,239,230,.16); border:1px solid rgba(243,239,230,.16); }
+.activation-note { min-height:250px; padding:30px; background:var(--ink); }
+.activation-note:nth-child(2) { background:#211f1a; }
+.activation-note > span { color:var(--lime); font:700 8px 'Montserrat'; letter-spacing:.08em; text-transform:uppercase; }
+.activation-note h3 { max-width:280px; margin:70px 0 16px; color:var(--paper); font:600 clamp(17px,2vw,24px)/1.2 'Montserrat'; }
+.activation-note p { max-width:340px; margin:0; color:#9f978c; font-size:11px; line-height:1.7; }
+.contact-details { align-items:flex-start; }
+
+@media (max-width: 900px) {
+  .story-intro, .portfolio-block { grid-template-columns:1fr; gap:38px; }
+  .journey-heading { grid-template-columns:1fr; gap:28px; }
+  .journey-rail { grid-template-columns:1fr 1fr; }
+  .journey-step:nth-child(2) { border-right:0; }
+  .activation-notes { grid-template-columns:1fr; }
+  .activation-note { min-height:0; }
+  .activation-note h3 { margin-top:34px; }
+}
+
+@media (max-width: 600px) {
+  .story-intro { padding:40px 0 58px; }
+  .chair-message { padding-left:22px; }
+  .journey-heading { padding-top:60px; }
+  .journey-rail, .workshop-index { grid-template-columns:1fr; }
+  .journey-step { min-height:0; padding:24px 0 34px !important; border-right:0 !important; border-bottom:1px solid rgba(243,239,230,.14); }
+  .journey-step::before { left:0 !important; }
+  .journey-step h4 { margin-top:22px; }
+  .portfolio-block { padding:58px 0; }
+  .activation-notes { margin-top:58px; }
 }

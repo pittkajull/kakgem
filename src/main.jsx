@@ -9,6 +9,7 @@ import { GallerySection } from './components/GallerySection'
 import { TeamRosterSection } from './components/TeamRosterSection'
 import { ImpactStrip } from './components/ImpactStrip'
 import { ContactSection } from './components/ContactSection'
+import { CommunityStorySection } from './components/CommunityStorySection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -37,7 +38,7 @@ function App() {
         .from('.hero-art', { x: 42, opacity: 0, duration: 1 }, '-=.8')
         .from('.photo-caption', { y: 12, opacity: 0, duration: .45 }, '-=.25')
 
-      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .gallery-heading, .gallery-item, .team-heading, .team-card, .contact-grid').forEach((element) => {
+      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .story-intro, .journey-heading, .journey-step, .portfolio-block, .workshop-item, .activation-note, .gallery-heading, .gallery-item, .team-heading, .team-card, .contact-grid').forEach((element) => {
         gsap.from(element, {
           y: 34,
           opacity: 0,
@@ -169,11 +170,12 @@ function App() {
     <div className="scroll-progress" aria-hidden="true" />
     <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} />
     <Hero onNavigate={go} />
-    <GallerySection />
     <ImpactStrip />
     <AboutSection onNavigate={go} />
     <ServicesSection />
     <WorksSection onNavigate={go} />
+    <CommunityStorySection />
+    <GallerySection />
     <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
     <ContactSection onAdminOpen={() => setShowAdmin(true)} />

@@ -1,12 +1,7 @@
 import { MemberForm } from './MemberForm'
-import { divisions, divisionsTeam, leadership, navItems, programs, services } from '../data/siteData'
+import { divisions, navItems, programs, services } from '../data/siteData'
 
 const adminEmail = 'mailto:kagamadigi@gmail.com'
-
-function RosterRow({ person }) {
-  const [role, name] = person
-  return <article className="roster-row"><span>{role}</span><strong>{name}</strong></article>
-}
 
 export function Navbar({ menuOpen, active, onMenuToggle, onNavigate }) {
   return <nav className="nav-shell">
@@ -26,7 +21,7 @@ export function Hero({ onNavigate }) {
       <h1>Komunitas kreatif<br /><em>bangun ekosistem</em><br />digital yang positif<span className="lime-dot">.</span></h1>
       <p className="hero-desc">Komunitas profesional Universitas Gadjah Mada yang memanfaatkan ruang digital positif secara kolaboratif, mempertemukan berbagai elemen masyarakat, pemerintah, industri, komunitas, dan individu untuk menciptakan ekosistem internet yang aman, produktif, dan beretika.</p>
       <button className="circle-cta" onClick={() => onNavigate('About')}><span>Lihat<br />profil</span></button>
-      <div className="hero-meta"><span>01 / 07</span><span>Komunitas digital<br />&amp; inovasi</span><span>Yogyakarta<br />Indonesia</span></div>
+      <div className="hero-meta"><span>01 / 08</span><span>Komunitas digital<br />&amp; inovasi</span><span>Yogyakarta<br />Indonesia</span></div>
     </div>
     <div className="hero-art reveal delay-1" aria-label="Foto Kagama Digi">
       <img className="hero-photo" src="/img/kamadigi.JPEG" alt="Kegiatan Kagama Digi" />
@@ -56,16 +51,8 @@ export function WorksSection({ onNavigate }) {
   return <section id="works" className="works section-pad"><div className="section-kicker">/03 — Aktivasi</div><div className="works-heading"><h2>Program jangka panjang<br /><span>Kagama Digi.</span></h2><p>Kenali program yang sedang kami siapkan dan temukan ruang kolaborasi yang paling dekat denganmu.</p></div><div className="program-grid">{programs.map((program, index) => <article className={`program-card ${program.tone}`} key={program.title}><div className="program-banner"><small>Program yang akan dilaksanakan · 0{index + 1}</small><strong>{program.title}</strong><span className="program-mark">KD</span></div><div className="program-details"><p>{program.description}</p><button onClick={() => onNavigate('Contact')}>Ikuti program</button></div></article>)}</div></section>
 }
 
-export function TeamSection() {
-  return <section id="team" className="team section-pad"><div className="section-kicker">/05 — Tim kami</div><div className="team-heading"><h2>Struktur<br /><span>pengurus.</span></h2><p>Kagama Digi digerakkan oleh pengurus harian dan bidang-bidang yang mendukung organisasi, kemitraan, komunitas, aktivasi digital, dan riset.</p></div><div className="team-map"><PersonNode person={leadership.chair} className="team-chair" /><div className="map-stem" /><PersonNode person={leadership.viceChair} className="team-vice" /><div className="map-branch" /><div className="team-map-lower"><PersonNode person={leadership.secretary} className="team-side team-secretary" /><div className="team-divisions"><div className="team-division-label">Bidang / Divisi</div><div className="team-division-grid">{divisionsTeam.map(person => <PersonNode person={person} key={person[2]} />)}</div></div><PersonNode person={leadership.treasurer} className="team-side team-treasurer" /></div></div></section>
-}
-
 export function MembershipSection({ showRegister, setShowRegister, form, updateForm, submitMember }) {
-  return <section id="membership" className="membership section-pad"><div className="membership-inner"><div><div className="section-kicker">/06 — Jadi bagian dari kami</div><h2>Temukan ruang<br /><span>untuk tumbuh.</span></h2></div><div className="membership-copy"><p>Gabung menjadi anggota Kagama Digi dan ikut membangun jejaring, wawasan, serta inovasi digital bersama alumni dan pegiat digital dari berbagai bidang.</p><span className="alumni-only">Khusus alumni Universitas Gadjah Mada</span><button className="membership-cta" onClick={() => setShowRegister(current => !current)}>{showRegister ? 'Tutup form' : 'Daftar jadi member'}</button></div></div><div className="membership-footer"><span>Terbuka untuk alumni Universitas Gadjah Mada</span><span>Digital · Inovasi · Kolaborasi</span></div>{showRegister && <MemberForm form={form} updateForm={updateForm} submitMember={submitMember} onClose={() => setShowRegister(false)} />}</section>
-}
-
-export function ContactSection({ onAdminOpen }) {
-  return <section id="contact" className="contact section-pad"><div className="contact-grid"><div><div className="section-kicker">/07 — Kontak</div><h2>Bangun<br /><span>dampak.</span></h2></div><div className="contact-side"><p>Untuk kolaborasi, informasi program, dan jejaring komunitas, hubungi Kagama Digi melalui kanal resmi berikut.</p><a href={adminEmail} className="email-link">kagamadigi@gmail.com</a><div className="contact-details"><span>Yogyakarta, Indonesia</span><span>Kagama Digi · Komunitas Inovasi</span><span>Instagram</span></div></div></div><div className="footer"><span>© Kagama Digi</span><span>Keluarga Alumni Universitas Gadjah Mada · Komunitas Inovasi</span><img className="footer-logo" src="/img/logo.png" alt="Logo Kagama Digi" onDoubleClick={onAdminOpen} title="Buka dashboard internal" /></div></section>
+  return <section id="membership" className="membership section-pad"><div className="membership-inner"><div><div className="section-kicker">/07 — Jadi bagian dari kami</div><h2>Temukan ruang<br /><span>untuk tumbuh.</span></h2></div><div className="membership-copy"><p>Gabung menjadi anggota Kagama Digi dan ikut membangun jejaring, wawasan, serta inovasi digital bersama alumni dan pegiat digital dari berbagai bidang.</p><span className="alumni-only">Khusus alumni Universitas Gadjah Mada</span><button className="membership-cta" onClick={() => setShowRegister(current => !current)}>{showRegister ? 'Tutup form' : 'Daftar jadi member'}</button></div></div><div className="membership-footer"><span>Terbuka untuk alumni Universitas Gadjah Mada</span><span>Digital · Inovasi · Kolaborasi</span></div>{showRegister && <MemberForm form={form} updateForm={updateForm} submitMember={submitMember} onClose={() => setShowRegister(false)} />}</section>
 }
 
 export function AdminDashboard({ members, onClose, onAddMember }) {

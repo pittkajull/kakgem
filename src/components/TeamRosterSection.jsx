@@ -11,7 +11,7 @@ function OrgNode({ person, className = '' }) {
 
 export function TeamRosterSection() {
   return <section id="team" className="team section-pad">
-    <div className="section-kicker">/05 — Tim kami</div>
+    <div className="section-kicker">/06 — Tim kami</div>
     <div className="team-heading"><h2>Susunan<br /><span>pengurus.</span></h2><p>Kagama Digi digerakkan oleh pengurus harian dan bidang-bidang yang menjaga kolaborasi, kemitraan, komunitas, aktivasi digital, dan riset.</p></div>
     <div className="team-map">
       <OrgNode person={leadership[0]} className="team-chair" />
