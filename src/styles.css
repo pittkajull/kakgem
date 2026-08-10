@@ -365,8 +365,15 @@ body { background:var(--paper); }
 .activation-note { min-height:250px; padding:30px; background:var(--ink); }
 .activation-note:nth-child(2) { background:#211f1a; }
 .note-photos { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:30px; }
+.note-photo-btn { position:relative; display:block; padding:0; border:0; background:none; cursor:zoom-in; overflow:hidden; }
 .note-photos img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; filter:saturate(.85); transition:transform .6s cubic-bezier(.2,.7,.2,1), filter .6s; }
-.activation-note:hover .note-photos img { transform:scale(1.06); filter:saturate(1); }
+.zoom-badge { position:absolute; top:8px; right:8px; display:grid; place-items:center; width:24px; height:24px; background:rgba(23,21,17,.72); color:#fff; font-size:13px; line-height:1; border-radius:50%; opacity:0; transform:translateY(-3px); transition:opacity .3s, transform .3s; pointer-events:none; }
+.note-photo-btn:hover .zoom-badge { opacity:1; transform:none; }
+.activation-note:hover .note-photo-btn img { transform:scale(1.06); filter:saturate(1); }
+.lightbox { position:fixed; inset:0; z-index:100; background:rgba(23,21,17,.94); backdrop-filter:blur(6px); display:grid; place-items:center; padding:clamp(16px,4vw,56px); cursor:zoom-out; }
+.lightbox img { max-width:100%; max-height:88vh; object-fit:contain; box-shadow:0 30px 90px rgba(0,0,0,.5); }
+.lightbox-close { position:fixed; top:18px; right:22px; z-index:2; width:46px; height:46px; border-radius:50%; background:rgba(243,239,230,.12); color:#fff; font-size:26px; line-height:1; cursor:pointer; transition:background .25s; }
+.lightbox-close:hover { background:var(--lime); color:var(--ink); }
 .activation-note > span { color:var(--lime); font:700 8px 'Montserrat'; letter-spacing:.08em; text-transform:uppercase; }
 .activation-note h3 { max-width:280px; margin:14px 0 16px; color:var(--paper); font:600 clamp(17px,2vw,24px)/1.2 'Montserrat'; }
 .activation-note p { max-width:340px; margin:0; color:#9f978c; font-size:11px; line-height:1.7; }
