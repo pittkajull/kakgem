@@ -59,6 +59,20 @@ export function MembershipSection({ showRegister, setShowRegister, form, updateF
   return <section id="membership" className="membership section-pad"><div className="membership-inner"><div><div className="section-kicker">/07 — Jadi bagian dari kami</div><h2>Temukan ruang<br /><span>untuk tumbuh.</span></h2></div><div className="membership-copy"><p>Gabung menjadi anggota Kagama Digi dan ikut membangun jejaring, wawasan, serta inovasi digital bersama alumni dan pegiat digital dari berbagai bidang.</p><span className="alumni-only">Khusus alumni Universitas Gadjah Mada</span><button className="membership-cta" onClick={() => setShowRegister(current => !current)}>{showRegister ? 'Tutup form' : 'Daftar jadi member'}</button></div></div><div className="membership-footer"><span>Terbuka untuk alumni Universitas Gadjah Mada</span><span>Digital · Inovasi · Kolaborasi</span></div>{showRegister && <MemberForm form={form} updateForm={updateForm} submitMember={submitMember} onClose={() => setShowRegister(false)} />}</section>
 }
 
+function exportCsv(members) {
+  const headers = ['Nama', 'Email', 'Jurusan', 'Fakultas', 'Angkatan', 'No. HP', 'Domisili', 'Bidang']
+  const escape = (v) => { const s = String(v ?? ''); return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s }
+  const rows = members.map(m => [m.name, m.email, m.study, m.faculty, m.year, m.phone, m.domicile, m.division].map(escape).join(','))
+  const csv = [headers.join(','), ...rows].join('\n')
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `kagama-digi-anggota-${new Date().toISOString().slice(0, 10)}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 export function AdminDashboard({ members, onClose, onAddMember, onUpdateMember, onDeleteMember }) {
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(null)
@@ -81,7 +95,7 @@ export function AdminDashboard({ members, onClose, onAddMember, onUpdateMember, 
   return <div className="admin-overlay"><div className="admin-shell"><div className="admin-top"><div><span className="admin-eyebrow">Kagama Digi / Internal</span><h2>Data <span>anggota.</span></h2></div><button className="modal-close" onClick={onClose}>×</button></div>
     <div className="admin-stats"><div><strong>{members.length}</strong><span>Total anggota terdaftar</span></div></div>
     {editing && <div className="admin-edit-card"><MemberForm form={form} updateForm={updateForm} submitMember={saveEdit} onClose={cancelEdit} submitLabel="Simpan perubahan" eyebrow="Kagama Digi / Edit data" heading={<>Perbarui data <span>anggota.</span></>} showNotice={false} /></div>}
-    <div className="member-table-wrap"><div className="table-heading"><div><span className="admin-eyebrow">Form responses</span><h3>Daftar anggota Kagama Digi</h3></div><button className="export-btn" onClick={() => alert('Export CSV siap dihubungkan ke Google Sheet atau backend.')}>Export CSV</button></div>
+    <div className="member-table-wrap"><div className="table-heading"><div><span className="admin-eyebrow">Form responses</span><h3>Daftar anggota Kagama Digi</h3></div><button className="export-btn" onClick={() => exportCsv(members)}>Export CSV</button></div>
     <div className="member-table">{members.length ? members.map(member => <div className="member-row" key={memberKey(member)}><div className="member-identity"><span className="member-initial">{member.name.split(' ').map(word => word[0]).slice(0, 2).join('')}</span><div><strong>{member.name}</strong><small>{member.email}</small></div></div><span>{member.study}<br /><small>{member.faculty} · Angkatan {member.year}</small></span><span>{member.phone}<br /><small>{member.domicile}</small></span><span className={member.division === divisions[0] ? 'muted-status' : 'gold-status'}>{member.division.replace('Bidang ', '')}</span><div className="member-actions"><button className="row-action row-edit" onClick={() => startEdit(member)}>Edit</button>{confirmId === memberKey(member) ? <span className="confirm-actions"><button className="row-action row-danger" onClick={() => onDeleteMember(member)}>Hapus</button><button className="row-action row-cancel" onClick={() => setConfirmId(null)}>Batal</button></span> : <button className="row-action row-delete" onClick={() => setConfirmId(memberKey(member))}>Hapus</button>}</div></div>) : <div className="empty-members"><span className="empty-icon">＋</span><strong>Belum ada pendaftar</strong><p>Data anggota yang mengisi form akan tampil di sini.</p><button onClick={onAddMember}>Tambah pendaftar pertama</button></div>}</div>
   </div></div></div>
 }
