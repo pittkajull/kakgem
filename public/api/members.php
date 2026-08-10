@@ -2,10 +2,10 @@
 session_start();
 header('Content-Type: application/json');
 
-$dataFile = __DIR__ . '/../data/members.json';
+$dataFile = '/var/www/data/members.json';
 
-if (!is_dir(__DIR__ . '/../data')) {
-    mkdir(__DIR__ . '/../data', 0755, true);
+if (!is_dir('/var/www/data')) {
+    mkdir('/var/www/data', 0755, true);
 }
 
 if (!is_file($dataFile)) {
