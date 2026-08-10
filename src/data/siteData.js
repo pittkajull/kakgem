@@ -120,6 +120,15 @@ export const gallery = [
   ['/img/WhatsApp%20Image%202026-08-05%20at%2015.43.22.jpeg', 'Workshop kreatif', 'Aktivasi digital'],
   ['/img/WhatsApp%20Image%202026-08-05%20at%2015.44.04.jpeg', 'Kelas produktif', 'Belajar dan berkarya'],
   ['/img/WhatsApp%20Image%202026-08-05%20at%2015.45.10.jpeg', 'Komunitas yang hidup', 'Berjumpa dan berdampak'],
+  ['/img/2026_04_11_16_22_IMG_1785.JPG', 'Kegiatan bersama', 'Momen Kagama Digi'],
+  ['/img/2026_04_22_15_22_IMG_2855.JPG', 'Sesi kolaborasi', 'Ruang berbagi'],
+  ['/img/2026_04_22_15_22_IMG_2856.JPG', 'Berbagi wawasan', 'Diskusi bersama'],
+  ['/img/2026_04_24_15_13_IMG_1782.JPG', 'Momen kelas', 'Belajar bersama'],
+  ['/img/MSS01142.JPG', 'Aktivasi komunitas', 'Kegiatan lapangan'],
+  ['/img/MSS01780.JPG', 'Kunjungan bersama', 'Pengalaman baru'],
+  ['/img/MSS01887.JPG', 'Ruang kreatif', 'Kolaborasi tim'],
+  ['/img/MSS02004.JPG', 'Momen berbagi', 'Tumbuh bersama'],
+  ['/img/MSS02062.JPG', 'Dokumentasi kegiatan', 'Kebersamaan'],
 ]
 
 export const displayGallery = gallery
