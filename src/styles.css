@@ -377,6 +377,23 @@ body { background:var(--paper); }
 .lightbox img { max-width:100%; max-height:88vh; object-fit:contain; box-shadow:0 30px 90px rgba(0,0,0,.5); }
 .lightbox-close { position:fixed; top:18px; right:22px; z-index:2; width:46px; height:46px; border-radius:50%; background:rgba(243,239,230,.12); color:#fff; font-size:26px; line-height:1; cursor:pointer; transition:background .25s; }
 .lightbox-close:hover { background:var(--lime); color:var(--ink); }
+.password-overlay, .success-overlay { position:fixed; inset:0; z-index:60; display:grid; place-items:center; padding:24px; }
+.password-overlay { background:rgba(23,21,17,.72); backdrop-filter:blur(10px); }
+.success-overlay { background:rgba(23,21,17,.55); backdrop-filter:blur(6px); }
+.password-shell, .success-shell { width:min(460px,100%); background:var(--paper); padding:clamp(28px,5vw,44px); position:relative; box-shadow:0 25px 80px rgba(0,0,0,.3); }
+.password-shell h2 { margin-top:14px; font-size:clamp(40px,6vw,58px); }
+.password-shell .modal-intro { margin:16px 0 26px; }
+.password-field { display:flex; flex-direction:column; gap:8px; color:#625d55; font:700 10px 'Montserrat'; text-transform:uppercase; letter-spacing:.04em; }
+.password-field input { border:0; border-bottom:1px solid rgba(23,21,17,.25); background:transparent; padding:10px 0; outline:none; color:var(--ink); font:400 15px 'Poppins'; border-radius:0; }
+.password-field input:focus { border-color:var(--orange); }
+.password-error { color:#a03d2e; font:700 10px 'Montserrat'; margin:12px 0 0; }
+.password-shell .submit-member { width:100%; margin-top:28px; }
+.success-shell { text-align:center; }
+.success-icon { width:56px; height:56px; margin:0 auto 18px; display:grid; place-items:center; border-radius:50%; background:var(--lime); color:var(--teal); font-size:26px; font-weight:700; }
+.success-shell h3 { margin:0 0 10px; font:400 clamp(30px,5vw,42px) 'Bebas Neue'; letter-spacing:.01em; }
+.success-shell h3 span { color:var(--orange); }
+.success-shell p { color:#6c665d; font-size:13px; line-height:1.7; margin:0 0 24px; }
+.success-shell .submit-member { width:100%; }
 .hero-photo, .gallery-img img { cursor:zoom-in; }
 .hero-art .art-grid, .hero-art .art-label, .hero-art .art-number, .hero-art .photo-caption { pointer-events:none; }
 .activation-note > span { color:var(--lime); font:700 8px 'Montserrat'; letter-spacing:.08em; text-transform:uppercase; }

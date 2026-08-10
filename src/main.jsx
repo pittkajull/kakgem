@@ -11,6 +11,7 @@ import { ImpactStrip } from './components/ImpactStrip'
 import { ContactSection } from './components/ContactSection'
 import { CommunityStorySection } from './components/CommunityStorySection'
 import { GlobalLightbox } from './components/GlobalLightbox'
+import { AdminPasswordModal, SuccessPopup } from './components/AdminGate'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +20,8 @@ function App() {
   const [active, setActive] = useState('Home')
   const [showRegister, setShowRegister] = useState(false)
   const [showAdmin, setShowAdmin] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
   const [members, setMembers] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('kagama-members')) || starterMembers
@@ -164,6 +167,13 @@ function App() {
     localStorage.setItem('kagama-members', JSON.stringify(next))
     setForm(emptyForm())
     setShowRegister(false)
+    setShowSuccess(true)
+  }
+
+  const requestAdmin = () => setShowPassword(true)
+
+  const unlockAdmin = () => {
+    setShowPassword(false)
     setShowAdmin(true)
   }
 
@@ -191,8 +201,10 @@ function App() {
     <GallerySection />
     <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
-    <ContactSection onAdminOpen={() => setShowAdmin(true)} />
+    <ContactSection onAdminOpen={requestAdmin} />
     {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} />}
+    {showPassword && <AdminPasswordModal onCancel={() => setShowPassword(false)} onSuccess={unlockAdmin} />}
+    {showSuccess && <SuccessPopup onClose={() => setShowSuccess(false)} />}
     <GlobalLightbox />
   </main>
 }
