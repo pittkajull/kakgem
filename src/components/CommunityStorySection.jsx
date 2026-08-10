@@ -46,6 +46,7 @@ export function CommunityStorySection() {
 
     <div className="activation-notes">
       {activationHighlights.map((item, index) => <article className="activation-note" key={item.title}>
+        <div className="note-photos">{(item.photos || []).map(src => <img key={src} src={src} alt={item.title} loading="lazy" />)}</div>
         <span>{String(index + 1).padStart(2, '0')} / {item.type}</span>
         <h3>{item.title}</h3>
         <p>{item.text}</p>

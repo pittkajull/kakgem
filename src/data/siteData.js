@@ -80,16 +80,19 @@ export const activationHighlights = [
     type: 'Kolaborasi strategis',
     title: 'Audiensi dan jejaring kelembagaan',
     text: 'Memperkenalkan program organisasi, bertukar gagasan, dan memperkuat jejaring untuk mendukung kemajuan ekosistem digital Indonesia.',
+    photos: ['/img/audiensi.jpeg', '/img/audiensi2.jpeg'],
   },
   {
     type: 'Penguatan internal',
     title: 'Temu pengurus Kagama Digi',
     text: 'Mempererat hubungan, memperkuat koordinasi, dan menyusun strategi agar Kagama Digi terus berkembang sebagai penggerak perubahan.',
+    photos: ['/img/pengurus.jpeg', '/img/pengurus2.jpeg'],
   },
   {
     type: 'Kunjungan industri',
     title: 'Field trip studio animasi',
     text: 'Berbagi wawasan, menjalin kolaborasi, dan mengenal lebih dekat perkembangan teknologi AI di industri kreatif.',
+    photos: ['/img/field.jpeg', '/img/field2.jpeg'],
   },
 ]
 
