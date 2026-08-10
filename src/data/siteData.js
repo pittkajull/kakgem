@@ -49,6 +49,7 @@ export const divisions = [
   'Bidang Pengkajian dan Advokasi Kebijakan',
   'Bidang Kerjasama dan Kemitraan',
   'Bidang Pengabdian Masyarakat',
+  'Bidang Penggalangan Dana',
   'Bidang Komunitas',
   'Bidang Aktivasi Sosial Media',
   'Bidang Riset & Pengembangan',

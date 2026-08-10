@@ -280,12 +280,13 @@ body { background:var(--paper); }
   .program-details { max-height:180px; padding:17px 20px 20px; opacity:1; transform:none; }
   .program-card:hover { transform:none; box-shadow:none; }
   .program-grid:has(.program-card:hover) .program-card:not(:hover) { opacity:1; }
-  .team-map-lower { display:block; padding-top:25px; }
+  .team-map-lower { display:flex; flex-direction:column; padding-top:25px; }
   .team-map-lower::before { left:20%; right:20%; }
   .team-map-lower::after { display:none; }
   .team-side { width:100%; margin:18px 0; }
   .team-side::after { display:none; }
-  .team-divisions { margin:18px 0; }
+  .team-side.team-treasurer { order:2; }
+  .team-divisions { margin:18px 0; order:3; }
   .team-division-grid { grid-template-columns:1fr; }
   .team-division-grid .team-node:last-child { width:100%; }
 }
