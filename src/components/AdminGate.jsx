@@ -68,7 +68,7 @@ export function SuccessPopup({ onClose }) {
     <div className="success-shell">
       <span className="success-icon">✓</span>
       <h3>Pendaftaran <span>berhasil.</span></h3>
-      <p>Terima kasih sudah mendaftar sebagai anggota Kagama Digi. Kami akan menghubungimu melalui email.</p>
+      <p>Terima kasih telah mendaftar sebagai anggota Kagama Digi. Admin akan segera menghubungi anda melalui WhatsApp.</p>
       <button className="submit-member" onClick={onClose}>Tutup</button>
     </div>
   </div>

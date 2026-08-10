@@ -160,11 +160,19 @@ function App() {
     return () => clearTimeout(timer)
   }, [showAdmin])
 
-  const submitMember = (event) => {
+  const submitMember = async (event) => {
     event.preventDefault()
-    const next = [{ ...form, id: Date.now() }, ...members]
-    setMembers(next)
-    localStorage.setItem('kagama-members', JSON.stringify(next))
+    try {
+      const res = await fetch('/api/members.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, id: Date.now() }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        setMembers(prev => [{ ...form, id: Date.now() }, ...prev])
+      }
+    } catch {}
     setForm(emptyForm())
     setShowRegister(false)
     setShowSuccess(true)
@@ -172,21 +180,28 @@ function App() {
 
   const requestAdmin = () => setShowPassword(true)
 
-  const unlockAdmin = () => {
+  const unlockAdmin = async () => {
     setShowPassword(false)
+    try {
+      const res = await fetch('/api/members.php')
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && data.members) {
+        setMembers(data.members)
+      }
+    } catch {}
     setShowAdmin(true)
   }
 
-  const updateMember = (target, data) => {
-    const next = members.map(member => (member.id && member.id === target.id) || (member.email && member.email === target.email) ? { ...member, ...data, id: member.id || target.id } : member)
-    setMembers(next)
-    localStorage.setItem('kagama-members', JSON.stringify(next))
+  const updateMember = async (target, data) => {
+    const targetKey = target.id || target.email
+    setMembers(prev => prev.map(member => (member.id && member.id === target.id) || (member.email && member.email === target.email) ? { ...member, ...data, id: member.id || target.id } : member))
+    try { await fetch('/api/members.php', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target: targetKey, updates: data }) }) } catch {}
   }
 
-  const deleteMember = (target) => {
-    const next = members.filter(member => !((member.id && member.id === target.id) || (member.email && member.email === target.email)))
-    setMembers(next)
-    localStorage.setItem('kagama-members', JSON.stringify(next))
+  const deleteMember = async (target) => {
+    const targetKey = target.id || target.email
+    setMembers(prev => prev.filter(member => !((member.id && member.id === target.id) || (member.email && member.email === target.email))))
+    try { await fetch('/api/members.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target: targetKey }) }) } catch {}
   }
 
   return <main ref={appRef}>
