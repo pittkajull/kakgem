@@ -16,7 +16,7 @@ export function ContactSection({ onAdminOpen }) {
       </div>
     </div>
     <div className="contact-rows">
-      <a className="contact-row" href="tel:+6285600604388">
+      <a className="contact-row" href="https://wa.me/6285600604388" target="_blank" rel="noreferrer">
         <span className="row-icon">{phoneIcon}</span>
         <span className="row-label">Telepon / WhatsApp</span>
         <strong className="row-value">0856-0060-4388</strong>
@@ -43,7 +43,7 @@ export function ContactSection({ onAdminOpen }) {
       <div className="footer-icons">
         <a className="icon-btn" href={adminEmail} aria-label="Email Kagama Digi">{mailIcon}</a>
         <a className="icon-btn" href="https://www.instagram.com/kagamadigi/" target="_blank" rel="noreferrer" aria-label="Instagram Kagama Digi">{instagramIcon}</a>
-        <a className="icon-btn" href="tel:+6285600604388" aria-label="Telepon Kagama Digi">{phoneIcon}</a>
+        <a className="icon-btn" href="https://wa.me/6285600604388" target="_blank" rel="noreferrer" aria-label="WhatsApp Kagama Digi">{phoneIcon}</a>
       </div>
       <div className="footer-meta">
         <span>kagama digi · keluarga alumni universitas gadjah mada · komunitas digital dan inovasi</span>
