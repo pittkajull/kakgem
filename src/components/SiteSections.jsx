@@ -48,7 +48,7 @@ export function ServicesSection() {
 }
 
 export function WorksSection({ onNavigate }) {
-  return <section id="works" className="works section-pad"><div className="section-kicker">/03 — Aktivasi</div><div className="works-heading"><h2>Program jangka panjang<br /><span>Kagama Digi.</span></h2><p>Kenali program yang sedang kami siapkan dan temukan ruang kolaborasi yang paling dekat denganmu.</p></div><div className="program-grid">{programs.map((program, index) => <article className={`program-card ${program.tone}`} key={program.title}><div className="program-banner"><small>Program yang akan dilaksanakan · 0{index + 1}</small><strong>{program.title}</strong><span className="program-mark">KD</span></div><div className="program-details"><p>{program.description}</p><button onClick={() => onNavigate('Contact')}>Ikuti program</button></div></article>)}</div></section>
+  return <section id="works" className="works section-pad"><div className="section-kicker">/03 — Aktivasi</div><div className="works-heading"><h2>Program jangka panjang<br /><span>Kagama Digi.</span></h2><p>Kenali program yang sedang kami siapkan dan temukan ruang kolaborasi yang paling dekat denganmu.</p></div><div className="program-grid">{programs.map((program, index) => <article className={`program-card ${program.tone}`} key={program.title}>        <div className="program-banner"><small>0{index + 1}</small><strong>{program.title}</strong><span className="program-mark">KD</span></div><div className="program-details"><p>{program.description}</p><button onClick={() => onNavigate('Contact')}>Ikuti program</button></div></article>)}</div></section>
 }
 
 export function MembershipSection({ showRegister, setShowRegister, form, updateForm, submitMember }) {
