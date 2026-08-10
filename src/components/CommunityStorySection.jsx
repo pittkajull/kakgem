@@ -1,18 +1,7 @@
-import { useEffect, useState } from 'react'
 import { activationHighlights, journeyPhases, workshopTopics } from '../data/siteData'
+import { openPhoto } from '../data/lightbox'
 
 export function CommunityStorySection() {
-  const [lightbox, setLightbox] = useState(null)
-
-  useEffect(() => {
-    if (!lightbox) return
-    const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    const onKey = (event) => { if (event.key === 'Escape') setLightbox(null) }
-    window.addEventListener('keydown', onKey)
-    return () => { document.body.style.overflow = prevOverflow; window.removeEventListener('keydown', onKey) }
-  }, [lightbox])
-
   return <section id="journey" className="journey section-pad">
     <div className="section-kicker">/04 — Perjalanan dan aktivasi</div>
 
@@ -58,16 +47,11 @@ export function CommunityStorySection() {
 
     <div className="activation-notes">
       {activationHighlights.map((item, index) => <article className="activation-note" key={item.title}>
-        <div className="note-photos">{(item.photos || []).map(src => <button type="button" className="note-photo-btn" key={src} onClick={() => setLightbox(src)} aria-label={`Perbesar foto ${item.title}`}><img src={src} alt={item.title} loading="lazy" /><span className="zoom-badge">⤢</span></button>)}</div>
+        <div className="note-photos">{(item.photos || []).map(src => <button type="button" className="note-photo-btn" key={src} onClick={() => openPhoto(src, item.title)} aria-label={`Perbesar foto ${item.title}`}><img src={src} alt={item.title} loading="lazy" /><span className="zoom-badge">⤢</span></button>)}</div>
         <span>{String(index + 1).padStart(2, '0')} / {item.type}</span>
         <h3>{item.title}</h3>
         <p>{item.text}</p>
       </article>)}
     </div>
-
-    {lightbox && <div className="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" onClick={() => setLightbox(null)}>
-      <button type="button" className="lightbox-close" onClick={() => setLightbox(null)} aria-label="Tutup">×</button>
-      <img src={lightbox} alt="Foto kegiatan Kagama Digi" />
-    </div>}
   </section>
 }

@@ -10,6 +10,7 @@ import { TeamRosterSection } from './components/TeamRosterSection'
 import { ImpactStrip } from './components/ImpactStrip'
 import { ContactSection } from './components/ContactSection'
 import { CommunityStorySection } from './components/CommunityStorySection'
+import { GlobalLightbox } from './components/GlobalLightbox'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -192,6 +193,7 @@ function App() {
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
     <ContactSection onAdminOpen={() => setShowAdmin(true)} />
     {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} />}
+    <GlobalLightbox />
   </main>
 }
 

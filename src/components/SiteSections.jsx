@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MemberForm } from './MemberForm'
-import { divisions, navItems, programs, services } from '../data/siteData'
+import { divisions, mobileNavItems, navItems, programs, services } from '../data/siteData'
+import { openPhoto } from '../data/lightbox'
 
 const adminEmail = 'mailto:kagamadigi@gmail.com'
 
@@ -9,6 +10,9 @@ export function Navbar({ menuOpen, active, onMenuToggle, onNavigate }) {
     <button className="brand" onClick={() => onNavigate('Home')} aria-label="Kagama Digi home"><img className="brand-logo" src="/img/logo.png" alt="Logo Kagama Digi" /><span>kagama digi<span className="brand-dot">.</span></span></button>
     <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
       {navItems.map(item => <button key={item.label} className={active === item.target ? 'active' : ''} onClick={() => onNavigate(item.target)}>{item.label}</button>)}
+    </div>
+    <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+      {mobileNavItems.map(item => <button key={item.label} className={active === item.target ? 'active' : ''} onClick={() => onNavigate(item.target)}>{item.label}</button>)}
     </div>
     <div className="nav-actions"><button className="contact-pill" onClick={() => { window.location.href = 'https://wa.me/6285600604388' }}>Kontak Admin Kagama Digi</button></div>
     <button className="menu-btn" onClick={onMenuToggle}>{menuOpen ? '×' : '☰'}</button>
@@ -24,7 +28,7 @@ export function Hero({ onNavigate }) {
       <div className="hero-meta"><span>01 / 08</span><span>Komunitas digital<br />&amp; inovasi</span><span>Yogyakarta<br />Indonesia</span></div>
     </div>
     <div className="hero-art reveal delay-1" aria-label="Foto Kagama Digi">
-      <div className="hero-photo-scroll"><img className="hero-photo" src="/img/kamadigi.JPEG" alt="Kegiatan Kagama Digi" /></div>
+      <div className="hero-photo-scroll"><img className="hero-photo" src="/img/kamadigi.JPEG" alt="Kegiatan Kagama Digi" onClick={() => openPhoto('/img/kamadigi.JPEG', 'Kegiatan Kagama Digi')} /></div>
       <div className="art-grid" /><div className="orb orb-lime" /><div className="orb orb-blue" /><div className="orb orb-orange" />
       <div className="art-label">KAGAMA DIGI<br /><span>DIGITAL / INOVASI</span></div><div className="art-number">KAGAMADIGI</div><div className="photo-caption"><span className="caption-dot" /> Membuat ruang untuk tumbuh bersama</div>
     </div>

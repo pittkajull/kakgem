@@ -2,6 +2,18 @@ export const navItems = [
   { label: 'Gabung Anggota', target: 'Membership' },
 ]
 
+export const mobileNavItems = [
+  { label: 'Beranda', target: 'Home' },
+  { label: 'Profil', target: 'About' },
+  { label: 'Fokus Kerja', target: 'Services' },
+  { label: 'Program', target: 'Works' },
+  { label: 'Perjalanan', target: 'Journey' },
+  { label: 'Galeri', target: 'Gallery' },
+  { label: 'Tim Kami', target: 'Team' },
+  { label: 'Gabung Anggota', target: 'Membership' },
+  { label: 'Kontak', target: 'Contact' },
+]
+
 export const services = [
   { no: '01', title: 'Literasi Digital', text: 'Menguatkan kecakapan digital melalui pelatihan, diskusi, dan program kolaboratif.', accent: 'lime' },
   { no: '02', title: 'Kolaborasi Profesional', text: 'Memperluas jejaring antara akademisi, influencer, stakeholder, masyarakat, dan pegiat digital.', accent: 'blue' },
@@ -9,25 +21,25 @@ export const services = [
 ]
 
 export const leadership = [
-  ['KETUA', 'FRANKO NERO, S.P.'],
-  ['WAKIL', 'YUDHA PURBAWA, S.P., M.SC., M.EC.DEV.'],
-  ['SEKRETARIS', 'ARI AKBAR DEVANANTA, S.Pi.'],
-  ['WAKIL SEKRETARIS I', 'DESTA RATU BERLIANA, S.S.'],
-  ['WAKIL SEKRETARIS II', 'FAISA ABHINAYA SARASTRI, S.Si.'],
-  ['BENDAHARA UMUM', 'YULITA WINDI NURAINI, S.P., M.Sc.'],
-  ['WAKIL BENDAHARA', 'ULFIDA AISYA LAISHELA, S.P.'],
+  ['KETUA', 'Franko Nero, S.P.'],
+  ['WAKIL', 'Yudha Purbawa, S.P., M.Sc., M.Ec.Dev.'],
+  ['SEKRETARIS', 'Ari Akbar Devananta, S.Pi.'],
+  ['WAKIL SEKRETARIS I', 'Desta Ratu Berliana, S.S.'],
+  ['WAKIL SEKRETARIS II', 'Faisa Abhinaya Sarastri, S.Si.'],
+  ['BENDAHARA UMUM', 'Yulita Windi Nuraini, S.P., M.Sc.'],
+  ['WAKIL BENDAHARA', 'Ulfida Aisya Laishela, S.P.'],
 ]
 
 export const divisionsTeam = [
-  ['BIDANG ORGANISASI DAN KEANGGOTAAN', 'MUSTAQIM, S.SOS., M.A.'],
-  ['BIDANG FASILITASI ALUMNI', 'HENDRA AGUS HERLAMBANG, S.P.'],
-  ['BIDANG ADVOKASI DAN PENGKAJIAN KEBIJAKAN', 'BAGUS SHIDQI HAKIM, S.TR. PAR.'],
-  ['BIDANG KERJASAMA DAN KEMITRAAN', 'AJENG RESPATI WIJI UTAMI, S.S.'],
-  ['BIDANG PENGABDIAN MASYARAKAT', 'RINO DAMAR JATI, S.PAR.'],
-  ['BIDANG PENGGALANGAN DANA', 'OKTAVINA DZINUHA ANANDA, S.AB.'],
-  ['BIDANG KOMUNITAS', 'YUDHA KRISTIAWAN, S.FIL., M.PHIL.'],
-  ['BIDANG AKTIVASI SOSIAL MEDIA', 'FARIS ADLIN, S.T., M.ENG.'],
-  ['BIDANG RnD', 'DIAN PRAMITASARI, A.MD.'],
+  ['BIDANG ORGANISASI DAN KEANGGOTAAN', 'Mustaqim, S.Sos., M.A.'],
+  ['BIDANG FASILITASI ALUMNI', 'Hendra Agus Herlambang, S.P.'],
+  ['BIDANG ADVOKASI DAN PENGKAJIAN KEBIJAKAN', 'Bagus Shidqi Hakim, S.Tr.Par.'],
+  ['BIDANG KERJASAMA DAN KEMITRAAN', 'Ajeng Respati Wiji Utami, S.S.'],
+  ['BIDANG PENGABDIAN MASYARAKAT', 'Rino Damar Jati, S.Par.'],
+  ['BIDANG PENGGALANGAN DANA', 'Oktavina Dzinuha Ananda, S.Ab., M.Sc.'],
+  ['BIDANG KOMUNITAS', 'Yudha Kristiawan, S.Fil., M.Phil.'],
+  ['BIDANG AKTIVASI SOSIAL MEDIA', 'Faris Adlin, S.T., M.Eng.'],
+  ['BIDANG RnD', 'Dian Pramitasari, A.Md.'],
 ]
 
 export const divisions = [
