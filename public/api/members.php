@@ -31,6 +31,11 @@ function findIndex($members, $id) {
 }
 
 if ($method === 'GET') {
+    if (empty($_SESSION['is_admin'])) {
+        http_response_code(403);
+        echo json_encode(['ok' => false, 'error' => 'Unauthorized']);
+        exit;
+    }
     $members = readMembers($dataFile);
     echo json_encode(['ok' => true, 'members' => $members]);
     exit;
