@@ -129,6 +129,7 @@ export const gallery = [
   ['/img/MSS01887.JPG', 'Ruang kreatif', 'Kolaborasi tim'],
   ['/img/MSS02004.JPG', 'Momen berbagi', 'Tumbuh bersama'],
   ['/img/MSS02062.JPG', 'Dokumentasi kegiatan', 'Kebersamaan'],
+  ['/img/2026_04_28_15_28_IMG_3023.JPG', 'Momen kebersamaan', 'Kegiatan Kagama Digi'],
 ]
 
 export const displayGallery = gallery
