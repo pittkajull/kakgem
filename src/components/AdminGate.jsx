@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
-const adminPassword = 'onlyadmincangetin'
-
 export function AdminPasswordModal({ onCancel, onSuccess }) {
   const [value, setValue] = useState('')
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -14,14 +13,29 @@ export function AdminPasswordModal({ onCancel, onSuccess }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onCancel])
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
-    if (value === adminPassword) {
-      onSuccess()
-    } else {
-      setError(true)
+    if (loading) return
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: value }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        onSuccess()
+        return
+      }
+      setError(data.error || 'Password salah, coba lagi.')
       setValue('')
       inputRef.current?.focus()
+    } catch {
+      setError('Gagal terhubung ke server. Coba lagi.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -33,9 +47,9 @@ export function AdminPasswordModal({ onCancel, onSuccess }) {
       </div>
       <p className="modal-intro">Masukkan password untuk membuka dashboard admin.</p>
       <form onSubmit={submit}>
-        <label className="password-field">Password<input ref={inputRef} type="password" value={value} onChange={(event) => { setValue(event.target.value); setError(false) }} placeholder="Masukkan password" /></label>
-        {error && <p className="password-error" role="alert">Password salah, coba lagi.</p>}
-        <button className="submit-member" type="submit">Buka dashboard</button>
+        <label className="password-field">Password<input ref={inputRef} type="password" value={value} onChange={(event) => { setValue(event.target.value); setError('') }} placeholder="Masukkan password" autoComplete="current-password" /></label>
+        {error && <p className="password-error" role="alert">{error}</p>}
+        <button className="submit-member" type="submit" disabled={loading}>{loading ? 'Memeriksa...' : 'Buka dashboard'}</button>
       </form>
     </div>
   </div>

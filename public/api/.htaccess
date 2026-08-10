@@ -1,0 +1,4 @@
+# Blokir akses langsung ke file konfigurasi admin
+<Files "admin-config.php">
+    Require all denied
+</Files>

@@ -388,6 +388,7 @@ body { background:var(--paper); }
 .password-field input:focus { border-color:var(--orange); }
 .password-error { color:#a03d2e; font:700 10px 'Montserrat'; margin:12px 0 0; }
 .password-shell .submit-member { width:100%; margin-top:28px; }
+.password-shell .submit-member:disabled { opacity:.6; cursor:not-allowed; }
 .success-shell { text-align:center; }
 .success-icon { width:56px; height:56px; margin:0 auto 18px; display:grid; place-items:center; border-radius:50%; background:var(--lime); color:var(--teal); font-size:26px; font-weight:700; }
 .success-shell h3 { margin:0 0 10px; font:400 clamp(30px,5vw,42px) 'Bebas Neue'; letter-spacing:.01em; }
