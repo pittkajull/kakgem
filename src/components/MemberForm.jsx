@@ -1,12 +1,12 @@
 import { divisions } from '../data/siteData'
 
-export function MemberForm({ form, updateForm, submitMember, onClose }) {
+export function MemberForm({ form, updateForm, submitMember, onClose, submitLabel = 'Simpan pendaftaran', eyebrow = 'Join Kagama Digi', heading = <>Data diri <span>member.</span></>, showNotice = true }) {
   return <div className="inline-register">
     <div className="inline-register-head">
-      <div><span className="admin-eyebrow">Join Kagama Digi</span><h3>Data diri <span>member.</span></h3></div>
+      <div><span className="admin-eyebrow">{eyebrow}</span><h3>{heading}</h3></div>
       <button type="button" className="inline-close" onClick={onClose}>Tutup</button>
     </div>
-    <p className="member-notice">Pendaftaran ini khusus untuk alumni Universitas Gadjah Mada.</p>
+    {showNotice && <p className="member-notice">Pendaftaran ini khusus untuk alumni Universitas Gadjah Mada.</p>}
     <p className="modal-intro">Lengkapi data berikut sesuai identitas dan informasi yang aktif.</p>
     <form onSubmit={submitMember}>
       <div className="form-grid">
@@ -19,7 +19,7 @@ export function MemberForm({ form, updateForm, submitMember, onClose }) {
         <label className="full-field">Kota/Kabupaten - Provinsi domisili saat ini<input name="domicile" value={form.domicile} onChange={updateForm} required placeholder="Contoh: Yogyakarta - Indonesia" /></label>
         <label className="full-field">Bersedia menjadi pengurus bila ditunjuk?<select name="division" value={form.division} onChange={updateForm}>{divisions.map(division => <option key={division}>{division}</option>)}</select></label>
       </div>
-      <button className="submit-member" type="submit">Simpan pendaftaran</button>
+      <button className="submit-member" type="submit">{submitLabel}</button>
     </form>
   </div>
 }

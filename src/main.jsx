@@ -32,13 +32,12 @@ function App() {
   useEffect(() => {
     const interactionCleanups = []
     const ctx = gsap.context(() => {
-      const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      intro.from('.nav-shell', { y: -24, opacity: 0, duration: .75 })
-        .from('.hero-copy > *', { y: 28, opacity: 0, duration: .75, stagger: .1 }, '-=.35')
-        .from('.hero-art', { x: 42, opacity: 0, duration: 1 }, '-=.8')
-        .from('.photo-caption', { y: 12, opacity: 0, duration: .45 }, '-=.25')
+      const intro = gsap.timeline({ defaults: { ease: 'power2.out' } })
+      intro.from('.nav-shell', { y: -16, opacity: 0, duration: .55 })
+        .from('.hero-copy > *', { y: 22, opacity: 0, duration: .6, stagger: .09 }, '-=.25')
+        .from('.hero-art', { opacity: 0, duration: .8 }, '-=.4')
 
-      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .story-intro, .journey-heading, .journey-step, .portfolio-block, .workshop-item, .activation-note, .gallery-heading, .gallery-item, .team-heading, .team-card, .contact-grid').forEach((element) => {
+      gsap.utils.toArray('.about-content, .stats, .services-head, .service-card, .works-heading, .work-card, .story-intro, .journey-heading, .journey-step, .portfolio-block, .workshop-item, .activation-note, .gallery-heading, .gallery-item, .team-heading, .team-node, .contact-grid, .contact-row').forEach((element) => {
         gsap.from(element, {
           y: 34,
           opacity: 0,
@@ -48,9 +47,8 @@ function App() {
         })
       })
 
-      gsap.to('.hero-photo', {
+      gsap.to('.hero-photo-scroll', {
         yPercent: 8,
-        scale: 1.06,
         ease: 'none',
         scrollTrigger: { trigger: '.hero-art', start: 'top top', end: 'bottom top', scrub: 1 },
       })
@@ -65,13 +63,15 @@ function App() {
         })
       })
 
-      gsap.from('.circle-cta', { scale: 0, rotation: -35, duration: 1, delay: .7, ease: 'back.out(1.7)' })
-      gsap.to('.circle-cta', { y: -5, duration: 2.4, repeat: -1, yoyo: true, ease: 'sine.inOut' })
       gsap.to('.scroll-progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: .25 } })
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (!reduceMotion) {
-      gsap.utils.toArray('.service-card, .program-card, .gallery-item, .team-card, .team-node').forEach((card) => {
+        gsap.utils.toArray('.gallery-img').forEach((img) => {
+          gsap.fromTo(img, { yPercent: 7 }, { yPercent: -7, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: 1 } })
+        })
+        gsap.to('.journey-progress', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: '.journey-rail-wrap', start: 'top 78%', end: 'bottom 45%', scrub: .6 } })
+        gsap.utils.toArray('.service-card, .program-card, .gallery-item, .team-card, .team-node, .contact-row').forEach((card) => {
           const rotateX = gsap.quickTo(card, 'rotationX', { duration: .35, ease: 'power2.out' })
           const rotateY = gsap.quickTo(card, 'rotationY', { duration: .35, ease: 'power2.out' })
           const move = (event) => {
@@ -166,6 +166,18 @@ function App() {
     setShowAdmin(true)
   }
 
+  const updateMember = (target, data) => {
+    const next = members.map(member => (member.id && member.id === target.id) || (member.email && member.email === target.email) ? { ...member, ...data, id: member.id || target.id } : member)
+    setMembers(next)
+    localStorage.setItem('kagama-members', JSON.stringify(next))
+  }
+
+  const deleteMember = (target) => {
+    const next = members.filter(member => !((member.id && member.id === target.id) || (member.email && member.email === target.email)))
+    setMembers(next)
+    localStorage.setItem('kagama-members', JSON.stringify(next))
+  }
+
   return <main ref={appRef}>
     <div className="scroll-progress" aria-hidden="true" />
     <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} />
@@ -179,7 +191,7 @@ function App() {
     <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
     <ContactSection onAdminOpen={() => setShowAdmin(true)} />
-    {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} />}
+    {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} />}
   </main>
 }
 

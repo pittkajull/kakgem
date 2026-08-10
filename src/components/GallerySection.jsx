@@ -9,7 +9,7 @@ export function GallerySection() {
     </div>
     <div className="gallery-grid">
       {displayGallery.map(([src, title, meta], index) => <figure className={`gallery-item gallery-${index + 1}`} key={src}>
-        <img src={src} alt={title} loading="lazy" />
+        <div className="gallery-img"><img src={src} alt={title} loading="lazy" /></div>
         <figcaption><strong>{title}</strong><small>{meta}</small></figcaption>
       </figure>)}
     </div>

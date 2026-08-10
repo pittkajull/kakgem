@@ -20,13 +20,16 @@ export function CommunityStorySection() {
       <div><span className="story-label">Storyline</span><h3>Dari ruang belajar<br />menjadi gerakan.</h3></div>
       <p>Perjalanan Kagama Digi dirangkum sebagai proses yang terus bergerak: membangun fondasi, berbagi pengetahuan, memperluas jejaring, dan menguatkan organisasi.</p>
     </div>
-    <ol className="journey-rail">
-      {journeyPhases.map(phase => <li className="journey-step" key={phase.no}>
-        <span>{phase.no}</span>
-        <h4>{phase.title}</h4>
-        <p>{phase.text}</p>
-      </li>)}
-    </ol>
+    <div className="journey-rail-wrap">
+      <div className="journey-progress" aria-hidden="true" />
+      <ol className="journey-rail">
+        {journeyPhases.map(phase => <li className="journey-step" key={phase.no}>
+          <span>{phase.no}</span>
+          <h4>{phase.title}</h4>
+          <p>{phase.text}</p>
+        </li>)}
+      </ol>
+    </div>
 
     <div className="portfolio-block">
       <div className="portfolio-copy">

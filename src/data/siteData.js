@@ -61,7 +61,7 @@ export const journeyPhases = [
 export const workshopTopics = [
   'Menjadi YouTuber dari Nol',
   'Blueprint Digital Marketing',
-  'Basic Drone and Simulation',
+  'Social Media Marketing',
   'Membangun Landing Page Berbasis AI',
   'Membangun Konten Viral dengan AI',
   'Pelatihan dan Praktik Drone',
@@ -71,6 +71,8 @@ export const workshopTopics = [
   'Strategi Konten Faceless Berbasis AI',
   'Smartphone Videography',
   'Smartphone Photography',
+  'AI Clinic for UMKM',
+  'Konten Creator Journey',
 ]
 
 export const activationHighlights = [
