@@ -78,7 +78,7 @@ export const workshopTopics = [
 export const activationHighlights = [
   {
     type: 'Kolaborasi strategis',
-    title: 'Audiensi dan jejaring kelembagaan',
+    title: 'Audiensi bersama Wamen Komdigi sekaligus Sekjen PP KAGAMA',
     text: 'Memperkenalkan program organisasi, bertukar gagasan, dan memperkuat jejaring untuk mendukung kemajuan ekosistem digital Indonesia.',
     photos: ['/img/audiensi.jpeg', '/img/audiensi2.jpeg'],
   },
