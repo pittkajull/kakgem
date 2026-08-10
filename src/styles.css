@@ -293,7 +293,7 @@ body { background:var(--paper); }
 
 /* Pengurus roster: mirrors the client reference while keeping the Kagama palette. */
 .team { position:relative; overflow:hidden; background:#f3efe6; }
-.team::before { content:''; position:absolute; inset:0; background:linear-gradient(rgba(243,239,230,.92),rgba(243,239,230,.92)),url('/img/kamadigi.JPEG') center/cover; opacity:.22; pointer-events:none; }
+.team::before { content:''; position:absolute; inset:0; background:linear-gradient(rgba(243,239,230,.92),rgba(243,239,230,.92)),url('/img/kamadigi.webp') center/cover; opacity:.22; pointer-events:none; }
 .team > * { position:relative; z-index:1; }
 .team-heading { display:block; text-align:center; }
 .team-heading h2 { margin:0 auto; }
@@ -312,7 +312,7 @@ body { background:var(--paper); }
 .about-side .text-link:hover { background:var(--orange); border-color:var(--orange); color:#fff; }
 .hero, .gallery-section, .team { background:#eee8dc; }
 .program-details, .team-node { background:#f5eee3; }
-.team::before { background:linear-gradient(rgba(238,232,220,.91),rgba(238,232,220,.91)),url('/img/kamadigi.JPEG') center/cover; }
+.team::before { background:linear-gradient(rgba(238,232,220,.91),rgba(238,232,220,.91)),url('/img/kamadigi.webp') center/cover; }
 @media (min-width: 761px) {
   .nav-shell { justify-content:flex-start; }
   .brand { margin-right:auto; }

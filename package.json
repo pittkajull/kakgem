@@ -16,5 +16,8 @@
     "react-dom": "latest",
     "tailwindcss": "latest",
     "vite": "latest"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

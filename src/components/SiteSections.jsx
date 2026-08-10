@@ -28,7 +28,7 @@ export function Hero({ onNavigate }) {
       <div className="hero-meta"><span>01 / 08</span><span>Komunitas digital<br />&amp; inovasi</span><span>Yogyakarta<br />Indonesia</span></div>
     </div>
     <div className="hero-art reveal delay-1" aria-label="Foto Kagama Digi">
-      <div className="hero-photo-scroll"><img className="hero-photo" src="/img/kamadigi.JPEG" alt="Kegiatan Kagama Digi" onClick={() => openPhoto('/img/kamadigi.JPEG', 'Kegiatan Kagama Digi')} /></div>
+      <div className="hero-photo-scroll"><img className="hero-photo" src="/img/kamadigi.webp" alt="Kegiatan Kagama Digi" onClick={() => openPhoto('/img/kamadigi.webp', 'Kegiatan Kagama Digi')} /></div>
       <div className="art-grid" /><div className="orb orb-lime" /><div className="orb orb-blue" /><div className="orb orb-orange" />
       <div className="art-label">KAGAMA DIGI<br /><span>DIGITAL / INOVASI</span></div><div className="art-number">KAGAMADIGI</div><div className="photo-caption"><span className="caption-dot" /> Membuat ruang untuk tumbuh bersama</div>
     </div>
