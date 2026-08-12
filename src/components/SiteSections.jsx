@@ -73,7 +73,7 @@ function exportCsv(members) {
   URL.revokeObjectURL(url)
 }
 
-export function AdminDashboard({ members, onClose, onAddMember, onUpdateMember, onDeleteMember }) {
+export function AdminDashboard({ members, articles = [], onClose, onAddMember, onUpdateMember, onDeleteMember, onCreateArticle, onUpdateArticle, onDeleteArticle }) {
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(null)
   const [confirmId, setConfirmId] = useState(null)
@@ -97,5 +97,28 @@ export function AdminDashboard({ members, onClose, onAddMember, onUpdateMember, 
     {editing && <div className="admin-edit-card"><MemberForm form={form} updateForm={updateForm} submitMember={saveEdit} onClose={cancelEdit} submitLabel="Simpan perubahan" eyebrow="Kagama Digi / Edit data" heading={<>Perbarui data <span>anggota.</span></>} showNotice={false} /></div>}
     <div className="member-table-wrap"><div className="table-heading"><div><span className="admin-eyebrow">Form responses</span><h3>Daftar anggota Kagama Digi</h3></div><button className="export-btn" onClick={() => exportCsv(members)}>Export CSV</button></div>
     <div className="member-table">{members.length ? members.map(member => <div className="member-row" key={memberKey(member)}><div className="member-identity"><span className="member-initial">{member.name.split(' ').map(word => word[0]).slice(0, 2).join('')}</span><div><strong>{member.name}</strong><small>{member.email}</small></div></div><span>{member.study}<br /><small>{member.faculty} · Angkatan {member.year}</small></span><span>{member.phone}<br /><small>{member.domicile}</small></span><span className={member.division === divisions[0] ? 'muted-status' : 'gold-status'}>{member.division.replace('Bidang ', '')}</span><div className="member-actions"><button className="row-action row-edit" onClick={() => startEdit(member)}>Edit</button>{confirmId === memberKey(member) ? <span className="confirm-actions"><button className="row-action row-danger" onClick={() => onDeleteMember(member)}>Hapus</button><button className="row-action row-cancel" onClick={() => setConfirmId(null)}>Batal</button></span> : <button className="row-action row-delete" onClick={() => setConfirmId(memberKey(member))}>Hapus</button>}</div></div>) : <div className="empty-members"><span className="empty-icon">＋</span><strong>Belum ada pendaftar</strong><p>Data anggota yang mengisi form akan tampil di sini.</p><button onClick={onAddMember}>Tambah pendaftar pertama</button></div>}</div>
-  </div></div></div>
+  </div>
+    <ArticleAdminPanel articles={articles} onCreate={onCreateArticle} onUpdate={onUpdateArticle} onDelete={onDeleteArticle} />
+  </div></div>
+}
+
+function ArticleAdminPanel({ articles, onCreate, onUpdate, onDelete }) {
+  const [editing, setEditing] = useState(null)
+  const [error, setError] = useState('')
+  const begin = (article = null) => { setEditing(article ? { ...article } : { title: '', excerpt: '', content: '', category: 'Kabar Kagama Digi', image: '', author: 'Kagama Digi', status: 'draft' }); setError('') }
+  const update = event => setEditing(current => ({ ...current, [event.target.name]: event.target.value }))
+  const save = async event => {
+    event.preventDefault(); setError('')
+    try { editing.id ? await onUpdate(editing) : await onCreate(editing); setEditing(null) }
+    catch (e) { setError(e.message || 'Artikel gagal disimpan.') }
+  }
+  const remove = async article => {
+    if (!window.confirm(`Hapus artikel “${article.title}”?`)) return
+    try { await onDelete(article) } catch (e) { setError(e.message || 'Artikel gagal dihapus.') }
+  }
+  return <section className="article-admin"><div className="table-heading"><div><span className="admin-eyebrow">Content studio</span><h3>Kelola artikel <small>{articles.length} tersimpan</small></h3></div><button className="submit-member" onClick={() => begin()}>+ Artikel baru</button></div>
+    {error && <p className="admin-form-error" role="alert">{error}</p>}
+    {editing && <div className="admin-edit-card article-editor"><div className="inline-register"><div className="inline-register-head"><div><span className="admin-eyebrow">Kagama Digi / Editor</span><h3>{editing.id ? <>Edit <span>artikel.</span></> : <>Tulis artikel <span>baru.</span></>}</h3></div><button type="button" className="inline-close" onClick={() => setEditing(null)}>Tutup</button></div><form onSubmit={save}><div className="form-grid"><label>Judul artikel<input name="title" value={editing.title} onChange={update} required placeholder="Judul yang jelas dan menarik" /></label><label>Kategori<input name="category" value={editing.category} onChange={update} /></label><label>Penulis<input name="author" value={editing.author} onChange={update} /></label><label>URL gambar<input name="image" value={editing.image} onChange={update} type="url" placeholder="https://... atau /img/..." /></label><label className="full-field">Ringkasan singkat<textarea name="excerpt" value={editing.excerpt} onChange={update} rows="3" /></label><label className="full-field">Isi artikel<textarea name="content" value={editing.content} onChange={update} rows="9" required /></label><label>Status<select name="status" value={editing.status} onChange={update}><option value="draft">Draft</option><option value="published">Terbitkan</option></select></label></div><button className="submit-member" type="submit">{editing.id ? 'Simpan perubahan' : 'Simpan artikel'}</button></form></div></div>}
+    <div className="article-admin-list">{articles.length ? articles.map(article => <div className="article-admin-row" key={article.id}><div className="article-admin-thumb">{article.image ? <img src={article.image} alt="" /> : <span>KD</span>}</div><div className="article-admin-copy"><strong>{article.title}</strong><small>{article.category} · {article.author}</small></div><span className={article.status === 'published' ? 'gold-status' : 'muted-status'}>{article.status === 'published' ? 'Terbit' : 'Draft'}</span><div className="member-actions"><button className="row-action row-edit" onClick={() => begin(article)}>Edit</button><button className="row-action row-delete" onClick={() => remove(article)}>Hapus</button></div></div>) : <div className="empty-members"><span className="empty-icon">+</span><strong>Belum ada artikel</strong><p>Buat artikel pertama untuk mengisi ruang editorial Kagama Digi.</p><button onClick={() => begin()}>Tulis artikel pertama</button></div>}</div>
+  </section>
 }

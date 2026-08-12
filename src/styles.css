@@ -209,6 +209,49 @@ main { display:flex; flex-direction:column; }
 .about { padding-top:145px; }
 @media (max-width: 760px) { .hero-meta { gap:15px; margin-top:35px; } .photo-caption { font-size:8px; left:16px; bottom:15px; } .impact-track { justify-content:flex-start; gap:24px; padding:13px 24px; font-size:8px; } .about { padding-top:105px; } }
 
+/* Editorial article layer */
+.articles-section { order:10; background:#e9e1d1; padding-top:92px; padding-bottom:98px; }
+.articles-heading { display:grid; grid-template-columns:1fr .72fr; gap:10%; align-items:end; padding:38px 0 45px; }
+.articles-heading p { max-width:350px; color:#716a61; font-size:14px; line-height:1.8; margin:0 0 5px; }
+.articles-heading h2 span { color:var(--orange); }
+.articles-grid { display:grid; grid-template-columns:1.2fr .8fr .8fr; gap:14px; align-items:start; }
+.article-card { background:#fff; border:1px solid rgba(43,39,32,.12); overflow:hidden; transition:transform .3s ease, box-shadow .3s ease; }
+.article-card:hover { transform:translateY(-5px); box-shadow:0 16px 32px rgba(43,39,32,.12); }
+.article-image-wrap { position:relative; aspect-ratio:16 / 10; background:var(--teal); overflow:hidden; }
+.article-image-wrap img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.8); transition:transform .5s ease, filter .5s ease; }
+.article-card:hover .article-image-wrap img { transform:scale(1.04); filter:saturate(1); }
+.article-image-placeholder { height:100%; display:grid; place-items:center; background:linear-gradient(135deg,#2b2720,#b96f20); color:#f3efe6; }
+.article-image-placeholder span { font:400 72px/.8 'Bebas Neue'; opacity:.8; }
+.article-category { position:absolute; top:13px; left:13px; padding:7px 9px; background:var(--lime); color:var(--teal); font:700 9px 'Montserrat'; letter-spacing:.07em; text-transform:uppercase; }
+.article-card-body { padding:22px 22px 24px; }
+.article-meta { color:#948a7d; font:700 9px 'Montserrat'; letter-spacing:.05em; text-transform:uppercase; }
+.article-meta span { color:var(--orange); padding:0 4px; }
+.article-card h3 { margin:13px 0 10px; color:var(--ink); font:600 clamp(20px,2.2vw,28px)/1.05 'Montserrat'; }
+.article-card p { color:#6c665d; font-size:13px; line-height:1.7; }
+.article-read-more { margin-top:18px; }
+.article-read-more summary { width:max-content; cursor:pointer; border-bottom:1px solid var(--orange); padding-bottom:7px; color:var(--orange); font:700 10px 'Montserrat'; text-transform:uppercase; }
+.article-content { margin-top:15px; color:#5e5952; font-size:13px; line-height:1.8; white-space:pre-line; }
+.article-admin { margin-top:28px; background:#fff; border:1px solid rgba(23,21,17,.1); }
+.article-admin .table-heading { border-bottom:1px solid rgba(23,21,17,.1); }
+.article-admin .table-heading h3 small { margin-left:8px; color:#928b82; font:700 9px 'Montserrat'; text-transform:uppercase; }
+.article-admin-head { display:flex; justify-content:space-between; align-items:center; padding:28px 22px; background:#fff; border:1px solid rgba(23,21,17,.1); }
+.article-admin-head h3 { margin:8px 0 0; font:600 21px 'Montserrat'; }
+.article-admin-head p { margin:7px 0 0; color:#81796f; font-size:12px; }
+.article-admin-list { background:#fff; }
+.article-admin-row { display:grid; grid-template-columns:58px minmax(0,1fr) 70px auto; gap:16px; align-items:center; padding:15px 22px; border-bottom:1px solid rgba(23,21,17,.09); }
+.article-admin-row:last-child { border-bottom:0; }
+.article-admin-thumb { width:58px; height:45px; display:grid; place-items:center; overflow:hidden; background:var(--teal); color:var(--lime); font:400 26px 'Bebas Neue'; }
+.article-admin-thumb img { width:100%; height:100%; object-fit:cover; }
+.article-admin-copy { min-width:0; }
+.article-admin-copy strong, .article-admin-copy small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.article-admin-copy strong { color:var(--ink); font:700 12px 'Montserrat'; }
+.article-admin-copy small { margin-top:5px; color:#928b82; font-size:10px; }
+.admin-form-error { margin:16px 22px 0; padding:12px 14px; background:#f7e5df; color:#a03d2e; font-size:12px; }
+.article-editor { margin:0; border:0; border-top:4px solid var(--lime); box-shadow:none; }
+.article-editor .inline-register { margin:0; }
+main #contact { order:11; }
+@media (max-width: 760px) { .articles-section { padding-top:72px; padding-bottom:78px; } .articles-heading { display:block; padding:32px 0 36px; } .articles-heading p { margin-top:25px; } .articles-grid { grid-template-columns:1fr; } .article-admin-row { grid-template-columns:48px minmax(0,1fr); gap:10px; } .article-admin-row > .muted-status, .article-admin-row > .gold-status { grid-column:2; } .article-admin-row .member-actions { grid-column:2; justify-content:flex-start; } .article-admin .table-heading { align-items:flex-start; gap:16px; } }
+
 /* Client revision: calmer cream, full-width hero photo, and clearer content hierarchy. */
 :root { --paper:#f3efe6; }
 body { background:var(--paper); }

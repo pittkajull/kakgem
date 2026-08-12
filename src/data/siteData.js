@@ -10,6 +10,7 @@ export const mobileNavItems = [
   { label: 'Perjalanan', target: 'Journey' },
   { label: 'Galeri', target: 'Gallery' },
   { label: 'Tim Kami', target: 'Team' },
+  { label: 'Artikel', target: 'Articles' },
   { label: 'Gabung Anggota', target: 'Membership' },
   { label: 'Kontak', target: 'Contact' },
 ]
@@ -56,6 +57,8 @@ export const divisions = [
 ]
 
 export const starterMembers = []
+
+export const starterArticles = []
 
 export const programs = [
   { title: 'JAVA INFLUENCER SUMMIT', tone: 'amber', description: 'Pertemuan kreator, profesional, dan jejaring digital untuk bertukar wawasan serta membangun pengaruh yang positif.' },

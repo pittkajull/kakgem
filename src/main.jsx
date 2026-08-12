@@ -3,13 +3,14 @@ import { createRoot } from 'react-dom/client'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
-import { emptyForm, starterMembers } from './data/siteData'
+import { emptyForm, starterArticles, starterMembers } from './data/siteData'
 import { AdminDashboard, AboutSection, Hero, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
 import { TeamRosterSection } from './components/TeamRosterSection'
 import { ImpactStrip } from './components/ImpactStrip'
 import { ContactSection } from './components/ContactSection'
 import { CommunityStorySection } from './components/CommunityStorySection'
+import { ArticlesSection } from './components/ArticlesSection'
 import { GlobalLightbox } from './components/GlobalLightbox'
 import { AdminPasswordModal, SuccessPopup } from './components/AdminGate'
 
@@ -29,9 +30,17 @@ function App() {
       return starterMembers
     }
   })
+  const [articles, setArticles] = useState(starterArticles)
   const [form, setForm] = useState(emptyForm)
   const appRef = useRef(null)
   const registerWasOpen = useRef(false)
+
+  useEffect(() => {
+    fetch('/api/articles.php')
+      .then(res => res.ok ? res.json() : Promise.reject(new Error('Gagal memuat artikel')))
+      .then(data => setArticles(Array.isArray(data.articles) ? data.articles : []))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     const interactionCleanups = []
@@ -162,20 +171,25 @@ function App() {
 
   const submitMember = async (event) => {
     event.preventDefault()
+    const member = { ...form, id: Date.now() }
     try {
       const res = await fetch('/api/members.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, id: Date.now() }),
+        body: JSON.stringify(member),
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok) {
-        setMembers(prev => [{ ...form, id: Date.now() }, ...prev])
+        setMembers(prev => [member, ...prev])
+        setForm(emptyForm())
+        setShowRegister(false)
+        setShowSuccess(true)
+        return
       }
-    } catch {}
-    setForm(emptyForm())
-    setShowRegister(false)
-    setShowSuccess(true)
+      throw new Error(data.error || 'Pendaftaran gagal')
+    } catch (error) {
+      window.alert(error.message || 'Pendaftaran gagal. Silakan coba lagi.')
+    }
   }
 
   const requestAdmin = () => setShowPassword(true)
@@ -183,11 +197,10 @@ function App() {
   const unlockAdmin = async () => {
     setShowPassword(false)
     try {
-      const res = await fetch('/api/members.php')
-      const data = await res.json().catch(() => ({}))
-      if (res.ok && data.members) {
-        setMembers(data.members)
-      }
+      const [memberRes, articleRes] = await Promise.all([fetch('/api/members.php'), fetch('/api/articles.php?admin=1')])
+      const [memberData, articleData] = await Promise.all([memberRes.json().catch(() => ({})), articleRes.json().catch(() => ({}))])
+      if (memberRes.ok && memberData.members) setMembers(memberData.members)
+      if (articleRes.ok && articleData.articles) setArticles(articleData.articles)
     } catch {}
     setShowAdmin(true)
   }
@@ -204,6 +217,27 @@ function App() {
     try { await fetch('/api/members.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target: targetKey }) }) } catch {}
   }
 
+  const createArticle = async (article) => {
+    const res = await fetch('/api/articles.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...article, id: Date.now() }) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || 'Artikel gagal ditambahkan.')
+    setArticles(prev => [data.article, ...prev])
+  }
+
+  const updateArticle = async (article) => {
+    const res = await fetch('/api/articles.php', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
+    setArticles(prev => prev.map(item => item.id === article.id ? data.article : item))
+  }
+
+  const deleteArticle = async (article) => {
+    const res = await fetch('/api/articles.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || 'Artikel gagal dihapus.')
+    setArticles(prev => prev.filter(item => item.id !== article.id))
+  }
+
   return <main ref={appRef}>
     <div className="scroll-progress" aria-hidden="true" />
     <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} />
@@ -216,8 +250,9 @@ function App() {
     <GallerySection />
     <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
+    <ArticlesSection articles={articles.filter(article => article.status === 'published')} />
     <ContactSection onAdminOpen={requestAdmin} />
-    {showAdmin && <AdminDashboard members={members} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} />}
+    {showAdmin && <AdminDashboard members={members} articles={articles} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} onCreateArticle={createArticle} onUpdateArticle={updateArticle} onDeleteArticle={deleteArticle} />}
     {showPassword && <AdminPasswordModal onCancel={() => setShowPassword(false)} onSuccess={unlockAdmin} />}
     {showSuccess && <SuccessPopup onClose={() => setShowSuccess(false)} />}
     <GlobalLightbox />
