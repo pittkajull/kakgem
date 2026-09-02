@@ -106,7 +106,9 @@ function ArticleAdminPanel({ articles, onCreate, onUpdate, onDelete }) {
   const [editing, setEditing] = useState(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const begin = (article = null) => { setEditing(article ? { ...article } : { title: '', excerpt: '', content: '', category: 'Kabar Kagama Digi', image: '', author: 'Kagama Digi', status: 'draft' }); setError(''); setSuccess('') }
+  const [uploadedImage, setUploadedImage] = useState(null)
+  const previewImage = uploadedImage || editing?.image || ''
+  const begin = (article = null) => { setEditing(article ? { ...article } : { title: '', excerpt: '', content: '', category: 'Kabar Kagama Digi', image: '', author: 'Kagama Digi', status: 'draft' }); setError(''); setSuccess(''); setUploadedImage(null) }
   const update = event => setEditing(current => ({ ...current, [event.target.name]: event.target.value }))
   const uploadImage = async event => {
     const file = event.target.files?.[0]
@@ -118,7 +120,7 @@ function ArticleAdminPanel({ articles, onCreate, onUpdate, onDelete }) {
       const response = await fetch('/api/article-upload.php', { method: 'POST', body })
       const data = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(data.error || 'Upload gambar gagal.')
-      setEditing(current => ({ ...current, image: data.url }))
+      setUploadedImage(data.url)
     } catch (error) { setError(error.message) }
     event.target.value = ''
   }
@@ -126,8 +128,10 @@ function ArticleAdminPanel({ articles, onCreate, onUpdate, onDelete }) {
     event.preventDefault(); setError(''); setSuccess('')
     try {
       const status = editing.status
-      editing.id ? await onUpdate(editing) : await onCreate(editing)
+      const payload = { ...editing, image: uploadedImage || editing.image || '' }
+      payload.id ? await onUpdate(payload) : await onCreate(payload)
       setEditing(null)
+      setUploadedImage(null)
       setSuccess(status === 'published' ? 'Artikel berhasil diterbitkan dan tampil di website.' : 'Artikel berhasil disimpan sebagai draft. Untuk menampilkan di website, ubah status menjadi \u201cTerbitkan\u201d lalu simpan.')
     }
     catch (e) { setError(e.message || 'Artikel gagal disimpan.') }
@@ -139,7 +143,7 @@ function ArticleAdminPanel({ articles, onCreate, onUpdate, onDelete }) {
   return <section className="article-admin"><div className="table-heading"><div><span className="admin-eyebrow">Content studio</span><h3>Kelola artikel <small>{articles.length} tersimpan</small></h3></div><button className="submit-member" onClick={() => begin()}>+ Artikel baru</button></div>
     {success && <p className="admin-form-success" role="status">{success}</p>}
     {error && <p className="admin-form-error" role="alert">{error}</p>}
-    {editing && <div className="admin-edit-card article-editor"><div className="inline-register"><div className="inline-register-head"><div><span className="admin-eyebrow">Kagama Digi / Editor</span><h3>{editing.id ? <>Edit <span>artikel.</span></> : <>Tulis artikel <span>baru.</span></>}</h3></div><button type="button" className="inline-close" onClick={() => setEditing(null)}>Tutup</button></div><form onSubmit={save}><div className="form-grid"><label>Judul artikel<input name="title" value={editing.title} onChange={update} required placeholder="Judul yang jelas dan menarik" /></label><label>Kategori<input name="category" value={editing.category} onChange={update} /></label><label>Penulis<input name="author" value={editing.author} onChange={update} /></label><label className="upload-field">Gambar artikel<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={uploadImage} /><small>JPG, PNG, WEBP, GIF · maksimal 5 MB</small>{editing.image && <img className="article-upload-preview" src={editing.image} alt="Preview gambar artikel" />}<input name="image" value={editing.image} onChange={update} type="url" placeholder="Atau gunakan URL gambar" /></label><label className="full-field">Ringkasan singkat<textarea name="excerpt" value={editing.excerpt} onChange={update} rows="3" /></label><label className="full-field">Isi artikel<textarea name="content" value={editing.content} onChange={update} rows="9" required /></label><label>Status<select name="status" value={editing.status} onChange={update}><option value="draft">Draft</option><option value="published">Terbitkan</option></select></label></div><button className="submit-member" type="submit">{editing.id ? 'Simpan perubahan' : 'Simpan artikel'}</button></form></div></div>}
+    {editing && <div className="admin-edit-card article-editor"><div className="inline-register"><div className="inline-register-head"><div><span className="admin-eyebrow">Kagama Digi / Editor</span><h3>{editing.id ? <>Edit <span>artikel.</span></> : <>Tulis artikel <span>baru.</span></>}</h3></div><button type="button" className="inline-close" onClick={() => setEditing(null)}>Tutup</button></div><form onSubmit={save}><div className="form-grid"><label>Judul artikel<input name="title" value={editing.title} onChange={update} required placeholder="Judul yang jelas dan menarik" /></label><label>Kategori<input name="category" value={editing.category} onChange={update} /></label><label>Penulis<input name="author" value={editing.author} onChange={update} /></label><label className="upload-field">Gambar artikel<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={uploadImage} /><small>JPG, PNG, WEBP, GIF · maksimal 5 MB</small>{previewImage && <img className="article-upload-preview" src={previewImage} alt="Preview gambar artikel" />}<input name="image" value={editing.image} onChange={update} type="url" placeholder="Atau gunakan URL gambar" /></label><label className="full-field">Ringkasan singkat<textarea name="excerpt" value={editing.excerpt} onChange={update} rows="3" /></label><label className="full-field">Isi artikel<textarea name="content" value={editing.content} onChange={update} rows="9" required /></label><label>Status<select name="status" value={editing.status} onChange={update}><option value="draft">Draft</option><option value="published">Terbitkan</option></select></label></div><button className="submit-member" type="submit">{editing.id ? 'Simpan perubahan' : 'Simpan artikel'}</button></form></div></div>}
     <div className="article-admin-list">{articles.length ? articles.map(article => <div className="article-admin-row" key={article.id}><div className="article-admin-thumb">{article.image ? <img src={article.image} alt="" /> : <span>KD</span>}</div><div className="article-admin-copy"><strong>{article.title}</strong><small>{article.category} · {article.author}</small></div><span className={article.status === 'published' ? 'gold-status' : 'muted-status'}>{article.status === 'published' ? 'Terbit' : 'Draft'}</span><div className="member-actions"><button className="row-action row-edit" onClick={() => begin(article)}>Edit</button><button className="row-action row-delete" onClick={() => remove(article)}>Hapus</button></div></div>) : <div className="empty-members"><span className="empty-icon">+</span><strong>Belum ada artikel</strong><p>Buat artikel pertama untuk mengisi ruang editorial Kagama Digi.</p><button onClick={() => begin()}>Tulis artikel pertama</button></div>}</div>
   </section>
 }
