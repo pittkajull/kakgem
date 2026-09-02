@@ -262,6 +262,7 @@ main { display:flex; flex-direction:column; }
 .article-admin-copy strong { color:var(--ink); font:700 12px 'Montserrat'; }
 .article-admin-copy small { margin-top:5px; color:#928b82; font-size:10px; }
 .admin-form-error { margin:16px 22px 0; padding:12px 14px; background:#f7e5df; color:#a03d2e; font-size:12px; }
+.admin-form-success { margin:16px 22px 0; padding:12px 14px; background:#e5f5e0; color:#2d6a2e; font-size:12px; }
 .article-editor { margin:0; border:0; border-top:4px solid var(--lime); box-shadow:none; }
 .article-editor .inline-register { margin:0; }
 main #contact { order:11; }
