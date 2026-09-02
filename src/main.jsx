@@ -38,7 +38,7 @@ function App() {
   useEffect(() => {
     fetch('/api/articles.php')
       .then(res => res.ok ? res.json() : Promise.reject(new Error('Gagal memuat artikel')))
-      .then(data => setArticles(Array.isArray(data.articles) ? data.articles : []))
+      .then(data => setArticles(Array.isArray(data.articles) ? data.articles.filter(Boolean) : []))
       .catch(() => {})
   }, [])
 
@@ -200,7 +200,7 @@ function App() {
       const [memberRes, articleRes] = await Promise.all([fetch('/api/members.php'), fetch('/api/articles.php?admin=1')])
       const [memberData, articleData] = await Promise.all([memberRes.json().catch(() => ({})), articleRes.json().catch(() => ({}))])
       if (memberRes.ok && memberData.members) setMembers(memberData.members)
-      if (articleRes.ok && articleData.articles) setArticles(articleData.articles)
+      if (articleRes.ok && articleData.articles) setArticles(articleData.articles.filter(Boolean))
     } catch {}
     setShowAdmin(true)
   }
@@ -221,14 +221,14 @@ function App() {
     const res = await fetch('/api/articles.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...article, id: Date.now() }) })
     const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(data.error || 'Artikel gagal ditambahkan.')
-    setArticles(prev => [data.article, ...prev])
+    if (data.article) setArticles(prev => [data.article, ...prev])
   }
 
   const updateArticle = async (article) => {
     const res = await fetch('/api/articles.php', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
     const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
-    setArticles(prev => prev.map(item => item.id === article.id ? data.article : item))
+    setArticles(prev => prev.map(item => item.id === article.id && data.article ? data.article : item))
   }
 
   const deleteArticle = async (article) => {
@@ -250,7 +250,7 @@ function App() {
     <GallerySection />
     <TeamRosterSection />
     <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
-    <ArticlesSection articles={articles.filter(article => article.status === 'published')} />
+    <ArticlesSection articles={articles.filter(article => article && article.status === 'published')} />
     <ContactSection onAdminOpen={requestAdmin} />
     {showAdmin && <AdminDashboard members={members} articles={articles} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} onCreateArticle={createArticle} onUpdateArticle={updateArticle} onDeleteArticle={deleteArticle} />}
     {showPassword && <AdminPasswordModal onCancel={() => setShowPassword(false)} onSuccess={unlockAdmin} />}
