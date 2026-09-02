@@ -50,8 +50,17 @@ if ($password === '') {
 if (password_verify($password, $config['password_hash'])) {
     $state['count'] = 0;
     $state['locked_until'] = 0;
-    session_regenerate_id(true);
     $_SESSION['is_admin'] = true;
+    session_regenerate_id(true);
+    session_write_close();
+    setcookie(session_name(), session_id(), [
+        'expires'  => 0,
+        'path'     => '/',
+        'domain'   => '',
+        'secure'   => true,
+        'httponly'  => false,
+        'samesite' => 'Lax',
+    ]);
     header('Content-Type: application/json');
     echo json_encode(['ok' => true]);
     exit;

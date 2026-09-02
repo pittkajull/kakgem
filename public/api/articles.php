@@ -1,13 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', '/tmp/php_errors.log');
 session_start();
 header('Content-Type: application/json; charset=utf-8');
-
-$method = $_SERVER['REQUEST_METHOD'];
-error_log(json_encode(['method' => $method, 'sid' => session_id(), 'is_admin' => $_SESSION['is_admin'] ?? null, 'cookie' => $_SERVER['HTTP_COOKIE'] ?? null, 'uri' => $_SERVER['REQUEST_URI'] ?? null]));
 
 $dataDir = '/var/www/data';
 $dataFile = $dataDir . '/articles.json';
