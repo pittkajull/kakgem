@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { defaultSiteContent } from '../data/siteContent'
 
-export function ArticlesSection({ articles = [] }) {
+export function ArticlesSection({ articles = [], content = defaultSiteContent }) {
+  const copy = content.articles || defaultSiteContent.articles
   const [selectedArticle, setSelectedArticle] = useState(null)
 
   useEffect(() => {
@@ -15,10 +17,10 @@ export function ArticlesSection({ articles = [] }) {
   if (!articles.length) return null
 
   return <section id="articles" className="articles-section section-pad">
-    <div className="section-kicker">/08 — Catatan Kagama Digi</div>
+    <div className="section-kicker">{copy.kicker}</div>
     <div className="articles-heading">
-      <div><h2>Gagasan yang<br /><span>terus bergerak.</span></h2></div>
-      <p>Berita, cerita, dan wawasan dari ruang kolaborasi Kagama Digi.</p>
+      <div><h2>{copy.title}<br /><span>{copy.highlight}</span></h2></div>
+      <p>{copy.description}</p>
     </div>
     <div className="articles-grid">
       {articles.map((article, index) => <article className={`article-card article-card-${index + 1}`} key={article.id}>

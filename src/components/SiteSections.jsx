@@ -1,62 +1,72 @@
 import { useState } from 'react'
 import { MemberForm } from './MemberForm'
-import { divisions, mobileNavItems, navItems, programs, services } from '../data/siteData'
+import { divisions, mobileNavItems, navItems } from '../data/siteData'
 import { openPhoto } from '../data/lightbox'
+import { defaultSiteContent } from '../data/siteContent'
 
 const adminEmail = 'mailto:kagamadigi@gmail.com'
 
-export function Navbar({ menuOpen, active, onMenuToggle, onNavigate }) {
+export function Navbar({ menuOpen, active, onMenuToggle, onNavigate, content = defaultSiteContent }) {
+  const brand = content.brand || defaultSiteContent.brand
+  const contact = content.contact || defaultSiteContent.contact
   return <nav className="nav-shell">
-    <button className="brand" onClick={() => onNavigate('Home')} aria-label="Kagama Digi home"><img className="brand-logo" src="/img/logo.png" alt="Logo Kagama Digi" /><span>kagama digi<span className="brand-dot">.</span></span></button>
+    <button className="brand" onClick={() => onNavigate('Home')} aria-label={`${brand.name} home`}><img className="brand-logo" src={brand.logo} alt={`Logo ${brand.name}`} /><span>{brand.name}<span className="brand-dot">.</span></span></button>
     <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
       {navItems.map(item => <button key={item.label} className={active === item.target ? 'active' : ''} onClick={() => onNavigate(item.target)}>{item.label}</button>)}
     </div>
     <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
       {mobileNavItems.map(item => <button key={item.label} className={active === item.target ? 'active' : ''} onClick={() => onNavigate(item.target)}>{item.label}</button>)}
     </div>
-    <div className="nav-actions"><button className="contact-pill" onClick={() => { window.location.href = 'https://wa.me/6285600604388' }}>Kontak Admin Kagama Digi</button></div>
+    <div className="nav-actions"><button className="contact-pill" onClick={() => { window.location.href = `https://wa.me/${contact.whatsapp}` }}>{brand.navCta}</button></div>
     <button className="menu-btn" onClick={onMenuToggle}>{menuOpen ? '×' : '☰'}</button>
   </nav>
 }
 
-export function Hero({ onNavigate }) {
+export function Hero({ onNavigate, content = defaultSiteContent }) {
+  const hero = content.hero || defaultSiteContent.hero
   return <section id="home" className="hero section-pad">
     <div className="hero-copy reveal">
-      <p className="eyebrow"><span className="eyebrow-line" /> Keluarga Alumni Universitas Gadjah Mada · Komunitas Digital dan Inovasi</p>
-      <h1>Komunitas kreatif<br /><em>bangun ekosistem</em><br />digital yang positif<span className="lime-dot">.</span></h1>
-      <p className="hero-desc">Komunitas profesional Universitas Gadjah Mada yang memanfaatkan ruang digital positif secara kolaboratif, mempertemukan berbagai elemen masyarakat, pemerintah, industri, komunitas, dan individu untuk menciptakan ekosistem internet yang aman, produktif, dan beretika.</p>
-      <div className="hero-meta"><span>01 / 08</span><span>Komunitas digital<br />&amp; inovasi</span><span>Yogyakarta<br />Indonesia</span></div>
+      <p className="eyebrow"><span className="eyebrow-line" /> {hero.eyebrow}</p>
+      <h1>{hero.title}<br /><em>{hero.highlight}</em><br />{hero.titleEnd}<span className="lime-dot">.</span></h1>
+      <p className="hero-desc">{hero.description}</p>
+      <div className="hero-meta">{hero.meta.map((item, index) => <span key={`${item.value}-${index}`}>{item.value}{item.label && <><br />{item.label}</>}</span>)}</div>
     </div>
     <div className="hero-art reveal delay-1" aria-label="Foto Kagama Digi">
-      <div className="hero-photo-scroll"><img className="hero-photo" src="/img/kamadigi.webp" alt="Kegiatan Kagama Digi" onClick={() => openPhoto('/img/kamadigi.webp', 'Kegiatan Kagama Digi')} /></div>
+      <div className="hero-photo-scroll"><img className="hero-photo" src={hero.image} alt={hero.imageAlt} onClick={() => openPhoto(hero.image, hero.imageAlt)} /></div>
       <div className="art-grid" /><div className="orb orb-lime" /><div className="orb orb-blue" /><div className="orb orb-orange" />
-      <div className="art-label">KAGAMA DIGI<br /><span>DIGITAL / INOVASI</span></div><div className="art-number">KAGAMADIGI</div><div className="photo-caption"><span className="caption-dot" /> Membuat ruang untuk tumbuh bersama</div>
+      <div className="art-label">{hero.artLabel}<br /><span>{hero.artSubLabel}</span></div><div className="art-number">{hero.artNumber}</div><div className="photo-caption"><span className="caption-dot" /> {hero.caption}</div>
     </div>
   </section>
 }
 
-export function ImpactStrip() {
-  return <div className="impact-strip" aria-label="Kagama Digi principles"><div className="impact-track"><span>COLLABORATION</span><b>✳</b><span>CREATIVITY</span><b>✳</b><span>DIGITAL LITERACY</span><b>✳</b><span>POSITIVE IMPACT</span><b>✳</b><span>COLLABORATION</span><b>✳</b><span>CREATIVITY</span><b>✳</b></div></div>
+export function ImpactStrip({ content = defaultSiteContent }) {
+  const items = content.impact?.items || defaultSiteContent.impact.items
+  const repeated = [...items, ...items]
+  return <div className="impact-strip" aria-label="Kagama Digi principles"><div className="impact-track">{repeated.map((item, index) => <span key={`${item}-${index}`}>{index > 0 && <b>✳</b>}{item}</span>)}</div></div>
 }
 
-export function AboutSection({ onNavigate }) {
+export function AboutSection({ onNavigate, content = defaultSiteContent }) {
+  const about = content.about || defaultSiteContent.about
   return <section id="about" className="about section-pad">
-    <div className="section-kicker">/01 — Profil singkat</div>
-    <div className="about-content"><h2>Ruang kolaborasi<br /><span>untuk tumbuh bersama</span><br />insan Kagama.</h2><div className="about-side"><p>Kagama Digi adalah komunitas Keluarga Alumni Universitas Gadjah Mada yang menjadi ruang kolaborasi untuk pengembangan inovasi, kreativitas, dan teknologi digital.</p><p className="muted">Kami memperluas jaringan antara akademisi, influencer, stakeholder, masyarakat, dan pegiat digital serta menumbuhkan literasi digital melalui konten yang berkualitas, beretika, dan berdampak positif.</p><div className="vision-copy"><p><strong>Visi</strong> Menjadi ruang kolaborasi strategis insan Kagama dalam mengembangkan inovasi, kreativitas, dan teknologi digital untuk menciptakan dampak nyata.</p><p><strong>Misi</strong> Membangun ruang tumbuh bersama, menguatkan kecakapan digital melalui pelatihan, dan mendorong kolaborasi lintas profesi untuk melahirkan karya yang berdampak.</p></div><button className="text-link" onClick={() => onNavigate('Membership')}>Gabung Kagamadigi (khusus alumni UGM)</button></div></div>
-    <div className="stats"><div><strong>01</strong><span>Fokus<br />digital &amp; inovasi</span></div><div><strong>UGM</strong><span>Jejaring<br />alumni</span></div><div><strong>ID</strong><span>Yogyakarta<br />&amp; Indonesia</span></div></div>
+    <div className="section-kicker">{about.kicker}</div>
+    <div className="about-content"><h2>{about.title}<br /><span>{about.highlight}</span><br />{about.titleEnd}</h2><div className="about-side"><p>{about.body}</p><p className="muted">{about.mutedBody}</p><div className="vision-copy"><p><strong>Visi</strong> {about.vision}</p><p><strong>Misi</strong> {about.mission}</p></div><button className="text-link" onClick={() => onNavigate('Membership')}>{about.cta}</button></div></div>
+    <div className="stats">{about.stats.map(stat => <div key={`${stat.value}-${stat.label}`}><strong>{stat.value}</strong><span>{stat.label}<br />{stat.detail}</span></div>)}</div>
   </section>
 }
 
-export function ServicesSection() {
-  return <section id="services" className="services section-pad"><div className="section-kicker">/02 — Fokus kerja</div><div className="services-head"><h2>Nilai yang<br /><span>kami bangun.</span></h2><p>Wawasan yang terbuka. Jejaring yang<br />terhubung. Dampak yang positif.</p></div><div className="service-list">{services.map(service => <article className={`service-card ${service.accent}`} key={service.no}><span className="service-no">{service.no}</span><h3>{service.title}</h3><p>{service.text}</p></article>)}</div></section>
+export function ServicesSection({ content = defaultSiteContent }) {
+  const servicesContent = content.services || defaultSiteContent.services
+  return <section id="services" className="services section-pad"><div className="section-kicker">{servicesContent.kicker}</div><div className="services-head"><h2>{servicesContent.title}<br /><span>{servicesContent.highlight}</span></h2><p>{servicesContent.description}</p></div><div className="service-list">{servicesContent.items.map((service, index) => <article className={`service-card ${service.accent || 'lime'}`} key={`${service.title}-${index}`}><span className="service-no">{service.no || String(index + 1).padStart(2, '0')}</span><h3>{service.title}</h3><p>{service.text}</p></article>)}</div></section>
 }
 
-export function WorksSection({ onNavigate }) {
-  return <section id="works" className="works section-pad"><div className="section-kicker">/03 — Aktivasi</div><div className="works-heading"><h2>Program jangka panjang<br /><span>Kagama Digi.</span></h2><p>Kenali program yang sedang kami siapkan dan temukan ruang kolaborasi yang paling dekat denganmu.</p></div><div className="program-grid">{programs.map((program, index) => <article className={`program-card ${program.tone}`} key={program.title}>        <div className="program-banner"><small>0{index + 1}</small><strong>{program.title}</strong><span className="program-mark">KD</span></div><div className="program-details"><p>{program.description}</p><button onClick={() => onNavigate('Contact')}>Ikuti program</button></div></article>)}</div></section>
+export function WorksSection({ onNavigate, content = defaultSiteContent }) {
+  const works = content.works || defaultSiteContent.works
+  return <section id="works" className="works section-pad"><div className="section-kicker">{works.kicker}</div><div className="works-heading"><h2>{works.title}<br /><span>{works.highlight}</span></h2><p>{works.description}</p></div><div className="program-grid">{works.items.map((program, index) => <article className={`program-card ${program.tone || 'amber'}`} key={`${program.title}-${index}`}>        <div className="program-banner"><small>{String(index + 1).padStart(2, '0')}</small><strong>{program.title}</strong><span className="program-mark">KD</span></div><div className="program-details"><p>{program.description}</p><button onClick={() => onNavigate('Contact')}>Ikuti program</button></div></article>)}</div></section>
 }
 
-export function MembershipSection({ showRegister, setShowRegister, form, updateForm, submitMember }) {
-  return <section id="membership" className="membership section-pad"><div className="membership-inner"><div><div className="section-kicker">/07 — Jadi bagian dari kami</div><h2>Temukan ruang<br /><span>untuk tumbuh.</span></h2></div><div className="membership-copy"><p>Gabung menjadi anggota Kagama Digi dan ikut membangun jejaring, wawasan, serta inovasi digital bersama alumni dan pegiat digital dari berbagai bidang.</p><span className="alumni-only">Khusus alumni Universitas Gadjah Mada</span><button className="membership-cta" onClick={() => setShowRegister(current => !current)}>{showRegister ? 'Tutup form' : 'Daftar jadi member'}</button></div></div><div className="membership-footer"><span>Terbuka untuk alumni Universitas Gadjah Mada</span><span>Digital · Inovasi · Kolaborasi</span></div>{showRegister && <MemberForm form={form} updateForm={updateForm} submitMember={submitMember} onClose={() => setShowRegister(false)} />}</section>
+export function MembershipSection({ showRegister, setShowRegister, form, updateForm, submitMember, content = defaultSiteContent }) {
+  const membership = content.membership || defaultSiteContent.membership
+  return <section id="membership" className="membership section-pad"><div className="membership-inner"><div><div className="section-kicker">{membership.kicker}</div><h2>{membership.title}<br /><span>{membership.highlight}</span></h2></div><div className="membership-copy"><p>{membership.description}</p><span className="alumni-only">{membership.alumniOnly}</span><button className="membership-cta" onClick={() => setShowRegister(current => !current)}>{showRegister ? 'Tutup form' : membership.cta}</button></div></div><div className="membership-footer"><span>{membership.footerLeft}</span><span>{membership.footerRight}</span></div>{showRegister && <MemberForm form={form} updateForm={updateForm} submitMember={submitMember} onClose={() => setShowRegister(false)} />}</section>
 }
 
 function exportCsv(members) {

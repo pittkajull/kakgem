@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './styles.css'
+import { AdminApp } from './admin/AdminApp'
 import { emptyForm, starterArticles, starterMembers } from './data/siteData'
+import { defaultSiteContent, mergeSiteContent } from './data/siteContent'
 import { AdminDashboard, AboutSection, Hero, MembershipSection, Navbar, ServicesSection, WorksSection } from './components/SiteSections'
 import { GallerySection } from './components/GallerySection'
 import { TeamRosterSection } from './components/TeamRosterSection'
@@ -23,6 +25,7 @@ function App() {
   const [showAdmin, setShowAdmin] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [siteContent, setSiteContent] = useState(defaultSiteContent)
   const [members, setMembers] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('kagama-members')) || starterMembers
@@ -36,9 +39,12 @@ function App() {
   const registerWasOpen = useRef(false)
 
   useEffect(() => {
-    fetch('/api/articles.php')
-      .then(res => res.ok ? res.json() : Promise.reject(new Error('Gagal memuat artikel')))
-      .then(data => setArticles(Array.isArray(data.articles) ? data.articles.filter(Boolean) : []))
+    Promise.all([fetch('/api/articles.php'), fetch('/api/site-content.php')])
+      .then(async ([articleRes, contentRes]) => {
+        const [articleData, contentData] = await Promise.all([articleRes.json(), contentRes.json()])
+        if (articleRes.ok) setArticles(Array.isArray(articleData.articles) ? articleData.articles.filter(Boolean) : [])
+        if (contentRes.ok) setSiteContent(mergeSiteContent(contentData.content))
+      })
       .catch(() => {})
   }, [])
 
@@ -192,7 +198,7 @@ function App() {
     }
   }
 
-  const requestAdmin = () => setShowPassword(true)
+  const requestAdmin = () => { window.location.href = '/admin' }
 
   const unlockAdmin = async () => {
     setShowPassword(false)
@@ -240,18 +246,18 @@ function App() {
 
   return <main ref={appRef}>
     <div className="scroll-progress" aria-hidden="true" />
-    <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} />
-    <Hero onNavigate={go} />
-    <ImpactStrip />
-    <AboutSection onNavigate={go} />
-    <ServicesSection />
-    <WorksSection onNavigate={go} />
-    <CommunityStorySection />
-    <GallerySection />
-    <TeamRosterSection />
-    <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} />
-    <ArticlesSection articles={articles.filter(article => article && article.status === 'published')} />
-    <ContactSection onAdminOpen={requestAdmin} />
+    <Navbar menuOpen={menuOpen} active={active} onMenuToggle={() => setMenuOpen(current => !current)} onNavigate={go} content={siteContent} />
+    <Hero onNavigate={go} content={siteContent} />
+    <ImpactStrip content={siteContent} />
+    <AboutSection onNavigate={go} content={siteContent} />
+    <ServicesSection content={siteContent} />
+    <WorksSection onNavigate={go} content={siteContent} />
+    <CommunityStorySection content={siteContent} />
+    <GallerySection content={siteContent} />
+    <TeamRosterSection content={siteContent} />
+    <MembershipSection showRegister={showRegister} setShowRegister={setShowRegister} form={form} updateForm={updateForm} submitMember={submitMember} content={siteContent} />
+    <ArticlesSection articles={articles.filter(article => article && article.status === 'published')} content={siteContent} />
+    <ContactSection onAdminOpen={requestAdmin} content={siteContent} />
     {showAdmin && <AdminDashboard members={members} articles={articles} onClose={() => setShowAdmin(false)} onAddMember={() => { setShowAdmin(false); setShowRegister(true) }} onUpdateMember={updateMember} onDeleteMember={deleteMember} onCreateArticle={createArticle} onUpdateArticle={updateArticle} onDeleteArticle={deleteArticle} />}
     {showPassword && <AdminPasswordModal onCancel={() => setShowPassword(false)} onSuccess={unlockAdmin} />}
     {showSuccess && <SuccessPopup onClose={() => setShowSuccess(false)} />}
@@ -259,4 +265,8 @@ function App() {
   </main>
 }
 
-createRoot(document.getElementById('root')).render(<App />)
+function Root() {
+  return window.location.pathname.startsWith('/admin') ? <AdminApp /> : <App />
+}
+
+createRoot(document.getElementById('root')).render(<Root />)

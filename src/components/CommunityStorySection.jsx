@@ -1,30 +1,30 @@
-import { activationHighlights, journeyPhases, workshopTopics } from '../data/siteData'
 import { openPhoto } from '../data/lightbox'
+import { defaultSiteContent } from '../data/siteContent'
 
-export function CommunityStorySection() {
+export function CommunityStorySection({ content = defaultSiteContent }) {
+  const journey = content.journey || defaultSiteContent.journey
   return <section id="journey" className="journey section-pad">
-    <div className="section-kicker">/04 — Perjalanan dan aktivasi</div>
+    <div className="section-kicker">{journey.kicker}</div>
 
     <div className="story-intro">
       <div className="story-title">
-        <span className="story-label">Sambutan Ketua</span>
-        <h2>Selamat datang<br /><span>di Kagama Digi.</span></h2>
+        <span className="story-label">{journey.welcomeLabel}</span>
+        <h2>{journey.welcomeTitle}<br /><span>{journey.welcomeHighlight}</span></h2>
       </div>
       <blockquote className="chair-message">
-        <p>Kagama Digi lahir dari semangat kolaborasi, kreativitas, dan komitmen untuk membawa nilai-nilai keilmuan Universitas Gadjah Mada ke dalam dunia digital yang terus berkembang.</p>
-        <p>Kami ingin menjadi ekosistem yang inklusif, adaptif, dan progresif—tempat setiap anggota dapat bertumbuh, berkontribusi, dan terinspirasi untuk menghadirkan karya digital yang bermanfaat bagi bangsa.</p>
-        <footer><strong>Franko Nero, S.P.</strong><span>Ketua Kagama Digi</span></footer>
+        {journey.chairMessage.map((message, index) => <p key={`${message.slice(0, 20)}-${index}`}>{message}</p>)}
+        <footer><strong>{journey.chairName}</strong><span>{journey.chairRole}</span></footer>
       </blockquote>
     </div>
 
     <div className="journey-heading">
-      <div><span className="story-label">Storyline</span><h3>Dari ruang belajar<br />menjadi gerakan.</h3></div>
-      <p>Perjalanan Kagama Digi dirangkum sebagai proses yang terus bergerak: membangun fondasi, berbagi pengetahuan, memperluas jejaring, dan menguatkan organisasi.</p>
+      <div><span className="story-label">{journey.storylineLabel}</span><h3>{journey.storylineTitle}<br />{journey.storylineHighlight}</h3></div>
+      <p>{journey.storylineText}</p>
     </div>
     <div className="journey-rail-wrap">
       <div className="journey-progress" aria-hidden="true" />
       <ol className="journey-rail">
-        {journeyPhases.map(phase => <li className="journey-step" key={phase.no}>
+        {journey.phases.map(phase => <li className="journey-step" key={phase.no}>
           <span>{phase.no}</span>
           <h4>{phase.title}</h4>
           <p>{phase.text}</p>
@@ -34,19 +34,19 @@ export function CommunityStorySection() {
 
     <div className="portfolio-block">
       <div className="portfolio-copy">
-        <span className="story-label">Portofolio workshop</span>
-        <h3>Topik yang sudah<br />kami gerakkan.</h3>
-        <p>Rangkaian kelas Kagama Digi menghubungkan pengetahuan praktis, teknologi, kreativitas, dan kebutuhan industri digital.</p>
+        <span className="story-label">{journey.portfolioLabel}</span>
+        <h3>{journey.portfolioTitle}<br />{journey.portfolioHighlight}</h3>
+        <p>{journey.portfolioText}</p>
       </div>
       <div className="workshop-index">
-        {workshopTopics.map((topic, index) => <article className="workshop-item" key={topic}>
+        {journey.workshopTopics.map((topic, index) => <article className="workshop-item" key={`${topic}-${index}`}>
           <span>{String(index + 1).padStart(2, '0')}</span><strong>{topic}</strong>
         </article>)}
       </div>
     </div>
 
     <div className="activation-notes">
-      {activationHighlights.map((item, index) => <article className="activation-note" key={item.title}>
+      {journey.activations.map((item, index) => <article className="activation-note" key={`${item.title}-${index}`}>
         <div className="note-photos">{(item.photos || []).map(src => <button type="button" className="note-photo-btn" key={src} onClick={() => openPhoto(src, item.title)} aria-label={`Perbesar foto ${item.title}`}><img src={src} alt={item.title} loading="lazy" /><span className="zoom-badge">⤢</span></button>)}</div>
         <span>{String(index + 1).padStart(2, '0')} / {item.type}</span>
         <h3>{item.title}</h3>

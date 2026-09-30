@@ -1,17 +1,18 @@
-import { displayGallery } from '../data/siteData'
 import { openPhoto } from '../data/lightbox'
+import { defaultSiteContent } from '../data/siteContent'
 
-export function GallerySection() {
+export function GallerySection({ content = defaultSiteContent }) {
+  const gallery = content.gallery || defaultSiteContent.gallery
   return <section id="gallery" className="gallery-section section-pad">
-    <div className="section-kicker">/05 — Dokumentasi aktivasi</div>
+    <div className="section-kicker">{gallery.kicker}</div>
     <div className="gallery-heading">
-      <h2>Yang terjadi<br /><span>ketika bertemu.</span></h2>
-      <p>Dokumentasi ruang belajar, pertemuan, dan kolaborasi yang mempertemukan insan Kagama dari berbagai latar.</p>
+      <h2>{gallery.title}<br /><span>{gallery.highlight}</span></h2>
+      <p>{gallery.description}</p>
     </div>
     <div className="gallery-grid">
-      {displayGallery.map(([src, title, meta], index) => <figure className={`gallery-item gallery-${index + 1}`} key={src}>
-        <div className="gallery-img"><img src={src} alt={title} loading="lazy" onClick={() => openPhoto(src, title)} /></div>
-        <figcaption><strong>{title}</strong><small>{meta}</small></figcaption>
+      {gallery.items.map((item, index) => <figure className={`gallery-item gallery-${index + 1}`} key={`${item.src}-${index}`}>
+        <div className="gallery-img"><img src={item.src} alt={item.title} loading="lazy" onClick={() => openPhoto(item.src, item.title)} /></div>
+        <figcaption><strong>{item.title}</strong><small>{item.meta}</small></figcaption>
       </figure>)}
     </div>
   </section>
