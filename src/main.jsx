@@ -198,7 +198,7 @@ function App() {
     }
   }
 
-  const requestAdmin = () => { window.location.href = '/admin' }
+  const requestAdmin = () => setShowPassword(true)
 
   const unlockAdmin = async () => {
     setShowPassword(false)

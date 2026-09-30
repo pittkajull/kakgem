@@ -50,7 +50,7 @@ export function ContactSection({ onAdminOpen, content = defaultSiteContent }) {
       </div>
       <div className="footer-meta">
         <span>{contact.footerText}</span>
-        <img className="footer-logo" src={brand.logo} alt={`Logo ${brand.name}`} onDoubleClick={onAdminOpen} title="Buka dashboard internal" />
+        <img className="footer-logo" src={brand.logo} alt={`Logo ${brand.name}`} onDoubleClick={onAdminOpen} title="Buka panel member dan artikel" />
       </div>
     </div>
   </section>
