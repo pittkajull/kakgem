@@ -129,21 +129,36 @@
 
 .admin-app {
   min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr);
   background: var(--admin-paper);
   color: var(--admin-ink);
+  overflow: hidden;
 }
 
 .admin-sidebar {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   background: #171614;
   color: #f5efe4;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(216,173,75,.55) transparent;
 }
+
+.admin-sidebar::-webkit-scrollbar,
+.admin-main::-webkit-scrollbar { width: 8px; }
+
+.admin-sidebar::-webkit-scrollbar-track,
+.admin-main::-webkit-scrollbar-track { background: transparent; }
+
+.admin-sidebar::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(216,173,75,.55); }
+.admin-main::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(43,39,32,.24); }
 
 .admin-sidebar-brand { padding: 30px 25px 24px; border-bottom: 1px solid rgba(255,255,255,.1); }
 .admin-sidebar-brand span { display: block; font: 400 29px/.9 'Bebas Neue', sans-serif; letter-spacing: .03em; }
@@ -159,7 +174,7 @@
 .admin-sidebar-user strong { font: 700 12px 'Montserrat', sans-serif; }
 .admin-sidebar-user small { margin-top: 3px; color: #999083; font-size: 9px; text-transform: uppercase; }
 
-.admin-main { min-width: 0; padding: 26px 30px 100px; }
+.admin-main { min-width: 0; min-height: 0; height: 100vh; overflow-y: auto; overscroll-behavior: contain; padding: 26px 30px 100px; }
 .admin-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; padding: 8px 0 24px; border-bottom: 1px solid var(--admin-line); }
 .admin-header-kicker { color: var(--admin-orange); font: 700 10px 'Montserrat', sans-serif; letter-spacing: .2em; text-transform: uppercase; }
 .admin-header h1 { margin: 8px 0 0; font: 400 clamp(42px, 5vw, 64px)/.9 'Bebas Neue', sans-serif; letter-spacing: .02em; text-transform: uppercase; }
@@ -242,15 +257,15 @@
   .admin-back-link { margin-bottom: 30px; }
   .admin-logo-frame { margin-bottom: 28px; }
   .admin-login-form { padding: 20px; }
-  .admin-app { display: block; }
-  .admin-sidebar { position: static; height: auto; }
+  .admin-app { display: block; height: auto; min-height: 100vh; overflow: visible; }
+  .admin-sidebar { position: static; height: auto; min-height: 0; max-height: none; overflow: visible; }
   .admin-sidebar-brand { padding: 22px 20px 18px; }
   .admin-sidebar-brand span { font-size: 25px; }
   .admin-nav { display: flex; overflow-x: auto; gap: 6px; padding: 10px; }
   .admin-nav button { flex: 0 0 auto; min-height: 38px; padding: 0 12px; }
   .admin-nav button span { display: none; }
   .admin-sidebar-user { display: none; }
-  .admin-main { padding: 19px 16px 95px; }
+  .admin-main { height: auto; min-height: 0; overflow: visible; padding: 19px 16px 95px; }
   .admin-header { display: block; }
   .admin-header-actions { padding-top: 20px; }
   .admin-header-actions a, .admin-header-actions button { flex: 1; text-align: center; }
