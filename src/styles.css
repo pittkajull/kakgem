@@ -350,6 +350,29 @@ body { background:var(--paper); }
   .team-division-grid .team-node:last-child { width:100%; }
 }
 
+/* Hero alignment: keep the opening message as the visual anchor. */
+.hero-copy {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.hero-copy .eyebrow {
+  justify-content: center;
+}
+
+.hero-copy .hero-desc {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-copy .hero-meta {
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-align: center;
+}
+
 /* Pengurus roster: mirrors the client reference while keeping the Kagama palette. */
 .team { position:relative; overflow:hidden; background:#f3efe6; }
 .team::before { content:''; position:absolute; inset:0; background:linear-gradient(rgba(243,239,230,.92),rgba(243,239,230,.92)),url('/img/kamadigi.webp') center/cover; opacity:.22; pointer-events:none; }
