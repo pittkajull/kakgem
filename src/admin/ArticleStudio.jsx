@@ -24,7 +24,7 @@ export function ArticleStudio({ articles, initialEditId = '', onCreate, onUpdate
   useEffect(() => {
     if (!editing) return
     window.setTimeout(() => editorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
-  }, [editing])
+  }, [editing ? (editing.id || 'new') : ''])
   const start = article => { setEditing(article ? { ...article, scheduledAt: toInputDate(article.scheduledAt) } : blank()); setNotice(''); setError('') }
   useEffect(() => {
     if (!initialEditId || editing) return
