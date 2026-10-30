@@ -186,7 +186,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
     await refreshData()
   }
   const updateArticle = async article => {
-    const response = await fetch('/api/articles.php?action=update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
+    const response = await fetch('/api/articles.php?action=update', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: new URLSearchParams(Object.entries(article).map(([key, value]) => [key, value ?? ''])) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
     const savedArticle = data.article || article

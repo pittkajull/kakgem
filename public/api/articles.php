@@ -3,6 +3,7 @@
  * does not depend on a browser window staying open. */
 session_start();
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 date_default_timezone_set('Asia/Jakarta');
 
 $dataDir = '/var/www/data';
@@ -37,7 +38,7 @@ if ($method === 'GET') {
     echo json_encode(['ok'=>true, 'articles'=>$articles]); exit;
 }
 requireAdmin();
-$data = json_decode(file_get_contents('php://input') ?: '{}', true) ?: [];
+$data = json_decode(file_get_contents('php://input') ?: '{}', true) ?: ($_POST ?: []);
 if (!in_array($method, ['POST', 'PUT', 'DELETE'], true)) { http_response_code(405); echo json_encode(['ok'=>false, 'error'=>'Method not allowed']); exit; }
 $deleteRequest = $method === 'DELETE' || ($method === 'POST' && ($_GET['action'] ?? '') === 'delete');
 if ($deleteRequest) { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; } echo json_encode(['ok'=>true, 'deletedId'=>$data['id']]); exit; }

@@ -39,7 +39,7 @@ function App() {
   const registerWasOpen = useRef(false)
 
   useEffect(() => {
-    Promise.all([fetch('/api/articles.php'), fetch('/api/site-content.php')])
+    Promise.all([fetch(`/api/articles.php?_=${Date.now()}`, { cache: 'no-store' }), fetch('/api/site-content.php')])
       .then(async ([articleRes, contentRes]) => {
         const [articleData, contentData] = await Promise.all([articleRes.json(), contentRes.json()])
         if (articleRes.ok) setArticles(Array.isArray(articleData.articles) ? articleData.articles.filter(Boolean) : [])
