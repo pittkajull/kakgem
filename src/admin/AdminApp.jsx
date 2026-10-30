@@ -225,7 +225,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
       {section === 'contact' && <ContactEditor content={content} setContent={setContent} />}
       {section === 'articles' && <ArticleStudio articles={articles} onCreate={createArticle} onUpdate={updateArticle} onDelete={deleteArticle} />}
       {section === 'data' && <div className="cms-data-panel"><AdminDashboard members={members} articles={articles} onClose={() => setSection('dashboard')} onAddMember={() => setSection('dashboard')} onUpdateMember={updateMember} onDeleteMember={deleteMember} onCreateArticle={createArticle} onUpdateArticle={updateArticle} onDeleteArticle={deleteArticle} /></div>}
-      {section !== 'dashboard' && section !== 'data' && <div className="cms-save-bar"><span>Perubahan belum diterapkan sampai disimpan.</span><button onClick={saveContent} disabled={saving}>{saving ? 'Menyimpan…' : 'Simpan perubahan'}</button></div>}
+      {section !== 'dashboard' && section !== 'data' && section !== 'articles' && <div className="cms-save-bar"><span>Perubahan belum diterapkan sampai disimpan.</span><button onClick={saveContent} disabled={saving}>{saving ? 'Menyimpan…' : 'Simpan perubahan'}</button></div>}
     </section>
   </main>
 }
