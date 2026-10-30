@@ -195,13 +195,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
     const response = await fetch('/api/articles.php?action=delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal dihapus.')
-    const verifyResponse = await fetch(`/api/articles.php?admin=1&_=${Date.now()}`, { cache: 'no-store' })
-    const verifyData = await verifyResponse.json().catch(() => ({}))
-    if (!verifyResponse.ok || (verifyData.articles || []).some(item => String(item.id) === String(article.id))) {
-      throw new Error('Server belum menghapus artikel. Silakan coba lagi.')
-    }
     setArticles(current => current.filter(item => String(item.id) !== String(article.id)))
-    await refreshData()
   }
 
   const logout = async () => {
