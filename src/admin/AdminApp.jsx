@@ -189,6 +189,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
     const response = await fetch('/api/articles.php', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
+    if (!data.article || data.article.status !== article.status) throw new Error('Server belum menyimpan status artikel yang dipilih.')
     await refreshData()
   }
   const deleteArticle = async article => {

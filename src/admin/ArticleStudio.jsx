@@ -36,9 +36,13 @@ export function ArticleStudio({ articles, initialEditId = '', onCreate, onUpdate
   const cancelEdit = () => { setEditing(null); setNotice('Pengeditan dibatalkan.'); setError('') }
   const save = async status => {
     if (!editing) return
+    if (status === 'scheduled' && (!editing.scheduledAt || Number.isNaN(new Date(editing.scheduledAt).getTime()) || new Date(editing.scheduledAt).getTime() <= Date.now())) {
+      setError('Tanggal dan waktu jadwal harus diisi dan berada di masa depan.')
+      return
+    }
     setError(''); setNotice('')
     const payload = { ...editing, status, scheduledAt: status === 'scheduled' ? editing.scheduledAt : null }
-    try { payload.id ? await onUpdate(payload) : await onCreate(payload); setEditing(null); setNotice(status === 'published' ? 'Artikel sudah diterbitkan.' : status === 'scheduled' ? 'Artikel berhasil dijadwalkan.' : 'Draft berhasil disimpan.') }
+    try { payload.id ? await onUpdate(payload) : await onCreate(payload); window.history.pushState({}, '', '/admin/'); setEditing(null); setNotice(status === 'published' ? 'Artikel sudah diterbitkan.' : status === 'scheduled' ? 'Artikel berhasil dijadwalkan dan editor ditutup.' : 'Draft berhasil disimpan.') }
     catch (err) { setError(err.message || 'Artikel gagal disimpan.') }
   }
   const upload = async file => {
