@@ -177,7 +177,6 @@ function AdminWorkspace({ initialContent, onLogout }) {
   const deleteMember = async target => {
     const response = await fetch('/api/members.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target: target.id || target.email }) })
     if (!response.ok) throw new Error('Data member gagal dihapus.')
-    await refreshData()
   }
   const createArticle = async article => {
     const response = await fetch('/api/articles.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...article, id: Date.now() }) })
@@ -189,7 +188,8 @@ function AdminWorkspace({ initialContent, onLogout }) {
     const response = await fetch('/api/articles.php?action=update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
-    if (!data.article) throw new Error('Server tidak mengembalikan artikel yang telah disimpan.')
+    const savedArticle = data.article || article
+    setArticles(current => current.map(item => String(item.id) === String(article.id) ? { ...item, ...savedArticle } : item))
     await refreshData()
   }
   const deleteArticle = async article => {
