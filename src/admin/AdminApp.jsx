@@ -177,6 +177,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
   const deleteMember = async target => {
     const response = await fetch('/api/members.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ target: target.id || target.email }) })
     if (!response.ok) throw new Error('Data member gagal dihapus.')
+    await refreshData()
   }
   const createArticle = async article => {
     const response = await fetch('/api/articles.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...article, id: Date.now() }) })
@@ -190,7 +191,6 @@ function AdminWorkspace({ initialContent, onLogout }) {
     if (!response.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
     const savedArticle = data.article || article
     setArticles(current => current.map(item => String(item.id) === String(article.id) ? { ...item, ...savedArticle } : item))
-    await refreshData()
   }
   const deleteArticle = async article => {
     const response = await fetch('/api/articles.php?action=delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
