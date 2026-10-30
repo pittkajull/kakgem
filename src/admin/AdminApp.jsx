@@ -186,7 +186,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
     await refreshData()
   }
   const updateArticle = async article => {
-    const response = await fetch('/api/articles.php', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
+    const response = await fetch('/api/articles.php?action=update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(article) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal diperbarui.')
     if (!data.article) throw new Error('Server tidak mengembalikan artikel yang telah disimpan.')

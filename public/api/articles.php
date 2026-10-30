@@ -43,7 +43,8 @@ $deleteRequest = $method === 'DELETE' || ($method === 'POST' && ($_GET['action']
 if ($deleteRequest) { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; } echo json_encode(['ok'=>true, 'deletedId'=>$data['id']]); exit; }
 
 $id = $data['id'] ?? null; $current = null;
-if ($method === 'PUT') { $index = articleIndex($articles, $id); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } $current = $articles[$index]; }
+$updateRequest = $method === 'PUT' || ($method === 'POST' && ($_GET['action'] ?? '') === 'update');
+if ($updateRequest) { $index = articleIndex($articles, $id); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } $current = $articles[$index]; }
 $title = clean($data['title'] ?? ($current['title'] ?? ''));
 $content = clean($data['content'] ?? ($current['content'] ?? ''));
 if (!$title || !$content) { http_response_code(400); echo json_encode(['ok'=>false, 'error'=>'Judul dan isi artikel wajib diisi.']); exit; }
@@ -59,6 +60,6 @@ $article = array_merge($current ?: [], [
     'status'=>$status, 'scheduledAt'=>$status === 'scheduled' ? $scheduledAt : null,
     'publishedAt'=>$status === 'published' ? ($current['publishedAt'] ?? $now) : null, 'updatedAt'=>$now,
 ]);
-if ($method === 'POST') array_unshift($articles, $article); else $articles[$index] = $article;
+if (!$updateRequest) array_unshift($articles, $article); else $articles[$index] = $article;
 if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; }
 echo json_encode(['ok'=>true, 'article'=>$article]);
