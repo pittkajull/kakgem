@@ -115,7 +115,8 @@ function AdminSessionGate({ onUnauthorized }) {
 }
 
 function AdminWorkspace({ initialContent, onLogout }) {
-  const [section, setSection] = useState('dashboard')
+  const articleEditId = window.location.pathname.match(/^\/admin\/articles\/edit\/([^/]+)/)?.[1] || ''
+  const [section, setSection] = useState(() => articleEditId ? 'articles' : 'dashboard')
   const [content, setContent] = useState(() => mergeSiteContent(initialContent))
   const [members, setMembers] = useState([])
   const [articles, setArticles] = useState([])
@@ -194,6 +195,11 @@ function AdminWorkspace({ initialContent, onLogout }) {
     const response = await fetch('/api/articles.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal dihapus.')
+    const verifyResponse = await fetch(`/api/articles.php?admin=1&_=${Date.now()}`, { cache: 'no-store' })
+    const verifyData = await verifyResponse.json().catch(() => ({}))
+    if (!verifyResponse.ok || (verifyData.articles || []).some(item => String(item.id) === String(article.id))) {
+      throw new Error('Server belum menghapus artikel. Silakan coba lagi.')
+    }
     setArticles(current => current.filter(item => String(item.id) !== String(article.id)))
     await refreshData()
   }
@@ -225,7 +231,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
       {section === 'team' && <TeamEditor content={content} setContent={setContent} />}
       {section === 'membership' && <MembershipEditor content={content} setContent={setContent} />}
       {section === 'contact' && <ContactEditor content={content} setContent={setContent} />}
-      {section === 'articles' && <ArticleStudio articles={articles} onCreate={createArticle} onUpdate={updateArticle} onDelete={deleteArticle} />}
+      {section === 'articles' && <ArticleStudio articles={articles} initialEditId={articleEditId} onCreate={createArticle} onUpdate={updateArticle} onDelete={deleteArticle} />}
       {section === 'data' && <div className="cms-data-panel"><AdminDashboard members={members} articles={articles} onClose={() => setSection('dashboard')} onAddMember={() => setSection('dashboard')} onUpdateMember={updateMember} onDeleteMember={deleteMember} onCreateArticle={createArticle} onUpdateArticle={updateArticle} onDeleteArticle={deleteArticle} /></div>}
       {section !== 'dashboard' && section !== 'data' && section !== 'articles' && <div className="cms-save-bar"><span>Perubahan belum diterapkan sampai disimpan.</span><button onClick={saveContent} disabled={saving}>{saving ? 'Menyimpan…' : 'Simpan perubahan'}</button></div>}
     </section>

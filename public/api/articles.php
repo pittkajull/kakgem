@@ -11,7 +11,7 @@ if (!is_dir($dataDir)) mkdir($dataDir, 0755, true);
 if (!is_file($dataFile)) file_put_contents($dataFile, '[]', LOCK_EX);
 
 function readArticles($file) { return json_decode(@file_get_contents($file), true) ?: []; }
-function writeArticles($file, $articles) { file_put_contents($file, json_encode(array_values($articles), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), LOCK_EX); }
+function writeArticles($file, $articles) { return file_put_contents($file, json_encode(array_values($articles), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), LOCK_EX) !== false; }
 function articleIndex($articles, $id) { foreach ($articles as $i => $article) if (isset($article['id']) && (string) $article['id'] === (string) $id) return $i; return -1; }
 function requireAdmin() { if (empty($_SESSION['is_admin'])) { http_response_code(403); echo json_encode(['ok'=>false, 'error'=>'Unauthorized']); exit; } }
 function clean($value, $fallback = '') { $value = trim((string) $value); return $value === '' ? $fallback : $value; }
@@ -39,7 +39,7 @@ if ($method === 'GET') {
 requireAdmin();
 $data = json_decode(file_get_contents('php://input') ?: '{}', true) ?: [];
 if (!in_array($method, ['POST', 'PUT', 'DELETE'], true)) { http_response_code(405); echo json_encode(['ok'=>false, 'error'=>'Method not allowed']); exit; }
-if ($method === 'DELETE') { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); writeArticles($dataFile, $articles); echo json_encode(['ok'=>true]); exit; }
+if ($method === 'DELETE') { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; } echo json_encode(['ok'=>true]); exit; }
 
 $id = $data['id'] ?? null; $current = null;
 if ($method === 'PUT') { $index = articleIndex($articles, $id); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } $current = $articles[$index]; }
@@ -59,4 +59,5 @@ $article = array_merge($current ?: [], [
     'publishedAt'=>$status === 'published' ? ($current['publishedAt'] ?? $now) : null, 'updatedAt'=>$now,
 ]);
 if ($method === 'POST') array_unshift($articles, $article); else $articles[$index] = $article;
-writeArticles($dataFile, $articles); echo json_encode(['ok'=>true, 'article'=>$article]);
+if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; }
+echo json_encode(['ok'=>true, 'article'=>$article]);
