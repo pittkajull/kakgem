@@ -44,12 +44,13 @@ $deleteRequest = $method === 'DELETE' || ($method === 'POST' && ($_GET['action']
 if ($deleteRequest) { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); if (!writeArticles($dataFile, $articles)) { http_response_code(500); echo json_encode(['ok'=>false, 'error'=>'Data artikel tidak dapat ditulis ke server.']); exit; } echo json_encode(['ok'=>true, 'deletedId'=>$data['id']]); exit; }
 
 $id = $data['id'] ?? null; $current = null;
-$updateRequest = $method === 'PUT' || ($method === 'POST' && ($_GET['action'] ?? '') === 'update');
+$action = $_GET['action'] ?? '';
+$updateRequest = $method === 'PUT' || ($method === 'POST' && in_array($action, ['update', 'schedule'], true));
 if ($updateRequest) { $index = articleIndex($articles, $id); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } $current = $articles[$index]; }
 $title = clean($data['title'] ?? ($current['title'] ?? ''));
 $content = clean($data['content'] ?? ($current['content'] ?? ''));
 if (!$title || !$content) { http_response_code(400); echo json_encode(['ok'=>false, 'error'=>'Judul dan isi artikel wajib diisi.']); exit; }
-$requested = $data['status'] ?? ($current['status'] ?? 'draft');
+$requested = $action === 'schedule' ? 'scheduled' : ($data['status'] ?? ($current['status'] ?? 'draft'));
 $scheduledAt = validSchedule($data['scheduledAt'] ?? ($current['scheduledAt'] ?? null));
 if ($requested === 'scheduled' && !$scheduledAt) { http_response_code(400); echo json_encode(['ok'=>false, 'error'=>'Tanggal dan jam terbit wajib diisi untuk artikel terjadwal.']); exit; }
 $status = normalizeStatus($requested, $scheduledAt); $now = (new DateTimeImmutable('now', new DateTimeZone('Asia/Jakarta')))->format(DateTimeInterface::ATOM);
