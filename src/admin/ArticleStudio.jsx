@@ -6,7 +6,7 @@ const localDate = value => value ? new Date(value).toLocaleString('id-ID', { dat
 const toInputDate = value => value ? new Date(value).toISOString().slice(0, 16) : ''
 const monthName = date => new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' }).format(date)
 
-export function ArticleStudio({ articles, initialEditId = '', onCreate, onUpdate, onDelete }) {
+export function ArticleStudio({ articles, initialEditId = '', onCreate, onUpdate, onDelete, onRefresh }) {
   const [editing, setEditing] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [notice, setNotice] = useState('')
@@ -25,6 +25,11 @@ export function ArticleStudio({ articles, initialEditId = '', onCreate, onUpdate
     if (!editing) return
     window.setTimeout(() => editorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
   }, [editing ? (editing.id || 'new') : ''])
+  useEffect(() => {
+    if (!onRefresh) return undefined
+    const timer = window.setInterval(() => { if (document.visibilityState === 'visible') onRefresh().catch(() => {}) }, 30000)
+    return () => window.clearInterval(timer)
+  }, [onRefresh])
   const start = article => { setEditing(article ? { ...article, scheduledAt: toInputDate(article.scheduledAt) } : blank()); setNotice(''); setError('') }
   useEffect(() => {
     if (!initialEditId || editing) return

@@ -39,13 +39,21 @@ function App() {
   const registerWasOpen = useRef(false)
 
   useEffect(() => {
-    Promise.all([fetch(`/api/articles.php?_=${Date.now()}`, { cache: 'no-store' }), fetch('/api/site-content.php')])
-      .then(async ([articleRes, contentRes]) => {
-        const [articleData, contentData] = await Promise.all([articleRes.json(), contentRes.json()])
+    const loadArticles = () => fetch(`/api/articles.php?_=${Date.now()}`, { cache: 'no-store' })
+      .then(async articleRes => {
+        const articleData = await articleRes.json().catch(() => ({}))
         if (articleRes.ok) setArticles(Array.isArray(articleData.articles) ? articleData.articles.filter(Boolean) : [])
+      })
+      .catch(() => {})
+    loadArticles()
+    const articleRefreshTimer = window.setInterval(loadArticles, 30000)
+    Promise.all([fetch('/api/site-content.php')])
+      .then(async ([contentRes]) => {
+        const contentData = await contentRes.json()
         if (contentRes.ok) setSiteContent(mergeSiteContent(contentData.content))
       })
       .catch(() => {})
+    return () => window.clearInterval(articleRefreshTimer)
   }, [])
 
   useEffect(() => {
