@@ -124,7 +124,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
   const [loadingData, setLoadingData] = useState(true)
 
   const refreshData = async () => {
-    const [memberResponse, articleResponse] = await Promise.all([fetch('/api/members.php'), fetch('/api/articles.php?admin=1')])
+    const [memberResponse, articleResponse] = await Promise.all([fetch('/api/members.php', { cache: 'no-store' }), fetch(`/api/articles.php?admin=1&_=${Date.now()}`, { cache: 'no-store' })])
     if (memberResponse.status === 403 || articleResponse.status === 403) throw new Error('unauthorized')
     const [memberData, articleData] = await Promise.all([memberResponse.json(), articleResponse.json()])
     setMembers(memberData.members || [])
@@ -192,7 +192,9 @@ function AdminWorkspace({ initialContent, onLogout }) {
   }
   const deleteArticle = async article => {
     const response = await fetch('/api/articles.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
-    if (!response.ok) throw new Error('Artikel gagal dihapus.')
+    const data = await response.json().catch(() => ({}))
+    if (!response.ok) throw new Error(data.error || 'Artikel gagal dihapus.')
+    setArticles(current => current.filter(item => String(item.id) !== String(article.id)))
     await refreshData()
   }
 
