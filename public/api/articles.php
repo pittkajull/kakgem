@@ -1,125 +1,62 @@
 <?php
+/** Article API. Scheduled articles are promoted on every read, so publishing
+ * does not depend on a browser window staying open. */
 session_start();
 header('Content-Type: application/json; charset=utf-8');
+date_default_timezone_set('Asia/Jakarta');
 
 $dataDir = '/var/www/data';
 $dataFile = $dataDir . '/articles.json';
+if (!is_dir($dataDir)) mkdir($dataDir, 0755, true);
+if (!is_file($dataFile)) file_put_contents($dataFile, '[]', LOCK_EX);
 
-if (!is_dir($dataDir)) {
-    mkdir($dataDir, 0755, true);
+function readArticles($file) { return json_decode(@file_get_contents($file), true) ?: []; }
+function writeArticles($file, $articles) { file_put_contents($file, json_encode(array_values($articles), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), LOCK_EX); }
+function articleIndex($articles, $id) { foreach ($articles as $i => $article) if (isset($article['id']) && (string) $article['id'] === (string) $id) return $i; return -1; }
+function requireAdmin() { if (empty($_SESSION['is_admin'])) { http_response_code(403); echo json_encode(['ok'=>false, 'error'=>'Unauthorized']); exit; } }
+function clean($value, $fallback = '') { $value = trim((string) $value); return $value === '' ? $fallback : $value; }
+function validSchedule($value) { if (!$value) return null; try { $date = new DateTimeImmutable($value, new DateTimeZone('Asia/Jakarta')); return $date->format(DateTimeInterface::ATOM); } catch (Throwable $e) { return null; } }
+function promoteDue(&$articles) {
+    $now = new DateTimeImmutable('now', new DateTimeZone('Asia/Jakarta')); $changed = false;
+    foreach ($articles as &$article) {
+        if (($article['status'] ?? '') !== 'scheduled' || empty($article['scheduledAt'])) continue;
+        try { $scheduled = new DateTimeImmutable($article['scheduledAt']); } catch (Throwable $e) { continue; }
+        if ($scheduled <= $now) { $article['status'] = 'published'; $article['publishedAt'] = $scheduled->format(DateTimeInterface::ATOM); $article['scheduledAt'] = null; $article['updatedAt'] = $now->format(DateTimeInterface::ATOM); $changed = true; }
+    } unset($article); return $changed;
 }
-if (!is_file($dataFile)) {
-    file_put_contents($dataFile, '[]');
-}
-
-function readArticles($file) {
-    return json_decode(file_get_contents($file), true) ?: [];
-}
-
-function writeArticles($file, $articles) {
-    file_put_contents($file, json_encode(array_values($articles), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-}
-
-function articleIndex($articles, $id) {
-    foreach ($articles as $index => $article) {
-        if (isset($article['id']) && (string) $article['id'] === (string) $id) return $index;
-    }
-    return -1;
-}
-
-function requireAdmin() {
-    if (empty($_SESSION['is_admin'])) {
-        http_response_code(403);
-        echo json_encode(['ok' => false, 'error' => 'Unauthorized']);
-        exit;
-    }
-}
+function normalizeStatus($requested, $scheduledAt = null) { if ($requested === 'published') return 'published'; if ($requested === 'scheduled' && $scheduledAt) return 'scheduled'; return 'draft'; }
 
 $method = $_SERVER['REQUEST_METHOD'];
 $articles = readArticles($dataFile);
+if (promoteDue($articles)) writeArticles($dataFile, $articles);
 
 if ($method === 'GET') {
-    $isAdmin = isset($_GET['admin']) && $_GET['admin'] === '1';
-    if ($isAdmin) requireAdmin();
-    if (!$isAdmin) {
-        $articles = array_values(array_filter($articles, function ($article) {
-            return ($article['status'] ?? 'published') === 'published';
-        }));
-    }
-    usort($articles, function ($a, $b) {
-        return strcmp((string) ($b['publishedAt'] ?? $b['updatedAt'] ?? ''), (string) ($a['publishedAt'] ?? $a['updatedAt'] ?? ''));
-    });
-    echo json_encode(['ok' => true, 'articles' => $articles]);
-    exit;
+    $isAdmin = ($_GET['admin'] ?? '') === '1'; if ($isAdmin) requireAdmin();
+    if (!$isAdmin) $articles = array_values(array_filter($articles, fn($article) => ($article['status'] ?? 'published') === 'published'));
+    usort($articles, fn($a, $b) => strcmp((string) ($b['publishedAt'] ?? $b['scheduledAt'] ?? $b['updatedAt'] ?? ''), (string) ($a['publishedAt'] ?? $a['scheduledAt'] ?? $a['updatedAt'] ?? '')));
+    echo json_encode(['ok'=>true, 'articles'=>$articles]); exit;
 }
-
 requireAdmin();
-$raw = file_get_contents('php://input');
-$data = json_decode($raw ?: '{}', true);
+$data = json_decode(file_get_contents('php://input') ?: '{}', true) ?: [];
+if (!in_array($method, ['POST', 'PUT', 'DELETE'], true)) { http_response_code(405); echo json_encode(['ok'=>false, 'error'=>'Method not allowed']); exit; }
+if ($method === 'DELETE') { $index = articleIndex($articles, $data['id'] ?? null); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } array_splice($articles, $index, 1); writeArticles($dataFile, $articles); echo json_encode(['ok'=>true]); exit; }
 
-if ($method === 'POST') {
-    if (empty(trim($data['title'] ?? '')) || empty(trim($data['content'] ?? ''))) {
-        http_response_code(400);
-        echo json_encode(['ok' => false, 'error' => 'Judul dan isi artikel wajib diisi.']);
-        exit;
-    }
-    $now = date('c');
-    $article = [
-        'id' => $data['id'] ?? (int) (microtime(true) * 1000),
-        'title' => trim($data['title']),
-        'excerpt' => trim($data['excerpt'] ?? ''),
-        'content' => trim($data['content']),
-        'category' => trim($data['category'] ?? 'Kabar Kagama Digi'),
-        'image' => trim($data['image'] ?? ''),
-        'author' => trim($data['author'] ?? 'Kagama Digi'),
-        'status' => ($data['status'] ?? 'draft') === 'published' ? 'published' : 'draft',
-        'publishedAt' => (($data['status'] ?? 'draft') === 'published') ? ($data['publishedAt'] ?? $now) : null,
-        'updatedAt' => $now,
-    ];
-    array_unshift($articles, $article);
-    writeArticles($dataFile, $articles);
-    echo json_encode(['ok' => true, 'article' => $article]);
-    exit;
-}
-
-if ($method === 'PUT') {
-    $id = $data['id'] ?? null;
-    $index = articleIndex($articles, $id);
-    if ($index < 0) {
-        http_response_code(404);
-        echo json_encode(['ok' => false, 'error' => 'Artikel tidak ditemukan.']);
-        exit;
-    }
-    $current = $articles[$index];
-    $status = ($data['status'] ?? $current['status'] ?? 'draft') === 'published' ? 'published' : 'draft';
-    $articles[$index] = array_merge($current, [
-        'title' => trim($data['title'] ?? $current['title']),
-        'excerpt' => trim($data['excerpt'] ?? $current['excerpt'] ?? ''),
-        'content' => trim($data['content'] ?? $current['content']),
-        'category' => trim($data['category'] ?? $current['category'] ?? 'Kabar Kagama Digi'),
-        'image' => trim($data['image'] ?? $current['image'] ?? ''),
-        'author' => trim($data['author'] ?? $current['author'] ?? 'Kagama Digi'),
-        'status' => $status,
-        'publishedAt' => $status === 'published' ? ($current['publishedAt'] ?? date('c')) : null,
-        'updatedAt' => date('c'),
-    ]);
-    writeArticles($dataFile, $articles);
-    echo json_encode(['ok' => true, 'article' => $articles[$index]]);
-    exit;
-}
-
-if ($method === 'DELETE') {
-    $index = articleIndex($articles, $data['id'] ?? null);
-    if ($index < 0) {
-        http_response_code(404);
-        echo json_encode(['ok' => false, 'error' => 'Artikel tidak ditemukan.']);
-        exit;
-    }
-    array_splice($articles, $index, 1);
-    writeArticles($dataFile, $articles);
-    echo json_encode(['ok' => true]);
-    exit;
-}
-
-http_response_code(405);
-echo json_encode(['ok' => false, 'error' => 'Method not allowed']);
+$id = $data['id'] ?? null; $current = null;
+if ($method === 'PUT') { $index = articleIndex($articles, $id); if ($index < 0) { http_response_code(404); echo json_encode(['ok'=>false, 'error'=>'Artikel tidak ditemukan.']); exit; } $current = $articles[$index]; }
+$title = clean($data['title'] ?? ($current['title'] ?? ''));
+$content = clean($data['content'] ?? ($current['content'] ?? ''));
+if (!$title || !$content) { http_response_code(400); echo json_encode(['ok'=>false, 'error'=>'Judul dan isi artikel wajib diisi.']); exit; }
+$requested = $data['status'] ?? ($current['status'] ?? 'draft');
+$scheduledAt = validSchedule($data['scheduledAt'] ?? ($current['scheduledAt'] ?? null));
+if ($requested === 'scheduled' && !$scheduledAt) { http_response_code(400); echo json_encode(['ok'=>false, 'error'=>'Tanggal dan jam terbit wajib diisi untuk artikel terjadwal.']); exit; }
+$status = normalizeStatus($requested, $scheduledAt); $now = (new DateTimeImmutable('now', new DateTimeZone('Asia/Jakarta')))->format(DateTimeInterface::ATOM);
+$article = array_merge($current ?: [], [
+    'id' => $current['id'] ?? ($id ?: (int) (microtime(true) * 1000)), 'title'=>$title,
+    'excerpt'=>trim((string) ($data['excerpt'] ?? ($current['excerpt'] ?? ''))), 'content'=>$content,
+    'category'=>clean($data['category'] ?? ($current['category'] ?? ''), 'Kabar Kagama Digi'),
+    'image'=>trim((string) ($data['image'] ?? ($current['image'] ?? ''))), 'author'=>clean($data['author'] ?? ($current['author'] ?? ''), 'Kagama Digi'),
+    'status'=>$status, 'scheduledAt'=>$status === 'scheduled' ? $scheduledAt : null,
+    'publishedAt'=>$status === 'published' ? ($current['publishedAt'] ?? $now) : null, 'updatedAt'=>$now,
+]);
+if ($method === 'POST') array_unshift($articles, $article); else $articles[$index] = $article;
+writeArticles($dataFile, $articles); echo json_encode(['ok'=>true, 'article'=>$article]);
