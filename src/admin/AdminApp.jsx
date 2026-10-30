@@ -192,7 +192,7 @@ function AdminWorkspace({ initialContent, onLogout }) {
     await refreshData()
   }
   const deleteArticle = async article => {
-    const response = await fetch('/api/articles.php', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
+    const response = await fetch('/api/articles.php?action=delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: article.id }) })
     const data = await response.json().catch(() => ({}))
     if (!response.ok) throw new Error(data.error || 'Artikel gagal dihapus.')
     const verifyResponse = await fetch(`/api/articles.php?admin=1&_=${Date.now()}`, { cache: 'no-store' })
